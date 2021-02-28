@@ -1,0 +1,28 @@
+
+
+.divAvatar {
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+}
+
+.backAvatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: lavender;
+    margin: -140px 0 0 0;
+    width: 70%;
+    height: 200px;
+    width: 200px;
+    border: 15px solid white;
+    /*border-radius: 8px;*/
+    cursor: pointer;
+
+}
+
+.avatar {
+    height: 100%;
+
+}

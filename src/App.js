@@ -1,25 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from "./components/header/Header";
+import LeftColumn from "./components/navbar/LeftColumn";
+import {BrowserRouter, Route} from "react-router-dom";
+import CentralMenu from "./components/centralMenu/CentralMenu";
+import Content from "./components/content/Content";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <BrowserRouter>
+            <div className='app-wrapper'>
+                <Header />
+                <CentralMenu />
+                <div className='middle-wrapper'>
+                    <div className='middle'>
+                        <LeftColumn />
+                        <Content />
+                    </div>
+                </div>
+            </div>
+        </BrowserRouter>
+    )
 }
 
 export default App;

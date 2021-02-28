@@ -1,0 +1,18 @@
+.header {
+    display: inline-flex;
+    flex: 1 0 auto;
+    background-color: darkblue;
+}
+
+.divHeadImg {
+    display: flex;
+    flex: 1 0 auto;
+    align-items: flex-start;
+    height: 250px;
+    overflow: hidden;
+}
+
+.headImg {
+    width: 100%;
+    margin-top: -30px;
+}

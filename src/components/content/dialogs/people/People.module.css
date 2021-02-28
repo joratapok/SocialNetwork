@@ -1,0 +1,13 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+}
+
+.person {
+    color: black;
+}
+
+.active {
+    color: gold;
+}

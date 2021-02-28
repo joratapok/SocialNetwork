@@ -1,0 +1,8 @@
+.items a {
+    color: black;
+    margin: 15px 0 0 20px;
+}
+.items .active {
+    color: gold;
+}
+
