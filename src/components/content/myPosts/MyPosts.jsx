@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './MyPosts.module.css'
-import Post from "./Post/Post";
+import Post from "./post/Post";
+import Posts from "./posts/Posts";
 
 const MyPosts = () => {
     return(
@@ -9,9 +10,7 @@ const MyPosts = () => {
             <div>
                 new post
             </div>
-            <Post message='Hi psina' />
-            <Post message="It's my first post" />
-            <Post />
+            <Posts/>
         </div>
     )
 }

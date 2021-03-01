@@ -10,11 +10,17 @@ const Message = (props) => {
 }
 
 const Dialog = (props) => {
+    let dialogData = [
+        {id: 1, message: 'First message'},
+        {id: 2, message: 'Second message'},
+        {id: 3, message: 'Third message'},
+    ]
+
     return(
         <div className={classes.wrapper}>
-            <Message message='First message'/>
-            <Message message='Second message'/>
-            <Message message='Third message'/>
+            <Message message={dialogData[0].message}/>
+            <Message message={dialogData[1].message}/>
+            <Message message={dialogData[2].message}/>
         </div>
     )
 }

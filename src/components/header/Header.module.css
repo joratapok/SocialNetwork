@@ -1,7 +1,7 @@
 .header {
     display: inline-flex;
     flex: 1 0 auto;
-    background-color: darkblue;
+    overflow: hidden;
 }
 
 .divHeadImg {

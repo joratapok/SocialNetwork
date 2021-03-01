@@ -11,11 +11,18 @@ const Person = (props) => {
 }
 
 const People = () => {
+
+    let dialogsData = [
+        {id: 1, name: 'Marina'},
+        {id: 2, name: 'Maksim'},
+        {id: 3, name: 'Dmitry'},
+    ]
+
     return(
         <div className={classes.wrapper}>
-            <Person personName='Marina' id='1'/>
-            <Person personName='Maksim' id='2'/>
-            <Person personName='Dmitry' id='3'/>
+            <Person personName={dialogsData[0].name} id={dialogsData[0].id}/>
+            <Person personName={dialogsData[1].name} id={dialogsData[1].id}/>
+            <Person personName={dialogsData[2].name} id={dialogsData[2].id}/>
         </div>
     )
 }
