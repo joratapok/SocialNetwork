@@ -3,11 +3,20 @@
     justify-content: center;
 }
 
-.centralMenu {
+.wrapperCentral {
+    display: flex;
+    width: 1200px;
+}
+
+.leftCentralMenu {
+    width: 25%;
+}
+
+.rightCentralMenu {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 800px;
+    width: 75%;
     height: 50px;
 
 }
