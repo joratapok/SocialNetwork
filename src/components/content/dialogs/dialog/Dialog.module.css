@@ -1,9 +1,13 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 70%;
 }
 
 .message {
-
+	align-self: flex-start;
+	border-radius: 10px;
+	background-color: lavender;
+	margin: 10px 20px 0 20px;
+	padding: 15px;
 }

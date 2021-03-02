@@ -3,7 +3,7 @@ import classes from './Post.module.css'
 
 const Post = (props) => {
     return(
-        <div>
+        <div className='{classes.postBody}'>
             { props.message }
         </div>
     )

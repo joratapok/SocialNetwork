@@ -1,11 +1,26 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    width: 20%;
+    width: 30%;
+    border-right: 1px solid #dddddd;
+    
+
 }
 
 .person {
-    color: black;
+    display: flex;
+	align-items: center;
+	height: 35px;
+	border-bottom: 1px solid #dddddd;
+	color: black;
+	margin: 0 20px 0 0;
+}
+
+.person a {
+	margin: 0 0 0 15px;
+	color: black;
+	font-size: 14px;
+    font-weight: 500
 }
 
 .active {

@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './Content.module.css'
+
 import Dialogs from "./dialogs/Dialogs";
 import Profile from "./profile/Profile";
 import News from "./news/News";
@@ -10,7 +11,8 @@ import MyPosts from "./myPosts/MyPosts";
 
 const Content = () => {
     return(
-        <div className={classes.wrapper}>
+        <div className={classes.wrap}>
+        	
             <Route path='/profile' component={MyPosts}/>
             <Route path='/dialogs' component={Dialogs}/>
             <Route path='/news' component={News}/>

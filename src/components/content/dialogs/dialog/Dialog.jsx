@@ -10,17 +10,15 @@ const Message = (props) => {
 }
 
 const Dialog = (props) => {
-    let dialogData = [
+    let dialogs = [
         {id: 1, message: 'First message'},
-        {id: 2, message: 'Second message'},
+        {id: 2, message: 'Second message v rot kompot ne pishi mne bolshe'},
         {id: 3, message: 'Third message'},
     ]
 
     return(
         <div className={classes.wrapper}>
-            <Message message={dialogData[0].message}/>
-            <Message message={dialogData[1].message}/>
-            <Message message={dialogData[2].message}/>
+            { dialogs.map(d => <Message message={d.message}/>) }
         </div>
     )
 }

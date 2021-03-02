@@ -1,3 +1,8 @@
-.wrapper {
+.wrap {
     width: 75%;
+    margin: 20px 0 0 20px;
+	background-color: white;
+	padding: 30px;
+	box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
 }
+

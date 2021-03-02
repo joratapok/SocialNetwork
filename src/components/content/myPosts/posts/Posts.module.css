@@ -1,1 +1,23 @@
+.wrap {
+	display: flex;
+	flex-direction: column;
+}
 
+.postHeader {
+	background-color: yellow;
+}
+
+.postAvatar {
+	width: 80px;
+}
+
+.avatar {
+	width: 100%;
+}
+
+.postFooter {
+	background-color: green;
+}
+
+
+        	

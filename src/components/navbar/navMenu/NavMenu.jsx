@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 
 const NavMenu = () => {
     return(
-        <nav className={classes.nav}>
+        <nav className={classes.wrap}>
             <div className={classes.items}><NavLink activeClassName={classes.active} to='/profile'>Profile</NavLink></div>
             <div className={classes.items}><NavLink activeClassName={classes.active} to='/dialogs'>Messages</NavLink></div>
             <div className={classes.items}><NavLink activeClassName={classes.active} to='/news'>News</NavLink></div>

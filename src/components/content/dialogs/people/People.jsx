@@ -12,7 +12,7 @@ const Person = (props) => {
 
 const People = () => {
 
-    let dialogsData = [
+    let people = [
         {id: 1, name: 'Marina'},
         {id: 2, name: 'Maksim'},
         {id: 3, name: 'Dmitry'},
@@ -20,9 +20,7 @@ const People = () => {
 
     return(
         <div className={classes.wrapper}>
-            <Person personName={dialogsData[0].name} id={dialogsData[0].id}/>
-            <Person personName={dialogsData[1].name} id={dialogsData[1].id}/>
-            <Person personName={dialogsData[2].name} id={dialogsData[2].id}/>
+            {people.map(pers => <Person personName={pers.name} id={pers.id}/>)}
         </div>
     )
 }
