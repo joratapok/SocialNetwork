@@ -9,12 +9,11 @@ import Settings from "./settings/Settings";
 import {Route} from "react-router-dom";
 import MyPosts from "./myPosts/MyPosts";
 
-const Content = () => {
+const Content = (props) => {
     return(
         <div className={classes.wrap}>
-        	
-            <Route path='/profile' component={MyPosts}/>
-            <Route path='/dialogs' component={Dialogs}/>
+            <Route path='/profile' render={ () => <MyPosts posts={props.data.posts}/> } />
+            <Route path='/dialogs' render={ () => <Dialogs dialogs={props.data.dialogs} people={props.data.people}/> } />
             <Route path='/news' component={News}/>
             <Route path='/music' component={Music}/>
             <Route path='/settings' component={Settings}/>

@@ -6,7 +6,7 @@ import CentralMenu from "./components/centralMenu/CentralMenu";
 import Content from "./components/content/Content";
 
 
-function App() {
+function App(props) {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
@@ -15,7 +15,7 @@ function App() {
                 <div className='middle-wrapper'>
                     <div className='middle'>
                         <LeftColumn />
-                        <Content />
+                        <Content data={props.data}/>
                     </div>
                 </div>
             </div>

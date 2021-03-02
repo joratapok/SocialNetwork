@@ -3,14 +3,14 @@ import classes from './MyPosts.module.css'
 import Post from "./post/Post";
 import Posts from "./posts/Posts";
 
-const MyPosts = () => {
+const MyPosts = (props) => {
     return(
         <div>
             my posts
             <div>
                 new post
             </div>
-            <Posts/>
+            <Posts posts={props.posts}/>
         </div>
     )
 }

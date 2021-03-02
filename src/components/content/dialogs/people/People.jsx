@@ -10,17 +10,11 @@ const Person = (props) => {
     )
 }
 
-const People = () => {
-
-    let people = [
-        {id: 1, name: 'Marina'},
-        {id: 2, name: 'Maksim'},
-        {id: 3, name: 'Dmitry'},
-    ]
+const People = (props) => {
 
     return(
         <div className={classes.wrapper}>
-            {people.map(pers => <Person personName={pers.name} id={pers.id}/>)}
+            {props.people.map(pers => <Person personName={pers.name} id={pers.id}/>)}
         </div>
     )
 }

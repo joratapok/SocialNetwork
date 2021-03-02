@@ -4,11 +4,11 @@ import People from "./people/People";
 import Dialog from "./dialog/Dialog";
 
 
-const Dialogs = () => {
+const Dialogs = (props) => {
     return(
         <div className={classes.wrapper}>
-            <People/>
-            <Dialog/>
+            <People people={props.people}/>
+            <Dialog dialogs={props.dialogs}/>
         </div>
     )
 }
