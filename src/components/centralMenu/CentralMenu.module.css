@@ -29,3 +29,12 @@
     width: 100px;
 }
 
+.item a {
+    color: black;
+    
+    font-size: 18px;
+    font-weight: 500
+}
+.item .active {
+    color: gold;
+}

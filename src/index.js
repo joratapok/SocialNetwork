@@ -18,7 +18,7 @@ let people = [
 ]
 
 let posts = [
-    {id: 1, post: 'Hi psina'},
+    {id: 1, post: 'Hi psina. I glad to see you in my home page. I hope that you feel yourself good and your mood want to dance'},
     {id: 2, post: 'It\'s my first post'},
 ]
 
