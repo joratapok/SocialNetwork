@@ -15,7 +15,7 @@ function App(props) {
                 <div className='middle-wrapper'>
                     <div className='middle'>
                         <LeftColumn />
-                        <Content data={props.data}/>
+                        <Content state={props.state} addPost={props.addPost}/>
                     </div>
                 </div>
             </div>
