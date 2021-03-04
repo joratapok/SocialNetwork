@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './Content.module.css'
-
 import Dialogs from "./dialogs/Dialogs";
 import Profile from "./profile/Profile";
 import News from "./news/News";
@@ -10,11 +9,11 @@ import {Route} from "react-router-dom";
 import MyPosts from "./myPosts/MyPosts";
 
 const Content = (props) => {
-     {debugger}
+     //debugger
     return(
         <div className={classes.wrap}>
 
-            <Route path='/profile' render={ () => <MyPosts posts={props.state.postsPage.posts} addPost={props.addPost}/> } />
+            <Route path='/profile' render={ () => <MyPosts posts={props.state.postsPage} addPost={props.addPost} recTextArea={props.recTextArea}/> } />
             <Route path='/dialogs' render={ () => <Dialogs dialogs={props.state.messagesPage.dialogs} people={props.state.messagesPage.people}/> } />
             <Route path='/news' component={News}/>
             <Route path='/music' component={Music}/>

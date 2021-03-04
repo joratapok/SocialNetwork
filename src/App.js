@@ -1,7 +1,7 @@
 import './App.css';
 import Header from "./components/header/Header";
 import LeftColumn from "./components/navbar/LeftColumn";
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter} from "react-router-dom";
 import CentralMenu from "./components/centralMenu/CentralMenu";
 import Content from "./components/content/Content";
 
@@ -15,7 +15,7 @@ function App(props) {
                 <div className='middle-wrapper'>
                     <div className='middle'>
                         <LeftColumn />
-                        <Content state={props.state} addPost={props.addPost}/>
+                        <Content state={props.state} addPost={props.addPost} recTextArea={props.recTextArea}/>
                     </div>
                 </div>
             </div>

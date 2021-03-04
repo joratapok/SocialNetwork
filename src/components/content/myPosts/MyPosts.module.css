@@ -33,6 +33,7 @@
 
 .buttonWrap:hover {
 	transform: rotate(0.0turn);
+
 }
 
 .button {
@@ -43,11 +44,13 @@
     padding: 11px 28px;
     display: inline-block;
     border-radius: 50px;
-    cursor: pointer;
+
     background-color: #dc4734;
     transition: 1s;
 }
 
 .button:hover {
     background-color: #333333;
+	cursor: pointer;
+
 }

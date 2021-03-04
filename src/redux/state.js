@@ -1,5 +1,4 @@
-import {renderEntireTree} from "../renderEntireTree";
-
+let rerenderEntireTree
 
 let state = {
     messagesPage: {
@@ -19,19 +18,30 @@ let state = {
         posts: [
             {id: 1, post: 'Hi psina. I glad to see you in my home page. I hope that you feel yourself good and your mood want to dance', like: 0},
             {id: 2, post: 'It\'s my first post', like: 0},
-        ]
+        ],
+        postNewText: 'write something ;)'
     },
 }
 
-export let addPost = (newPost) => {
+export let addPost = () => {
     let newObj = {
         id: 3,
-        post: newPost,
+        post: state.postsPage.postNewText,
         like: 0,
     }
 
     state.postsPage.posts.push(newObj)
-    renderEntireTree(state)
+    state.postsPage.postNewText = ''
+    rerenderEntireTree(state)
+}
+
+export let recTextArea = (str) => {
+    state.postsPage.postNewText = str
+    rerenderEntireTree(state)
+}
+
+export const subscribe = (observer) => {
+    rerenderEntireTree = observer
 }
 
 
