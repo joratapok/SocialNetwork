@@ -15,6 +15,7 @@ let renderEntireTree = (state) => {
     );
 }
 
+renderEntireTree(state)
 subscribe(renderEntireTree)
 
 

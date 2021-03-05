@@ -8,6 +8,7 @@ const Posts = (props) => {
     	<div className={classes.wrapAll}>
 
             {props.posts.map(item => {
+            //debugger
             return (
                 <div className={classes.wrap}>
                     <div className={classes.postHeader}>
@@ -28,7 +29,7 @@ const Posts = (props) => {
                     </div>
                 </div>
                 )
-            })}
+            }).reverse()}
     	</div>
     )}
 
