@@ -24,8 +24,6 @@ const Posts = (props) => {
                     <Post message={item.post} />
 
                     <div className={classes.postFooter}>
-                        
-
                     </div>
                 </div>
                 )

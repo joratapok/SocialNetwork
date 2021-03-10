@@ -1,20 +1,24 @@
 import React from 'react';
 import classes from './Content.module.css'
 import Dialogs from "./dialogs/Dialogs";
-import Profile from "./profile/Profile";
 import News from "./news/News";
 import Music from "./music/Music";
 import Settings from "./settings/Settings";
 import {Route} from "react-router-dom";
-import MyPosts from "./myPosts/MyPosts";
+import MyPostsContainer from "./myPosts/MyPostsContainer";
+import DialogsContainer from "./dialogs/DialogsContainer";
+import UsersContainer from "./users/UsersContainer";
 
 const Content = (props) => {
-     //debugger
-    return(
+    return (
         <div className={classes.wrap}>
 
-            <Route path='/profile' render={ () => <MyPosts posts={props.state.postsPage} addPost={props.addPost} recTextArea={props.recTextArea}/> } />
-            <Route path='/dialogs' render={ () => <Dialogs dialogs={props.state.messagesPage.dialogs} people={props.state.messagesPage.people}/> } />
+            <Route path='/profile' render={() =>
+                <MyPostsContainer /> }/>
+            <Route path='/dialogs' render={() =>
+                <DialogsContainer /> }/>
+            <Route path='/users' render={() =>
+                <UsersContainer /> }/>
             <Route path='/news' component={News}/>
             <Route path='/music' component={Music}/>
             <Route path='/settings' component={Settings}/>

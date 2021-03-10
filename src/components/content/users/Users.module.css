@@ -1,0 +1,80 @@
+.wrapper {
+    display: flex;
+    margin: 10px 0 10px 20px;
+    background-color: white;
+    padding: 15px 15px 20px 15px;
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+}
+.avatarContainer {
+    display: flex;
+    align-items: center;
+    height: 150px;
+    width: 110px;
+    overflow: hidden;
+}
+.avatarContainer img {
+    width: 100%;
+}
+.userInfo {
+    display: flex;
+    flex-direction: column;
+}
+.userName{
+
+}
+.userStatus {
+
+}
+
+.followButtonWrap {
+    position: relative;
+    top: 20px;
+    left: 20px;
+
+    transition: 0.6s;
+    display: flex;
+    width: 100px;
+    align-self: center;
+    margin: 10px 0 0 0;
+}
+
+.followButtonWrap:hover {
+
+}
+
+.button {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 11px 28px;
+    display: inline-block;
+    border-radius: 50px;
+    background-color: #dc4734;
+    transition: 0.6s;
+}
+
+.button:hover {
+    cursor: pointer;
+    transform: rotate(0.0turn);
+}
+.follow {
+    background-color: #22b35c;
+    transform: rotate(-0.03turn);
+}
+.unfollow {
+    background-color: #dc4734;
+    transform: rotate(0.03turn);
+}
+.pagination {
+    font-size: 18px;
+
+}
+.pagination:hover {
+    cursor: pointer;
+}
+
+.paginationActive{
+    font-weight: 500;
+    color: darkred;
+}

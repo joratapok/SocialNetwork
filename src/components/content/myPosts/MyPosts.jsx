@@ -3,29 +3,27 @@ import classes from './MyPosts.module.css'
 import Posts from "./posts/Posts";
 
 const MyPosts = (props) => {
-    let areaElem = React.createRef()
 
-    let changeArea = () => {
-        let text = areaElem.current.value
-        props.recTextArea(text)
+    let onChangeArea = (e) => {
+        let text = e.target.value
+        props.changeAria(text)
     }
 
-    let addNewPost = () => {
-        props.addPost(props.posts.postNewText)
+    let onAddNewPost = () => {
+        props.addNewPost()
     }
 
     return(
         <div>
             <div className={classes.newPostWrap}>
-            	<div className={classes.textAreaWrap}>
-            		<textarea ref={areaElem} onChange={ changeArea } value={props.posts.postNewText} />
-            	</div>
-            	<div className={classes.buttonWrap}>
-            		<button onClick={ addNewPost } className={classes.button}>Public</button>
-            	</div>
-            </div>    
-            
-            <Posts posts={props.posts.posts}/>
+                <div className={classes.textAreaWrap}>
+                    <textarea onChange={ onChangeArea } value={props.postsPage.postNewText} />
+                </div>
+                <div className={classes.buttonWrap}>
+                    <button onClick={ onAddNewPost } className={classes.button}>Public</button>
+                </div>
+            </div>
+            <Posts posts={props.postsPage.posts}/>
         </div>
     )
 }
