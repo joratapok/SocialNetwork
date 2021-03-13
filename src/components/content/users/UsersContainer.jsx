@@ -1,61 +1,61 @@
 import React from 'react'
 import {connect} from "react-redux";
 import {
-    followAC,
-    setCurrentPageAC,
+    changefetchingProcess,
+    follow,
+    setCurrentPage,
     setTotalUsersCount,
-    setUserAC,
-    showProgressBarAC,
-    unFollowAC
+    setUser,
+    showProgressBar,
+    unFollow
 } from "../../../redux/usersPage-reducer";
-import * as axios from "axios";
 import Users from "./Users";
 import Preloader from "../../preloader/Preloader";
-
+import {usersApi} from "../../../api/api";
 
 class UsersAPIComponent extends React.Component {
 
     componentDidMount() {
         this.props.showProgressBar(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-            .then(response => {
+        usersApi.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
                 this.props.showProgressBar(false)
-                this.props.setUser(response.data.items)
-                this.props.setTotalUserCount(response.data.totalCount)
+                this.props.setUser(response.items)
+                this.props.setTotalUsersCount(response.totalCount)
             })
     }
 
     onPageChanged = (numPage) => {
         this.props.setCurrentPage(numPage)
         this.props.showProgressBar(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${numPage}&count=${this.props.pageSize}`)
-            .then(response => {
+        usersApi.getUsers(numPage, this.props.pageSize).then(response => {
                 this.props.showProgressBar(false)
-                this.props.setUser(response.data.items)
+                this.props.setUser(response.items)
             })
     }
 
     render = () => {
         return <>
-        {this.props.usersPage.inProgress ? <Preloader /> : null}
-        <Users totalUsersCount={this.props.usersPage.totalUsersCount}
-                      pageSize={this.props.usersPage.pageSize}
-                      onPageChanged={this.onPageChanged}
-                      currentPage={this.props.usersPage.currentPage}
-                      users={this.props.usersPage.users}
-                      unFollow={this.props.unFollow}
-                      follow={this.props.follow}
-        />
+            {this.props.usersPage.inProgress ? <Preloader/> : null}
+            <Users totalUsersCount={this.props.usersPage.totalUsersCount}
+                   pageSize={this.props.usersPage.pageSize}
+                   onPageChanged={this.onPageChanged}
+                   currentPage={this.props.usersPage.currentPage}
+                   users={this.props.usersPage.users}
+                   unFollow={this.props.unFollow}
+                   follow={this.props.follow}
+                   fetchingProcess={this.props.usersPage.fetchingProcess}
+                   changefetchingProcess={this.props.changefetchingProcess}
+            />
         </>
     }
 }
 
-let mapStateToProps =  (state) => {
+let mapStateToProps = (state) => {
     return {
         usersPage: state.usersPage,
     }
 }
-
+/*
 let mapDispatchToProps = (dispatch) => {
     return {
         follow: (userId) => {
@@ -77,8 +77,10 @@ let mapDispatchToProps = (dispatch) => {
             dispatch(showProgressBarAC(show))
         },
     }
-}
+}*/
 
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent)
+let dispatch = {follow, unFollow, setUser, setCurrentPage, setTotalUsersCount, showProgressBar, changefetchingProcess}
+
+const UsersContainer = connect(mapStateToProps, dispatch)(UsersAPIComponent)
 
 export default UsersContainer

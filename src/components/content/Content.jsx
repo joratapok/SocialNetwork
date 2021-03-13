@@ -1,20 +1,19 @@
 import React from 'react';
 import classes from './Content.module.css'
-import Dialogs from "./dialogs/Dialogs";
 import News from "./news/News";
 import Music from "./music/Music";
 import Settings from "./settings/Settings";
 import {Route} from "react-router-dom";
-import MyPostsContainer from "./myPosts/MyPostsContainer";
 import DialogsContainer from "./dialogs/DialogsContainer";
 import UsersContainer from "./users/UsersContainer";
+import ProfileContainer from "./profile/ProfileContainer";
 
 const Content = (props) => {
     return (
         <div className={classes.wrap}>
 
-            <Route path='/profile' render={() =>
-                <MyPostsContainer /> }/>
+            <Route path='/profile/:userId?' render={() =>
+                <ProfileContainer /> }/>
             <Route path='/dialogs' render={() =>
                 <DialogsContainer /> }/>
             <Route path='/users' render={() =>

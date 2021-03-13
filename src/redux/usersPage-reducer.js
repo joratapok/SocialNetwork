@@ -4,13 +4,16 @@ const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USER_COUNT = 'SET_TOTAL_USER_COUNT'
 const SHOW_PROGRESS_BAR = 'SHOW_PROGRESS_BAR'
+const TOGGLE_FETCHING_PROCESS = 'TOGGLE_FETCHING_PROCESS'
+
 
 let initial = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
-    currentPage: 3,
+    currentPage: 1,
     inProgress: true,
+    fetchingProcess: false,
 }
 
 const usersPageReducer = (state = initial, action) => {
@@ -56,17 +59,23 @@ const usersPageReducer = (state = initial, action) => {
             return {
                 ...state, inProgress: action.show
             }
+        case (TOGGLE_FETCHING_PROCESS) :
+            return {
+                ...state, fetchingProcess: action.fetchingProcess
+            }
+
 
         default :
             return state
     }
 }
 
-export const followAC = (userId) => ({type: FOLLOW, userId})
-export const unFollowAC = (userId) => ({type: UNFOLLOW, userId})
-export const setUserAC = (users) => ({type: SET_USERS, users})
-export const setCurrentPageAC = (numPage) => ({type: SET_CURRENT_PAGE, page: numPage})
+export const follow = (userId) => ({type: FOLLOW, userId})
+export const unFollow = (userId) => ({type: UNFOLLOW, userId})
+export const setUser = (users) => ({type: SET_USERS, users})
+export const setCurrentPage = (numPage) => ({type: SET_CURRENT_PAGE, page: numPage})
 export const setTotalUsersCount = (totalUserCount) => ({type: SET_TOTAL_USER_COUNT, totalUserCount})
-export const showProgressBarAC = (show) => ({type: SHOW_PROGRESS_BAR, show: show})
+export const showProgressBar = (show) => ({type: SHOW_PROGRESS_BAR, show: show})
+export const changefetchingProcess = (toggle) => ({type: TOGGLE_FETCHING_PROCESS, fetchingProcess: toggle})
 
 export default usersPageReducer

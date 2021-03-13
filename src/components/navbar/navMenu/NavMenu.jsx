@@ -2,15 +2,15 @@ import React from 'react';
 import classes from './NavMenu.module.css'
 import {NavLink} from "react-router-dom";
 
-const NavMenu = () => {
+const NavMenu = (props) => {
     return(
-        <nav className={classes.wrap}>
-            <div className={classes.items}><NavLink activeClassName={classes.active} to='/profile'>Profile</NavLink></div>
-            <div className={classes.items}><NavLink activeClassName={classes.active} to='/dialogs'>Messages</NavLink></div>
-            <div className={classes.items}><NavLink activeClassName={classes.active} to='/news'>News</NavLink></div>
-            <div className={classes.items}><NavLink activeClassName={classes.active} to='/music'>Music</NavLink></div>
-            <div className={classes.items}><NavLink activeClassName={classes.active} to='/settings'>Settings</NavLink></div>
-        </nav>
+        <div className={classes.wrap}>
+            <div className={classes.items}>
+                    {props.auth.isAuth ? props.auth.login
+                        : <NavLink activeClassName={classes.active} to='/login'>Login</NavLink> }
+
+            </div>
+        </div>
     )
 }
 

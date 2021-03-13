@@ -1,5 +1,7 @@
 export const rec_text_area = 'REC-TEXT-AREA'
 export const add_post = 'ADD-POST'
+export const SET_USER_PROFILE = 'SET_USER_PROFILE'
+
 
 let initial = {
     posts: [
@@ -28,6 +30,11 @@ const postPageReducer = (state = initial, action) => {
                 postNewText: action.postAreaText,
             }
         }
+        case (SET_USER_PROFILE) :
+            return {
+                ...state, user: action.user
+            }
+
         default :
             return state
     }
@@ -36,5 +43,6 @@ const postPageReducer = (state = initial, action) => {
 
 export const addPostActionCreator = (text) =>  ({ type: rec_text_area, postAreaText: text })
 export const addNewPostActionCreator = () => ({ type: add_post })
+export const setUserProfile = (user) => ({ type: SET_USER_PROFILE, user  })
 
 export default postPageReducer
