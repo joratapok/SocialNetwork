@@ -1,3 +1,5 @@
+import {usersApi} from "../api/api";
+
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET_USERS'
@@ -13,7 +15,7 @@ let initial = {
     totalUsersCount: 0,
     currentPage: 1,
     inProgress: true,
-    fetchingProcess: false,
+    fetchingProcess: [],
 }
 
 const usersPageReducer = (state = initial, action) => {
@@ -62,6 +64,8 @@ const usersPageReducer = (state = initial, action) => {
         case (TOGGLE_FETCHING_PROCESS) :
             return {
                 ...state, fetchingProcess: action.fetchingProcess
+                    ? [...state.fetchingProcess, action.userId]
+                    : state.fetchingProcess.filter(id => id != action.userId)
             }
 
 
@@ -76,6 +80,43 @@ export const setUser = (users) => ({type: SET_USERS, users})
 export const setCurrentPage = (numPage) => ({type: SET_CURRENT_PAGE, page: numPage})
 export const setTotalUsersCount = (totalUserCount) => ({type: SET_TOTAL_USER_COUNT, totalUserCount})
 export const showProgressBar = (show) => ({type: SHOW_PROGRESS_BAR, show: show})
-export const changefetchingProcess = (toggle) => ({type: TOGGLE_FETCHING_PROCESS, fetchingProcess: toggle})
+export const changefetchingProcess = (toggle, userId) => ({type: TOGGLE_FETCHING_PROCESS, fetchingProcess: toggle, userId})
+
+export const getUsersThunk = (currentPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(showProgressBar(true))
+        usersApi.getUsers(currentPage, pageSize).then(response => {
+            dispatch(showProgressBar(false))
+            dispatch(setUser(response.items))
+            dispatch(setTotalUsersCount(response.totalCount))
+            dispatch(setCurrentPage(currentPage))
+        })
+    }
+}
+
+export const unFollowThunk = (userId) => {
+    return (dispatch) => {
+        dispatch(changefetchingProcess(true, userId))
+        usersApi.delFollow(userId).then(data => {
+            if (data.resultCode == 0) {
+                dispatch(unFollow(userId))
+            }
+            dispatch(changefetchingProcess(false, userId))
+        })
+    }
+}
+export const followThunk = (userId) => {
+    return (dispatch) => {
+        dispatch(changefetchingProcess(true, userId))
+        usersApi.postFollow(userId).then(data => {
+            if (data.resultCode == 0) {
+                dispatch(follow(userId))
+            }
+            dispatch(changefetchingProcess(false, userId))
+        })
+    }
+}
+
+
 
 export default usersPageReducer

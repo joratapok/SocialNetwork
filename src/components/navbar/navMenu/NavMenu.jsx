@@ -8,7 +8,6 @@ const NavMenu = (props) => {
             <div className={classes.items}>
                     {props.auth.isAuth ? props.auth.login
                         : <NavLink activeClassName={classes.active} to='/login'>Login</NavLink> }
-
             </div>
         </div>
     )

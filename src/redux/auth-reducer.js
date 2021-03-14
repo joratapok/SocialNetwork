@@ -1,3 +1,5 @@
+import {authApi} from "../api/api";
+
 const SET_USER = 'SET_USER'
 
 let initial = {
@@ -23,5 +25,15 @@ const authReducer = (state = initial, action) => {
 }
 
 export const setAuthUser = (data) => ({type: SET_USER, data})
+
+export const authThunk = () => {
+    return (dispatch) => {
+        authApi.authMe().then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(setAuthUser(response.data.data))
+            }
+        })
+    }
+}
 
 export default authReducer

@@ -2,35 +2,20 @@ import React from 'react'
 import {connect} from "react-redux";
 import {
     changefetchingProcess,
-    follow,
-    setCurrentPage,
-    setTotalUsersCount,
-    setUser,
-    showProgressBar,
-    unFollow
+     followThunk, getUsersThunk,
+    setCurrentPage, unFollowThunk
 } from "../../../redux/usersPage-reducer";
 import Users from "./Users";
 import Preloader from "../../preloader/Preloader";
-import {usersApi} from "../../../api/api";
 
 class UsersAPIComponent extends React.Component {
 
     componentDidMount() {
-        this.props.showProgressBar(true)
-        usersApi.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
-                this.props.showProgressBar(false)
-                this.props.setUser(response.items)
-                this.props.setTotalUsersCount(response.totalCount)
-            })
+        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
     }
 
     onPageChanged = (numPage) => {
-        this.props.setCurrentPage(numPage)
-        this.props.showProgressBar(true)
-        usersApi.getUsers(numPage, this.props.pageSize).then(response => {
-                this.props.showProgressBar(false)
-                this.props.setUser(response.items)
-            })
+        this.props.getUsersThunk(numPage, this.props.pageSize)
     }
 
     render = () => {
@@ -41,10 +26,10 @@ class UsersAPIComponent extends React.Component {
                    onPageChanged={this.onPageChanged}
                    currentPage={this.props.usersPage.currentPage}
                    users={this.props.usersPage.users}
-                   unFollow={this.props.unFollow}
-                   follow={this.props.follow}
                    fetchingProcess={this.props.usersPage.fetchingProcess}
-                   changefetchingProcess={this.props.changefetchingProcess}
+                   unFollowThunk={this.props.unFollowThunk}
+                   followThunk={this.props.followThunk}
+                   setCurrentPage={this.props.setCurrentPage}
             />
         </>
     }
@@ -79,7 +64,7 @@ let mapDispatchToProps = (dispatch) => {
     }
 }*/
 
-let dispatch = {follow, unFollow, setUser, setCurrentPage, setTotalUsersCount, showProgressBar, changefetchingProcess}
+let dispatch = {setCurrentPage, changefetchingProcess, getUsersThunk, unFollowThunk, followThunk}
 
 const UsersContainer = connect(mapStateToProps, dispatch)(UsersAPIComponent)
 

@@ -3,7 +3,6 @@ import classes from "./Users.module.css";
 import defaultUser from "../../../assets/images/defaultUser.png";
 import {NavLink} from "react-router-dom";
 import {usersApi} from "../../../api/api";
-import {fetchingProcess} from "../../../redux/usersPage-reducer";
 
 
 const Users = (props) => {
@@ -47,27 +46,12 @@ const Users = (props) => {
                             </div>
                             <div className={classes.followButtonWrap}>
                                 {u.followed
-                                    ? <button disabled={props.fetchingProcess} className={[classes.button, classes.unfollow].join(' ')}
-                                              onClick={() => {
-                                                  props.changefetchingProcess(true)
-                                                  usersApi.delFollow(u.id).then(data => {
-                                                      if (data.resultCode == 0) {
-                                                          props.unFollow(u.id)
-                                                      }
-                                                      props.changefetchingProcess(false)
-                                                  })
-                                              }}>Unfollow</button>
-
-                                    : <button disabled={props.fetchingProcess} className={[classes.button, classes.follow].join(' ')}
-                                              onClick={() => {
-                                                  props.changefetchingProcess(true)
-                                                  usersApi.postFollow(u.id).then(data => {
-                                                      if (data.resultCode == 0) {
-                                                          props.follow(u.id)
-                                                      }
-                                                      props.changefetchingProcess(false)
-                                                  })
-                                              }}>Follow</button>
+                                    ? <button disabled={props.fetchingProcess.some(id => id == u.id)}
+                                              className={[classes.button, classes.unfollow].join(' ')}
+                                              onClick={() => props.unFollowThunk(u.id)}>Unfollow</button>
+                                    : <button disabled={props.fetchingProcess.some(id => id == u.id)}
+                                              className={[classes.button, classes.follow].join(' ')}
+                                              onClick={() => props.followThunk(u.id)}>Follow</button>
                                 }
                             </div>
                         </div>
