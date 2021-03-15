@@ -4,12 +4,14 @@ import {connect} from "react-redux";
 import {getProfile, } from "../../../redux/postsPage-reducer";
 import withRouter from "react-router-dom/es/withRouter";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 class ProfileAPIContainer extends React.Component {
 
     componentDidMount() {
-        let userId = (this.props.match.params.userId) ? this.props.match.params.userId : 2
+        let userId = (this.props.match.params.userId) ? this.props.match.params.userId : this.props.auth.id
+        debugger
         this.props.getProfile(userId)
     }
 
@@ -21,14 +23,15 @@ class ProfileAPIContainer extends React.Component {
     }
 }
 
-let authRedirectComponent = withAuthRedirect(ProfileAPIContainer)
-
 let mapStateToProps = (state) => ({
     user: state.postsPage.user,
+    auth: state.auth,
 })
 
-
-
-let ProfileContainer = connect(mapStateToProps, {getProfile, })(withRouter(authRedirectComponent))
+let ProfileContainer = compose(
+    connect(mapStateToProps, {getProfile, }),
+    withRouter,
+    withAuthRedirect,
+)(ProfileAPIContainer)
 
 export default ProfileContainer

@@ -11,6 +11,7 @@ let initial = {
 }
 
 const authReducer = (state = initial, action) => {
+    window.state = state
     switch (action.type) {
         case (SET_USER) :
             return {
@@ -35,5 +36,7 @@ export const authThunk = () => {
         })
     }
 }
+
+
 
 export default authReducer
