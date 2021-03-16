@@ -1,9 +1,12 @@
 import React from 'react';
+import classes from './ProfileStatus.module.css'
+
 
 
 class ProfileStatus extends React.Component {
     state = {
-        editMode: !this.props.aboutMe
+        editMode: !this.props.status,
+        status: this.props.status
     }
 
     activateEditMode = () => {
@@ -11,26 +14,52 @@ class ProfileStatus extends React.Component {
             editMode: true
         })
     }
+
     deActivateEditMode = () => {
         this.setState({
-            editMode: true
+            editMode: false
         })
+        this.props.setStatus(this.state.status)
+    }
 
+    changeStatus = (event) => {
+      this.setState({
+          status: event.target.value
+      })
+    }
+
+    updateStatus = () => {
+      debugger
+      this.props.setStatus(this.state.status)
+    }
+
+    componentDidMount(prevProps, prevState) {
+      debugger
+      if (prevProps.status !== this.props.status) {
+        this.setState({
+            status: this.props.status
+        })
+      }
     }
 
     render() {
-        debugger
+
         return (
             <div>
                 {!this.state.editMode &&
                 <div>
-                    <span onClick={this.activateEditMode}>{this.props.aboutMe}</span>
+                    <span onClick={this.activateEditMode}>{this.props.status}</span>
                 </div>
                 }
                 {this.state.editMode &&
                 <div>
-                    <input onBlur={this.deActivateEditMode} placeholder="write status" type="text" value={this.props.aboutMe}/>
-                    <button>Obublicovat</button>
+                    <input onChange={this.changeStatus} onBlur={this.deActivateEditMode}
+                    placeholder="write status" value={this.state.status} />
+                    <div className={classes.buttonWrap}>
+                        <button onClick={ this.updateStatus } className={classes.button}>
+                            Obublicovat
+                        </button>
+                    </div>
                 </div>
                 }
             </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Preloader from "../../../preloader/Preloader";
-import ProfileStatus from "./profileStatus/ProfileStatus";
+import ProfileStatusContainer from "./profileStatus/ProfileStatusContainer";
 
 
 const UserProfileInfo = (props) => {
@@ -12,12 +12,9 @@ const UserProfileInfo = (props) => {
             <span>{props.profileInfo.fullName}</span>
 
             <img src={props.profileInfo.photos.large}/>
-            <ProfileStatus aboutMe={props.profileInfo.aboutMe}/>
+            <ProfileStatusContainer />
         </div>
     )
 }
-
-
-
 
 export default UserProfileInfo;

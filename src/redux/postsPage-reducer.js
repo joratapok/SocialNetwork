@@ -1,8 +1,9 @@
-import {usersApi} from "../api/api";
+import {profileApi} from "../api/api";
 
 export const rec_text_area = 'REC-TEXT-AREA'
 export const add_post = 'ADD-POST'
 export const SET_USER_PROFILE = 'SET_USER_PROFILE'
+export const SET_STATUS = 'SET_STATUS'
 
 
 let initial = {
@@ -37,6 +38,10 @@ const postPageReducer = (state = initial, action) => {
                 ...state, user: action.user
             }
 
+        case (SET_STATUS) :
+            return {
+                ...state, status: action.text
+            }
         default :
             return state
     }
@@ -46,13 +51,35 @@ const postPageReducer = (state = initial, action) => {
 export const addPostActionCreator = (text) =>  ({ type: rec_text_area, postAreaText: text })
 export const addNewPostActionCreator = () => ({ type: add_post })
 export const setUserProfile = (user) => ({ type: SET_USER_PROFILE, user  })
+export const setStatus = (text) => ({ type: SET_STATUS, text  })
 
 export const getProfile = (userId) => {
     return (dispatch) => {
-        usersApi.getProfile(userId).then(response => {
+        profileApi.getProfile(userId).then(response => {
             dispatch(setUserProfile(response.data))
         })
     }
 }
+
+export const getStatus = (userId) => {
+    return (dispatch) => {
+        profileApi.getStatus(userId).then(response => {
+            dispatch(setStatus(response.data))
+        })
+    }
+}
+
+export const setProfileStatus = (text) => {
+    return (dispatch) => {
+        profileApi.putStatus(text)
+        .then(response => {
+          if (response.data.resultCode == 0) {
+            dispatch(setStatus(text))
+          }
+
+        })
+    }
+}
+
 
 export default postPageReducer
