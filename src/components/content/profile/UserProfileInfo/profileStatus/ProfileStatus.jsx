@@ -1,8 +1,6 @@
 import React from 'react';
 import classes from './ProfileStatus.module.css'
 
-
-
 class ProfileStatus extends React.Component {
     state = {
         editMode: !this.props.status,
@@ -33,8 +31,8 @@ class ProfileStatus extends React.Component {
       this.props.setStatus(this.state.status)
     }
 
-    componentDidMount(prevProps, prevState) {
-      debugger
+    componentDidUpdate(prevProps, prevState) {
+      //debugger
       if (prevProps.status !== this.props.status) {
         this.setState({
             status: this.props.status
@@ -54,7 +52,7 @@ class ProfileStatus extends React.Component {
                 {this.state.editMode &&
                 <div>
                     <input onChange={this.changeStatus} onBlur={this.deActivateEditMode}
-                    placeholder="write status" value={this.state.status} />
+                    placeholder="write status" value={this.state.status} autoFocus={true} />
                     <div className={classes.buttonWrap}>
                         <button onClick={ this.updateStatus } className={classes.button}>
                             Obublicovat
