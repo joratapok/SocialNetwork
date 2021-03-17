@@ -6,6 +6,11 @@
 	box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
 }
 
+.newPostWrap form {
+	display: flex;
+	width: 100%
+}
+
 .textAreaWrap {
 	display: flex;
 	width: 100%;

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Field, reduxForm} from "redux-form";
 import classes from './Dialogs.module.css'
 import People from "./people/People";
 import Dialog from "./dialog/Dialog";
@@ -6,14 +7,25 @@ import Dialog from "./dialog/Dialog";
 
 const Dialogs = (props) => {
 
-    let onAddNewMessage = () => {
-        props.addNewMessage()
+    let onSubmit = (formData) => {
+        props.addNewMessage(formData)
     }
 
-    let onChangeMessageArea = (e) => {
-        let text = e.target.value
-        props.changeMessageArea(text)
+
+    let MessageAreaForm = (props) => {
+      return(
+        <form onSubmit={props.handleSubmit}>
+            <div className={classes.textAreaWrap}>
+                <Field name='message' placeholder='write new message' component='textarea' />
+            </div>
+            <div className={classes.buttonWrap}>
+                <button className={classes.button}>Public</button>
+            </div>
+        </form>
+      )
     }
+
+    MessageAreaForm = reduxForm({form: 'newMessage'})(MessageAreaForm)
 
     return (
         <div>
@@ -22,12 +34,7 @@ const Dialogs = (props) => {
                 <Dialog dialogs={props.messagesPage.dialogs}/>
             </div>
             <div className={classes.newPostWrap}>
-                <div className={classes.textAreaWrap}>
-                    <textarea onChange={onChangeMessageArea} value={props.messagesPage.postNewMessage}/>
-                </div>
-                <div className={classes.buttonWrap}>
-                    <button onClick={onAddNewMessage} className={classes.button}>Public</button>
-                </div>
+                <MessageAreaForm onSubmit={onSubmit}/>
             </div>
         </div>
     )

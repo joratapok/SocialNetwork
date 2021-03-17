@@ -1,7 +1,7 @@
 import React from 'react';
 import NavMenu from "./NavMenu";
 import {connect} from "react-redux";
-import {authThunk, setAuthUser} from "../../../redux/auth-reducer";
+import {authThunk, setAuthUser, logoutThunk} from "../../../redux/auth-reducer";
 
 class NavMenuContainer extends React.Component {
 
@@ -9,9 +9,13 @@ class NavMenuContainer extends React.Component {
         this.props.authThunk()
     }
 
+    logout() {
+      logoutThunk()
+    }
+
     render() {
         return (
-            <NavMenu {...this.props}/>
+            <NavMenu {...this.props} logout={this.logout}/>
         )
     }
 }
@@ -20,4 +24,4 @@ let mapStateToProps = (state) => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, {setAuthUser, authThunk})(NavMenuContainer);
+export default connect(mapStateToProps, {setAuthUser, authThunk, logoutThunk})(NavMenuContainer);

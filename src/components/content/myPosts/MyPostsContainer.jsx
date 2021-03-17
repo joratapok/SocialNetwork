@@ -1,5 +1,5 @@
 import React from 'react';
-import {addNewPostActionCreator, addPostActionCreator} from "../../../redux/postsPage-reducer";
+import {addNewPost, } from "../../../redux/postsPage-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 
@@ -35,11 +35,8 @@ let mapSateToProps = (state) => {
 }
 let mapDispatchToProps = (dispatch) => {
     return {
-        addNewPost() {
-            dispatch(addNewPostActionCreator())
-        },
-        changeAria(text) {
-            dispatch(addPostActionCreator(text))
+        addNewPost(text) {
+            dispatch(addNewPost(text))
         }
     }
 }

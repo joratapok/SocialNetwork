@@ -1,6 +1,7 @@
 import {authApi} from "../api/api";
 
 const SET_USER = 'SET_USER'
+const LOG_OUT_USER = 'LOG_OUT_USER'
 
 let initial = {
     id: null,
@@ -20,12 +21,19 @@ const authReducer = (state = initial, action) => {
                 isAuth: true,
             }
 
+        case (LOG_OUT_USER) :
+            return {
+                ...initial,
+            }
+
         default :
             return state
     }
 }
 
 export const setAuthUser = (data) => ({type: SET_USER, data})
+export const logout = () => ({type: LOG_OUT_USER})
+
 
 export const authThunk = () => {
     return (dispatch) => {
@@ -36,6 +44,30 @@ export const authThunk = () => {
         })
     }
 }
+
+export const loginThunk = (data) => {
+    return (dispatch) => {
+        authApi.login(data).then(response => {
+            if (response.data.resultCode === 0) {
+                authThunk()
+            }
+        })
+    }
+}
+
+export const logoutThunk = () => {
+    return (dispatch) => {
+        console.log('i in logoutThunk')
+        authApi.logout().then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(logout())
+            }
+        })
+    }
+}
+
+
+
 
 
 

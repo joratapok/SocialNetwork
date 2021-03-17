@@ -1,7 +1,7 @@
 import {profileApi} from "../api/api";
 
-export const rec_text_area = 'REC-TEXT-AREA'
-export const add_post = 'ADD-POST'
+
+export const ADD_POST = 'ADD_POST'
 export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 export const SET_STATUS = 'SET_STATUS'
 
@@ -11,15 +11,15 @@ let initial = {
         {id: 1, post: 'Hi psina. I glad to see you in my home page. I hope that you feel yourself good and your mood want to dance', like: 0},
         {id: 2, post: 'It\'s my first post', like: 0},
     ],
-    postNewText: 'write something ;)'
+
 }
 
 const postPageReducer = (state = initial, action) => {
     switch (action.type) {
-        case (add_post) :
+        case (ADD_POST) :
             let newObj = {
                 id: 3,
-                post: state.postNewText,
+                post: action.post,
                 like: 0,
             }
             return {
@@ -27,12 +27,7 @@ const postPageReducer = (state = initial, action) => {
                 posts: [...state.posts, newObj],
                 postNewText:  '',
             }
-        case (rec_text_area) : {
-            return {
-                ...state,
-                postNewText: action.postAreaText,
-            }
-        }
+
         case (SET_USER_PROFILE) :
             return {
                 ...state, user: action.user
@@ -47,9 +42,7 @@ const postPageReducer = (state = initial, action) => {
     }
 }
 
-
-export const addPostActionCreator = (text) =>  ({ type: rec_text_area, postAreaText: text })
-export const addNewPostActionCreator = () => ({ type: add_post })
+export const addNewPost = (formData) => ({ type: ADD_POST, post: formData.post })
 export const setUserProfile = (user) => ({ type: SET_USER_PROFILE, user  })
 export const setStatus = (text) => ({ type: SET_STATUS, text  })
 
