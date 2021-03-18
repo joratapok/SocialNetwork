@@ -1,7 +1,6 @@
-.header {
-    display: inline-flex;
-    flex: 0 0 200px;
-    overflow: hidden;
+.footerWrapper {
+    height: 50px;
+    background-color: grey;
 }
 
 .divHeadImg {

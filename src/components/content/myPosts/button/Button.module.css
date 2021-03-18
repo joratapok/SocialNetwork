@@ -1,0 +1,32 @@
+.buttonWrap {
+	transform: rotate(-0.125turn);
+	transition: 0.6s;
+	display: flex;
+	width: 100px;
+	align-self: center;
+	margin: 10px 0 0 0;
+
+}
+
+.buttonWrap:hover {
+	transform: rotate(0.0turn);
+}
+
+.button {
+	color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 11px 28px;
+    display: inline-block;
+    border-radius: 50px;
+
+    background-color: #dc4734;
+    transition: 0.6s;
+}
+
+.button:hover {
+    background-color: #333333;
+	cursor: pointer;
+
+}

@@ -4,6 +4,7 @@ import LeftColumn from "./components/navbar/LeftColumn";
 import {BrowserRouter} from "react-router-dom";
 import CentralMenu from "./components/centralMenu/CentralMenu";
 import Content from "./components/content/Content";
+import Footer from "./components/footer/Footer";
 import {Provider} from "react-redux";
 
 
@@ -20,6 +21,7 @@ function App(props) {
                         <Content />
                     </div>
                 </div>
+                <Footer />
             </div>
             </Provider>
         </BrowserRouter>

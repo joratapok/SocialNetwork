@@ -9,3 +9,8 @@ export const maxLengthCreator = length => {
         return undefined
     }
 }
+
+export const moreThan30 = (value) => {
+  if (value > 30) return `max length 30 symbols`
+  return undefined
+}
