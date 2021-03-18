@@ -18,6 +18,7 @@ let LoginForm = (props) => {
                     <Field type={'password'} name={'password'} placeholder={'password'}
                     validate={[required, moreThan30]} component={Input}/>
                 </div>
+                <Field type='hidden' name='rememberMe' value='1' component={'input'}/>
                 <div className={classes.buttonWrapper}>
                     <Button />
                 </div>
@@ -30,10 +31,6 @@ LoginForm = reduxForm({ form: 'login' })(LoginForm)
 
 
 const Login = (props) => {
-
-  const onSubmit = (formData) => {
-      console.log(formData)
-  }
 
     return (
         <div className={classes.loginWrap}>

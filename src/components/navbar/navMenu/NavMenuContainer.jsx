@@ -9,8 +9,8 @@ class NavMenuContainer extends React.Component {
         this.props.authThunk()
     }
 
-    logout() {
-      logoutThunk()
+    logout = () => {
+        this.props.logoutThunk()
     }
 
     render() {

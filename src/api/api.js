@@ -49,7 +49,7 @@ export const authApi = {
         })
     },
     logout() {
-        return instance.delete(`auth/login`).then(response => response.data)
+        return instance.delete(`auth/login`)
     },
 
 }

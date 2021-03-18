@@ -49,7 +49,7 @@ export const loginThunk = (data) => {
     return (dispatch) => {
         authApi.login(data).then(response => {
             if (response.data.resultCode === 0) {
-                authThunk()
+                dispatch(authThunk())
             }
         })
     }
