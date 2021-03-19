@@ -6,7 +6,7 @@ import {authThunk, setAuthUser, logoutThunk} from "../../../redux/auth-reducer";
 class NavMenuContainer extends React.Component {
 
     componentDidMount() {
-        this.props.authThunk()
+
     }
 
     logout = () => {
@@ -24,4 +24,4 @@ let mapStateToProps = (state) => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, {setAuthUser, authThunk, logoutThunk})(NavMenuContainer);
+export default connect(mapStateToProps, {setAuthUser, logoutThunk})(NavMenuContainer);

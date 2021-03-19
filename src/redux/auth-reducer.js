@@ -1,4 +1,5 @@
 import {authApi} from "../api/api";
+import {stopSubmit} from 'redux-form'
 
 const SET_USER = 'SET_USER'
 const LOG_OUT_USER = 'LOG_OUT_USER'
@@ -37,7 +38,7 @@ export const logout = () => ({type: LOG_OUT_USER})
 
 export const authThunk = () => {
     return (dispatch) => {
-        authApi.authMe().then(response => {
+        return authApi.authMe().then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUser(response.data.data))
             }
@@ -50,6 +51,8 @@ export const loginThunk = (data) => {
         authApi.login(data).then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(authThunk())
+            } else {
+                dispatch(stopSubmit('login',{_error: response.data.messages}))
             }
         })
     }
@@ -57,7 +60,6 @@ export const loginThunk = (data) => {
 
 export const logoutThunk = () => {
     return (dispatch) => {
-        console.log('i in logoutThunk')
         authApi.logout().then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(logout())

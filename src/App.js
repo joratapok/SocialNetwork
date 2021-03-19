@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react'
 import Header from "./components/header/Header";
 import LeftColumn from "./components/navbar/LeftColumn";
 import {BrowserRouter} from "react-router-dom";
@@ -6,12 +7,25 @@ import CentralMenu from "./components/centralMenu/CentralMenu";
 import Content from "./components/content/Content";
 import Footer from "./components/footer/Footer";
 import {Provider} from "react-redux";
+import {connect} from "react-redux";
+import {initAppThunk} from "./redux/app-reducer";
+import Preloader from "./components/preloader/Preloader";
 
 
-function App(props) {
+class App extends React.Component {
+
+  componentDidMount() {
+    this.props.initAppThunk()
+  }
+
+  render() {
+    if (!this.props.initApp) {
+      return <Preloader />
+    }
+
     return (
         <BrowserRouter>
-            <Provider store={props.store}>
+            <Provider store={this.props.store}>
             <div className='app-wrapper'>
                 <Header />
                 <CentralMenu />
@@ -26,7 +40,10 @@ function App(props) {
             </Provider>
         </BrowserRouter>
     )
+  }
 }
+let mapStateToProps = (state) => ({
+  initApp: state.init.initApp
+})
 
-
-export default App;
+export default connect(mapStateToProps, {initAppThunk, })(App);

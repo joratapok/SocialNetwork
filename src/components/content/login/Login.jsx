@@ -16,12 +16,20 @@ let LoginForm = (props) => {
                 </div>
                 <div>
                     <Field type={'password'} name={'password'} placeholder={'password'}
-                    validate={[required, moreThan30]} component={Input}/>
+                    validate={[required,]} component={Input}/>
                 </div>
-                <Field type='hidden' name='rememberMe' value='1' component={'input'}/>
+                <Field type='hidden' name='rememberMe' value='1' component={Input}/>
+                {(props.error &&
+                <div className={classes.errorWrapper}>
+                    <div className={classes.errorField}>
+                      {props.error}
+                    </div>
+                </div>)}
+
                 <div className={classes.buttonWrapper}>
                     <Button />
                 </div>
+
             </form>
     )
 }

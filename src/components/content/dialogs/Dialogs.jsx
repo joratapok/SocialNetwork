@@ -12,7 +12,7 @@ const Dialogs = (props) => {
         props.addNewMessage(formData)
     }
 
-    const maxLength100 = maxLengthCreator(100)
+    const maxLength500 = maxLengthCreator(500)
 
 
     let MessageAreaForm = (props) => {
@@ -20,7 +20,7 @@ const Dialogs = (props) => {
         <form onSubmit={props.handleSubmit}>
             <div className={classes.textAreaWrap}>
                 <Field name='message' placeholder='write new message'
-                validate={[required, maxLength100]}
+                validate={[ maxLength500]}
                 component={Textarea} />
             </div>
             <div className={classes.buttonWrap}>

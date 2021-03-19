@@ -4,7 +4,8 @@ import classes from './ProfileStatus.module.css'
 class ProfileStatus extends React.Component {
     state = {
         editMode: !this.props.status,
-        status: this.props.status
+        status: this.props.status,
+        
     }
 
     activateEditMode = () => {
@@ -16,6 +17,7 @@ class ProfileStatus extends React.Component {
     deActivateEditMode = () => {
         this.setState({
             editMode: false
+
         })
         this.props.setStatus(this.state.status)
     }
@@ -26,13 +28,7 @@ class ProfileStatus extends React.Component {
       })
     }
 
-    updateStatus = () => {
-      debugger
-      this.props.setStatus(this.state.status)
-    }
-
     componentDidUpdate(prevProps, prevState) {
-      //debugger
       if (prevProps.status !== this.props.status) {
         this.setState({
             status: this.props.status
@@ -54,9 +50,7 @@ class ProfileStatus extends React.Component {
                     <input onChange={this.changeStatus} onBlur={this.deActivateEditMode}
                     placeholder="write status" value={this.state.status} autoFocus={true} />
                     <div className={classes.buttonWrap}>
-                        <button onClick={ this.updateStatus } className={classes.button}>
-                            Obublicovat
-                        </button>
+
                     </div>
                 </div>
                 }

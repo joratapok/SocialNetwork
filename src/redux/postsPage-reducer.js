@@ -11,6 +11,16 @@ let initial = {
         {id: 1, post: 'Hi psina. I glad to see you in my home page. I hope that you feel yourself good and your mood want to dance', like: 0},
         {id: 2, post: 'It\'s my first post', like: 0},
     ],
+    /*user: {
+      aboutMe: null,
+      contacts: null,
+      contacts: null,
+      fullName: null,
+      lookingForAJob: false,
+      lookingForAJobDescription: null,
+      photos: {small: null, large: null},
+      userId: null,
+    }*/
 
 }
 

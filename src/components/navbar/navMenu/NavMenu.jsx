@@ -6,9 +6,9 @@ const NavMenu = (props) => {
 
     const User = (props) => {
       return(
-        <div>
-          <div>{props.login}</div>
-          <button onClick={props.logout}> Logout </button>
+        <div className={classes.loginWrap}>
+          <div className={classes.login}>Hello, {props.login}</div>
+          <button onClick={props.logout} className={classes.logoutButton}> Logout </button>
         </div>
       )
     }

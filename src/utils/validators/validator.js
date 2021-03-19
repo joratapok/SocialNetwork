@@ -5,12 +5,13 @@ export const required = value => {
 
 export const maxLengthCreator = length => {
     return (value) => {
-        if (value.length > length) return `max length ${length} symbols`
-        return undefined
+        if (value) {
+          return (value.length > length) ? `max length ${length} symbols`: undefined
+        }
     }
 }
 
 export const moreThan30 = (value) => {
-  if (value > 30) return `max length 30 symbols`
+  if (value.length > 30) return `max length 30 symbols`
   return undefined
 }

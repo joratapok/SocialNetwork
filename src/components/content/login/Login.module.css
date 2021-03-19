@@ -20,6 +20,20 @@
 	display: flex;
 	width: 100%;
 }
+.errorWrapper{
+	display: flex;
+	justify-content: center;
+}
+.errorField {
+
+	color: #aa0044;
+	width: 60%;
+	border-radius: 5px;
+	margin: 15px 0 0 0;
+	padding: 1px 0;
+	font-size: 16px;
+	
+}
 
 .buttonWrapper {
 	display: flex;
