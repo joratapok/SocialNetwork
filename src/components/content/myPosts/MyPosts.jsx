@@ -9,7 +9,7 @@ import {Textarea} from "../../common/formsControl/FormsControl";
 const MyPosts = (props) => {
 
     let addNewPost = (formData) => {
-        props.addNewPost(formData)
+        props.addNewPost(formData.post)
     }
 
     const maxLength500 = maxLengthCreator(500)

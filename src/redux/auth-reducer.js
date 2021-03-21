@@ -37,40 +37,33 @@ export const logout = () => ({type: LOG_OUT_USER})
 
 
 export const authThunk = () => {
-    return (dispatch) => {
-        return authApi.authMe().then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setAuthUser(response.data.data))
-            }
-        })
+    return async (dispatch) => {
+        let response = await authApi.authMe()
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUser(response.data.data))
+        }
     }
 }
 
 export const loginThunk = (data) => {
-    return (dispatch) => {
-        authApi.login(data).then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(authThunk())
-            } else {
-                dispatch(stopSubmit('login',{_error: response.data.messages}))
-            }
-        })
+    return async (dispatch) => {
+        let response = await authApi.login(data)
+        if (response.data.resultCode === 0) {
+            dispatch(authThunk())
+        } else {
+            dispatch(stopSubmit('login', {_error: response.data.messages}))
+        }
     }
 }
 
 export const logoutThunk = () => {
-    return (dispatch) => {
-        authApi.logout().then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(logout())
-            }
-        })
+    return async (dispatch) => {
+        let response = await authApi.logout()
+        if (response.data.resultCode === 0) {
+            dispatch(logout())
+        }
     }
 }
-
-
-
-
 
 
 export default authReducer

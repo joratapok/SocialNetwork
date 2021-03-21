@@ -7,6 +7,13 @@ import {
 } from "../../../redux/usersPage-reducer";
 import Users from "./Users";
 import Preloader from "../../preloader/Preloader";
+import {
+    getCurrentPage,
+    getFetchingProcess, getInProgress,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../../redux/users-selectors";
 
 class UsersAPIComponent extends React.Component {
 
@@ -20,13 +27,13 @@ class UsersAPIComponent extends React.Component {
 
     render = () => {
         return <>
-            {this.props.usersPage.inProgress ? <Preloader/> : null}
-            <Users totalUsersCount={this.props.usersPage.totalUsersCount}
-                   pageSize={this.props.usersPage.pageSize}
+            {this.props.inProgress ? <Preloader/> : null}
+            <Users totalUsersCount={this.props.totalUsersCount}
+                   pageSize={this.props.pageSize}
                    onPageChanged={this.onPageChanged}
-                   currentPage={this.props.usersPage.currentPage}
-                   users={this.props.usersPage.users}
-                   fetchingProcess={this.props.usersPage.fetchingProcess}
+                   currentPage={this.props.currentPage}
+                   users={this.props.users}
+                   fetchingProcess={this.props.fetchingProcess}
                    unFollowThunk={this.props.unFollowThunk}
                    followThunk={this.props.followThunk}
                    setCurrentPage={this.props.setCurrentPage}
@@ -37,7 +44,12 @@ class UsersAPIComponent extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        usersPage: state.usersPage,
+        totalUsersCount: getTotalUsersCount(state),
+        pageSize: getPageSize(state),
+        currentPage: getCurrentPage(state),
+        users: getUsers(state),
+        fetchingProcess: getFetchingProcess(state),
+        inProgress: getInProgress(state),
     }
 }
 /*
