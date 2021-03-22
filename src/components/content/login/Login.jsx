@@ -5,10 +5,10 @@ import {Input} from "../../common/formsControl/FormsControl";
 import classes from "./Login.module.css"
 import Button from "./button/Button";
 
-let LoginForm = (props) => {
+let LoginForm = ({handleSubmit, error}) => {
 
     return (
-            <form onSubmit={ props.handleSubmit }>
+            <form onSubmit={ handleSubmit }>
                 <div>
                     <Field placeholder={'email'} type={'email'}
                     name={'email'} validate={[required, moreThan30]}
@@ -19,10 +19,10 @@ let LoginForm = (props) => {
                     validate={[required,]} component={Input}/>
                 </div>
                 <Field type='hidden' name='rememberMe' value='1' component={Input}/>
-                {(props.error &&
+                {(error &&
                 <div className={classes.errorWrapper}>
                     <div className={classes.errorField}>
-                      {props.error}
+                      {error}
                     </div>
                 </div>)}
 

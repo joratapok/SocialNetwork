@@ -52,29 +52,6 @@ let mapStateToProps = (state) => {
         inProgress: getInProgress(state),
     }
 }
-/*
-let mapDispatchToProps = (dispatch) => {
-    return {
-        follow: (userId) => {
-            dispatch(followAC(userId))
-        },
-        unFollow: (userId) => {
-            dispatch(unFollowAC(userId))
-        },
-        setUser: (user) => {
-            dispatch(setUserAC(user))
-        },
-        setCurrentPage: (numPage) => {
-            dispatch(setCurrentPageAC(numPage))
-        },
-        setTotalUserCount: (totalCount) => {
-            dispatch(setTotalUsersCount(totalCount))
-        },
-        showProgressBar: (show) => {
-            dispatch(showProgressBarAC(show))
-        },
-    }
-}*/
 
 let dispatch = {setCurrentPage, changefetchingProcess, getUsersThunk, unFollowThunk, followThunk}
 
