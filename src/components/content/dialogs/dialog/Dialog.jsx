@@ -1,6 +1,5 @@
 import React from 'react';
 import classes from './Dialog.module.css'
-import c from '../../myPosts/MyPosts.module.css'
 
 const Message = (props) => {
     return (

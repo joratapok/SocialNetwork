@@ -39,7 +39,6 @@ const postPageReducer = (state = initial, action) => {
             return {
                 ...state,
                 posts: [...state.posts, newObj],
-                postNewText: '',
             }
 
         case (SET_USER_PROFILE) :

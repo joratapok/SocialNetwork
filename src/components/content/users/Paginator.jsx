@@ -2,7 +2,6 @@ import React from 'react'
 import classes from "./Users.module.css";
 
 
-
 const Paginator = ({totalItems, pageSize, currentPage, onPageChanged, portionSize = 10}) => {
 
     let countPages = Math.ceil(totalItems / pageSize)
@@ -13,22 +12,29 @@ const Paginator = ({totalItems, pageSize, currentPage, onPageChanged, portionSiz
     }
 
     let portionCount = Math.ceil(countPages / portionSize)
-
-    let leftPortionPageNumber = (portionNumber -1) * portionSize + 1
+    let [portionNumber, setPortionNumber] = useState(1)
+    let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1
+    let rightPortionPageNumber = portionNumber * portionSize
 
 
     return (
         <div>
             {pages
-              .filter(p => p>= leftPortionPageNumber && p<= rightPortionPageNumber)
-              .map((p) => {
-                return (
-                    <span onClick={(e) => onPageChanged(p)}
-                        className={(currentPage === p)
-                                  ? [classes.pagination, classes.paginationActive].join(' ')
-                                  : classes.pagination}>
+                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                .map((p) => {
+                    return (
+                        <div>
+                            {portionNumber > 1 && <button onClick={() => setPortionNumber(portionNumber - 1)}>
+                                Switch Left</button>}
+                            <span onClick={(e) => onPageChanged(p)}
+                                  className={(currentPage === p)
+                                      ? [classes.pagination, classes.paginationActive].join(' ')
+                                      : classes.pagination}>
                                 {p}
-                    </span>
+                            </span>
+                            {portionCount > portionNumber && <button onClick={() => setPortionNumber(portionNumber + 1)}>
+                                Switch Right</button>}
+                        </div>
                     )
                 })}
         </div>
