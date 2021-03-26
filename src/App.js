@@ -10,34 +10,37 @@ import {initAppThunk} from "./redux/app-reducer";
 import Preloader from "./components/preloader/Preloader";
 
 
+
+
 class App extends React.Component {
 
-  componentDidMount() {
-    this.props.initAppThunk()
-  }
-
-  render() {
-    if (!this.props.initApp) {
-      return <Preloader />
+    componentDidMount() {
+        this.props.initAppThunk()
     }
 
-    return (
+    render() {
+        if (!this.props.initApp) {
+            return <Preloader/>
+        }
+
+        return (
             <div className='app-wrapper'>
-                <Header />
-                <CentralMenu />
+                <Header/>
+                <CentralMenu/>
                 <div className='middle-wrapper'>
                     <div className='middle'>
-                        <LeftColumn />
-                        <Content />
+                        <LeftColumn/>
+                        <Content/>
                     </div>
                 </div>
-                <Footer />
+                <Footer/>
             </div>
-    )
-  }
+        )
+    }
 }
+
 let mapStateToProps = (state) => ({
-  initApp: state.init.initApp
+    initApp: state.init.initApp
 })
 
-export default connect(mapStateToProps, {initAppThunk, })(App);
+export default connect(mapStateToProps, {initAppThunk,})(App);

@@ -4,21 +4,32 @@ import News from "./news/News";
 import Music from "./music/Music";
 import Settings from "./settings/Settings";
 import {Route} from "react-router-dom";
-import DialogsContainer from "./dialogs/DialogsContainer";
+import LoginContainer from "./profile/ProfileContainer";
 import UsersContainer from "./users/UsersContainer";
-import ProfileContainer from "./profile/ProfileContainer";
-import LoginContainer from "./login/LoginContainer";
+import Preloader from "../preloader/Preloader";
+//import DialogsContainer from "./dialogs/DialogsContainer";
+//import ProfileContainer from "./profile/ProfileContainer";
+
+
+const DialogsContainer = React.lazy(() => import("./dialogs/DialogsContainer"));
+const ProfileContainer = React.lazy(() => import("./profile/ProfileContainer"));
 
 const Content = (props) => {
     return (
         <div className={classes.wrap}>
 
-            <Route path='/profile/:userId?' render={() =>
-                <ProfileContainer /> }/>
+            <Route path='/profile/:userId?'
+                   render={() => {
+                       return (
+                           <React.Suspense fallback={<Preloader/>}>
+                               <ProfileContainer/>
+                           </React.Suspense>
+                       )
+                   }}/>
             <Route path='/dialogs' render={() =>
-                <DialogsContainer /> }/>
+                <DialogsContainer/>}/>
             <Route path='/users' render={() =>
-                <UsersContainer /> }/>
+                <UsersContainer/>}/>
             <Route path='/news' component={News}/>
             <Route path='/music' component={Music}/>
             <Route path='/settings' component={Settings}/>
