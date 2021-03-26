@@ -3,7 +3,7 @@ import classes from "./Users.module.css";
 import defaultUser from "../../../assets/images/defaultUser.png";
 import {NavLink} from "react-router-dom";
 import {usersApi} from "../../../api/api";
-import Paginator from "./Paginator"
+import Paginator from "./paginator/Paginator"
 import User from "./User"
 
 

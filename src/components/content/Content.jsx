@@ -21,7 +21,7 @@ const Content = (props) => {
                 <UsersContainer /> }/>
             <Route path='/news' component={News}/>
             <Route path='/music' component={Music}/>
-            <Route path='/music' component={Settings}/>
+            <Route path='/settings' component={Settings}/>
             <Route path='/login' render={() => <LoginContainer/>}/>
         </div>
     )

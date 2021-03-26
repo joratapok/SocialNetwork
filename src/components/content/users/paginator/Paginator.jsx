@@ -1,5 +1,5 @@
-import React from 'react'
-import classes from "./Users.module.css";
+import React, {useState} from 'react'
+import classes from "./Paginator.module.css";
 
 
 const Paginator = ({totalItems, pageSize, currentPage, onPageChanged, portionSize = 10}) => {
@@ -18,25 +18,28 @@ const Paginator = ({totalItems, pageSize, currentPage, onPageChanged, portionSiz
 
 
     return (
-        <div>
+        <div className={classes.paginatorWrapper}>
+            {portionNumber > 1 && <button className={classes.paginatorArrow}
+                          onClick={() => setPortionNumber(portionNumber - 1)}>
+                {'< '}</button>}
             {pages
                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map((p) => {
                     return (
-                        <div>
-                            {portionNumber > 1 && <button onClick={() => setPortionNumber(portionNumber - 1)}>
-                                Switch Left</button>}
-                            <span onClick={(e) => onPageChanged(p)}
+
+
+                            <div onClick={(e) => onPageChanged(p)}
                                   className={(currentPage === p)
                                       ? [classes.pagination, classes.paginationActive].join(' ')
                                       : classes.pagination}>
                                 {p}
-                            </span>
-                            {portionCount > portionNumber && <button onClick={() => setPortionNumber(portionNumber + 1)}>
-                                Switch Right</button>}
-                        </div>
+                            </div>
+
                     )
                 })}
+            {portionCount > portionNumber && <button onClick={() => setPortionNumber(portionNumber + 1)}
+                          className={classes.paginatorArrow}>
+                {' >'}</button>}
         </div>
     )
 }

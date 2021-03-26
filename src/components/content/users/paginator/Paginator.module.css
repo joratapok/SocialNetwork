@@ -1,0 +1,33 @@
+.paginatorWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100;
+  margin: 5px 0;
+}
+
+.pagination {
+    margin: 5px 3px;
+    padding: 11px;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: white;
+    border-radius: 20px;
+    min-width: 18px;
+    text-align: center;
+
+}
+.pagination:hover {
+    cursor: pointer;
+}
+
+.paginationActive{
+    font-weight: 500;
+    background-color: #191970;
+    color: white;
+}
+
+.paginatorArrow{
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px 10px
+}
