@@ -1,9 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import Profile from "../../Profile";
-import {connect} from "react-redux";
-import {setProfileStatus,} from "../../../../../redux/postsPage-reducer";
-import ProfileStatus from "./ProfileStatus"
-import classes from "./ProfileStatus.module.css";
 
 const ProfileStatusWithHooks = (props) => {
 

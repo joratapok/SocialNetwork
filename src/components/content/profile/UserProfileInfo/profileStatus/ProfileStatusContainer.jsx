@@ -1,8 +1,6 @@
 import React from 'react';
-import Profile from "../../Profile";
 import {connect} from "react-redux";
 import {setProfileStatus, } from "../../../../../redux/postsPage-reducer";
-import ProfileStatus from "./ProfileStatus"
 import ProfileStatusWithHooks from "./ProfileStatusWIthHooks";
 
 class ProfileStatusAPIContainer extends React.Component {

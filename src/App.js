@@ -10,8 +10,6 @@ import {initAppThunk} from "./redux/app-reducer";
 import Preloader from "./components/preloader/Preloader";
 
 
-
-
 class App extends React.Component {
 
     componentDidMount() {
