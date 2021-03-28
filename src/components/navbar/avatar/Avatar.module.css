@@ -1,5 +1,4 @@
 
-
 .divAvatar {
     display: flex;
     justify-content: center;
@@ -7,21 +6,33 @@
 }
 
 .backAvatar {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     background-color: lavender;
     margin: -140px 0 0 0;
-    max-height: 260px;
+    height: 260px;
     width: 100%;
     border: 15px solid white;
     /*border-radius: 8px;*/
     cursor: pointer;
-
 }
 
 .avatar {
-    height: 100%;
+    width: 100%;
+}
 
+.miniBanner {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+.miniAvatar {
+    width: 50%;
+    height: 50%;
+    z-index: 5;
 }

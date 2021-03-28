@@ -16,7 +16,6 @@ const Content = (props) => {
     return (
         <div className={classes.wrap}>
             <React.Suspense fallback={<Preloader/>}>
-
             <Route path='/profile/:userId?' render={() => <ProfileContainer/> }/>
             <Route path='/dialogs' render={() => <DialogsContainer/> }/>
             <Route path='/users' render={() => <UsersContainer/>}/>

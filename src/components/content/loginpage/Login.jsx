@@ -43,6 +43,12 @@ const Login = (props) => {
     return (
         <div className={classes.loginWrap}>
             <div className={classes.title}>Login Page</div>
+            <div className={classes.test}>
+                <p>Test account </p>
+                <p>Email: free@samuraijs.com</p>
+                <p>Password: free</p>
+            </div>
+
             <LoginForm onSubmit={props.onSubmit} />
         </div>
     )

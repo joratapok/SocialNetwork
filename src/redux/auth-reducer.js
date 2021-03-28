@@ -1,5 +1,6 @@
 import {authApi} from "../api/api";
 import {stopSubmit} from 'redux-form'
+import {clearUserInfo, getProfile} from "./postsPage-reducer";
 
 const SET_USER = 'SET_USER'
 const LOG_OUT_USER = 'LOG_OUT_USER'
@@ -41,6 +42,7 @@ export const authThunk = () => {
         let response = await authApi.authMe()
         if (response.data.resultCode === 0) {
             dispatch(setAuthUser(response.data.data))
+            dispatch(getProfile(response.data.data.id))
         }
     }
 }
@@ -61,6 +63,7 @@ export const logoutThunk = () => {
         let response = await authApi.logout()
         if (response.data.resultCode === 0) {
             dispatch(logout())
+            dispatch(clearUserInfo())
         }
     }
 }

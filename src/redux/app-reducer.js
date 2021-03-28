@@ -22,8 +22,13 @@ const appReducer = (state = initial, action) => {
 export const initApp = () => ({type: INIT_APP})
 
 export const initAppThunk = () => {
-    return (dispatch) => {
-        dispatch(authThunk()).then(response => dispatch(initApp()))
+    return async (dispatch) => {
+        try {
+            let response = await dispatch(authThunk())
+        } catch (e) {
+            console.log(e)
+        }
+        dispatch(initApp())
     }
 }
 

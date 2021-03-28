@@ -13,7 +13,7 @@ let initial = {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    inProgress: true,
+    inProgress: false,
     fetchingProcess: [],
 }
 
