@@ -8,7 +8,8 @@ const Profile = (props) => {
         <div className={classes.wrapper}>
             <UserProfileInfo profileInfo={props.profileInfo}
                              isOwner={props.isOwner}
-                             savePhoto={props.savePhoto} />
+                             savePhoto={props.savePhoto}
+                             auth={props.auth} />
         </div>
     )
 }

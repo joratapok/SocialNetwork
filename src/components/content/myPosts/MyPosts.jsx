@@ -34,7 +34,7 @@ const MyPosts = (props) => {
             <div className={classes.newPostWrap}>
                 <AddPostForm onSubmit={addNewPost}/>
             </div>
-            <Posts posts={props.postsPage.posts}/>
+            <Posts photo={props.photo} posts={props.postsPage.posts}/>
         </div>
     )
 }

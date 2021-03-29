@@ -23,10 +23,13 @@
 
 .postAvatar {
 	width: 60px;
+	overflow: hidden;
+	border-radius: 30px;
 }
 
 .avatar {
 	width: 100%;
+
 }
 
 .postLike {
@@ -36,14 +39,9 @@
 }
 
 .postLike img {
-	height: 30px;
+	width: 50px;
 }
 
 .postFooter {
 
 }
-
-
-
-
-        	

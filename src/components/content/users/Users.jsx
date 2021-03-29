@@ -16,7 +16,7 @@ const Users = ({totalUsersCount, pageSize, currentPage, onPageChanged, users,
             pageSize={pageSize} currentPage={currentPage}
             onPageChanged={onPageChanged} />
             {users.map((u) => {
-              return <User user={u}
+              return <User user={u} key={u.id}
                 unFollowThunk={unFollowThunk}
                 followThunk={followThunk}
                 fetchingProcess={fetchingProcess} />

@@ -1,24 +1,24 @@
 import React from 'react';
 import classes from './Posts.module.css'
 import Post from "../post/Post";
+import heart from "../../../../assets/images/heart.png"
 
 
 const Posts = React.memo(props => {
-    console.log('render!!');
+
     return (
         <div className={classes.wrapAll}>
             {props.posts.map(item => {
                 return (
-                    <div className={classes.wrap}>
+                    <div key={item.id} className={classes.wrap}>
                         <div className={classes.postHeader}>
                             <div className={classes.postAvatar}>
                                 <img className={classes.avatar}
-                                     src="https://media.geeksforgeeks.org/wp-content/uploads/20210209004413/AVATAR2.png"
+                                     src={props.photo}
                                      alt=""/>
                             </div>
                             <div className={classes.postLike}>
-                                <img
-                                    src='https://icon-icons.com/icons2/548/PNG/48/1455554742_line-58_icon-icons.com_53376.png'/>
+                                <img src={heart}/>
                             </div>
                         </div>
 

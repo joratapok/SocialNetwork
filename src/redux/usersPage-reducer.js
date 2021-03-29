@@ -86,17 +86,27 @@ export const changefetchingProcess = (toggle, userId) => ({
 export const getUsersThunk = (currentPage, pageSize) => {
     return async (dispatch) => {
         dispatch(showProgressBar(true))
-        let response = await usersApi.getUsers(currentPage, pageSize)
-        dispatch(showProgressBar(false))
-        dispatch(setUser(response.items))
-        dispatch(setTotalUsersCount(response.totalCount))
-        dispatch(setCurrentPage(currentPage))
+        try {
+            let response = await usersApi.getUsers(currentPage, pageSize)
+            dispatch(showProgressBar(false))
+            dispatch(setUser(response.items))
+            dispatch(setTotalUsersCount(response.totalCount))
+            dispatch(setCurrentPage(currentPage))
+        } catch (e) {
+            console.log(e)
+            dispatch(showProgressBar(false))
+        }
     }
 }
 
 const followUnfollowFlow = async (userId, dispatch, apiMethod, acMethod) => {
     dispatch(changefetchingProcess(true, userId))
-    let data = await apiMethod(userId)
+    let data
+    try {
+        data = await apiMethod(userId)
+    } catch (e) {
+      console.log(e)
+    }
     if (data.resultCode == 0) {
         dispatch(acMethod(userId))
     }

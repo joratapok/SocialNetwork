@@ -26,9 +26,7 @@ const Paginator = ({totalItems, pageSize, currentPage, onPageChanged, portionSiz
                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map((p) => {
                     return (
-
-
-                            <div onClick={(e) => onPageChanged(p)}
+                            <div key={p} onClick={(e) => onPageChanged(p)}
                                   className={(currentPage === p)
                                       ? [classes.pagination, classes.paginationActive].join(' ')
                                       : classes.pagination}>

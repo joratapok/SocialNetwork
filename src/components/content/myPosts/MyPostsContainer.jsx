@@ -5,7 +5,8 @@ import {connect} from "react-redux";
 
 let mapSateToProps = (state) => {
     return {
-        postsPage: state.postsPage
+        postsPage: state.postsPage,
+        photo: state.postsPage.user.photos.small,
     }
 }
 let mapDispatchToProps = (dispatch) => {
