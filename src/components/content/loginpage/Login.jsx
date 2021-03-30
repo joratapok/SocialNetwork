@@ -1,24 +1,25 @@
 import React from 'react'
 import {Field, reduxForm} from "redux-form";
-import {maxLengthCreator, required, moreThan30} from "../../../utils/validators/validator";
-import {Input} from "../../common/formsControl/FormsControl";
+import {required, moreThan30} from "../../../utils/validators/validator";
+import {HiddenInput, Input} from "../../common/formsControl/FormsControl";
 import classes from "./Login.module.css"
 import Button from "./button/Button";
 
-let LoginForm = ({handleSubmit, error}) => {
+let LoginForm = ({initialValues, handleSubmit, error}) => {
 
     return (
             <form onSubmit={ handleSubmit }>
-                <div>
+                <div className={classes.inputWrapper}>
                     <Field placeholder={'email'} type={'email'}
                     name={'email'} validate={[required, moreThan30]}
                     component={Input}/>
                 </div>
-                <div>
+                <div className={classes.inputWrapper}>
                     <Field type={'password'} name={'password'} placeholder={'password'}
                     validate={[required,]} component={Input}/>
                 </div>
-                <Field type='hidden' name='rememberMe' value='1' component={Input}/>
+                <Field name={'rememberMe'} component={HiddenInput}/>
+
                 {(error &&
                 <div className={classes.errorWrapper}>
                     <div className={classes.errorField}>
@@ -43,10 +44,10 @@ const Login = (props) => {
     return (
         <div className={classes.loginWrap}>
             <div className={classes.title}>Login Page</div>
-            <div className={classes.test}>
+            <div>
                 <p>Test account </p>
-                <p>Email: paliev1@mail.ru</p>
-                <p>Password: testtest</p>
+                <p>Email: free@samuraijs.com</p>
+                <p>Password: free</p>
             </div>
 
             <LoginForm onSubmit={props.onSubmit} />

@@ -6,6 +6,7 @@
 	padding: 15px 15px 20px 15px;
 	box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
 }
+
 .title {
 	font-size: 34px;
 	text-align: center;
@@ -16,14 +17,17 @@
 	width: 100%
 }
 
-.textAreaWrap {
+.inputWrapper {
 	display: flex;
 	width: 100%;
+	margin: 15px 0 10px 0;
 }
+
 .errorWrapper{
 	display: flex;
 	justify-content: center;
 }
+
 .errorField {
 
 	color: #aa0044;

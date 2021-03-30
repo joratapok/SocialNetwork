@@ -24,10 +24,10 @@ const User = ({user, fetchingProcess, unFollowThunk, followThunk, isAuth}) => {
                 {isAuth
                     ? <div className={classes.followButtonWrap}>
                         {user.followed
-                            ? <button disabled={fetchingProcess.some(id => id == user.id)}
+                            ? <button disabled={fetchingProcess.some(id => id === user.id)}
                                       className={[classes.button, classes.unfollow].join(' ')}
                                       onClick={() => unFollowThunk(user.id)}>Unfollow</button>
-                            : <button disabled={fetchingProcess.some(id => id == user.id)}
+                            : <button disabled={fetchingProcess.some(id => id === user.id)}
                                       className={[classes.button, classes.follow].join(' ')}
                                       onClick={() => followThunk(user.id)}>Follow</button>
                         }

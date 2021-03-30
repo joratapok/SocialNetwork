@@ -8,6 +8,7 @@
 .textAreaWrap {
 	display: flex;
 	justify-content: center;
+	position: relative;
 }
 
 .textArea {
@@ -36,6 +37,7 @@
 
 .errorMessage {
 	position: absolute;
+	top: 0px;
 	color: red;
 }
 

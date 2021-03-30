@@ -6,6 +6,8 @@ import Redirect from "react-router-dom/es/Redirect";
 
 class LoginContainer extends React.Component {
 
+    initialValues = {rememberMe: true}
+
     onSubmit = (data) => {
       this.props.loginThunk(data)
     }
@@ -16,7 +18,7 @@ class LoginContainer extends React.Component {
         }
 
         return (
-            <Login onSubmit={this.onSubmit} />
+            <Login onSubmit={this.onSubmit} initialValues={this.initialValues} />
         )
     }
 }

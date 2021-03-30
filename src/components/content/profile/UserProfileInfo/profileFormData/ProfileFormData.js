@@ -1,8 +1,6 @@
 import React from 'react'
 import classes from "./ProfileFormData.module.css"
-import Contacts from "../contacts/Contacts";
 import Button from "./button/Button";
-import {moreThan200, moreThan30, required} from "../../../../../utils/validators/validator";
 import {Checkbox, HiddenInput, Input, Textarea} from "../../../../common/formsControl/FormsControl";
 import {Field, reduxForm} from "redux-form";
 import CancelButton from "./cancelButton/CancelButton";

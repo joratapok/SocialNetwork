@@ -1,4 +1,3 @@
-import React from 'react';
 import {addNewPost, } from "../../../redux/postsPage-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";

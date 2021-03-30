@@ -3,7 +3,7 @@ import {Field, reduxForm} from "redux-form";
 import classes from './MyPosts.module.css'
 import Posts from "./posts/Posts";
 import Button from "./button/Button";
-import {maxLengthCreator, required} from "../../../utils/validators/validator";
+import {maxLengthCreator, } from "../../../utils/validators/validator";
 import {Textarea} from "../../common/formsControl/FormsControl";
 
 const MyPosts = (props) => {

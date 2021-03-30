@@ -15,7 +15,7 @@ const Posts = React.memo(props => {
                             <div className={classes.postAvatar}>
                                 <img className={classes.avatar}
                                      src={props.photo}
-                                     alt=""/>
+                                     alt="avatar"/>
                             </div>
                             <div className={classes.postLike}>
                                 <img src={heart}/>
