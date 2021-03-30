@@ -10,7 +10,7 @@ const TOGGLE_FETCHING_PROCESS = 'TOGGLE_FETCHING_PROCESS'
 
 let initial = {
     users: [],
-    pageSize: 5,
+    pageSize: 10,
     totalUsersCount: 0,
     currentPage: 1,
     inProgress: false,

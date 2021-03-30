@@ -1,5 +1,6 @@
 import {profileApi} from "../api/api";
 import {showProgressBar} from "./usersPage-reducer";
+import {stopSubmit} from "redux-form";
 
 
 export const ADD_POST = 'ADD_POST'
@@ -7,7 +8,6 @@ export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 export const SET_STATUS = 'SET_STATUS'
 export const SET_PHOTO = 'SET_PHOTO'
 export const CLEAR_USER_INFO = 'CLEAR_USER_INFO'
-
 
 
 let initial = {
@@ -21,13 +21,17 @@ let initial = {
     ],
     inProgress: false,
     user: {
-      aboutMe: null,
-      contacts: null,
-      fullName: null,
-      lookingForAJob: false,
-      lookingForAJobDescription: null,
-      photos: {small: null, large: null},
-      userId: null,
+        aboutMe: null,
+        contacts: {
+            facebook: null, website: null,
+            vk: null, twitter: null, instagram: null,
+            youtube: null, github: null, mainLink: null,
+        },
+        fullName: null,
+        lookingForAJob: false,
+        lookingForAJobDescription: null,
+        photos: {small: null, large: null},
+        userId: null,
     }
 
 }
@@ -56,7 +60,7 @@ const postPageReducer = (state = initial, action) => {
             }
         case (SET_PHOTO) :
             return {
-                ...state, user: {...state.user,  photos: action.photo}
+                ...state, user: {...state.user, photos: action.photo}
             }
         case (CLEAR_USER_INFO) :
             return {
@@ -71,7 +75,7 @@ export const addNewPost = (post) => ({type: ADD_POST, post: post})
 export const setUserProfile = (user) => ({type: SET_USER_PROFILE, user})
 export const setStatus = (text) => ({type: SET_STATUS, text})
 export const setPhoto = (photo) => ({type: SET_PHOTO, photo})
-export const clearUserInfo = () => ({type: CLEAR_USER_INFO, })
+export const clearUserInfo = () => ({type: CLEAR_USER_INFO,})
 
 export const getProfile = (userId) => {
     return async (dispatch) => {
@@ -97,12 +101,42 @@ export const setProfileStatus = (text) => {
 }
 export const savePhoto = (file) => {
     return async (dispatch) => {
-        //showProgressBar(true)
-        let response = await profileApi.putPhoto(file)
+        showProgressBar(true)
+        let response
+        try {
+            response = await profileApi.putPhoto(file)
+        } catch (e) {
+            console.log(e)
+            showProgressBar(false)
+        }
         if (response.data.resultCode == 0) {
             dispatch(setPhoto(response.data.data.photos))
         }
-        //showProgressBar(false)
+        showProgressBar(false)
+    }
+}
+
+export const saveProfile = (profile) => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.id
+        let response
+        try {
+             response = await profileApi.saveProfile(profile)
+        } catch (e) {
+            console.log(e);
+            if (response.data.resultCode) {
+                response.data.resultCode = 1
+                response.data.messages = ['something goes wrong']
+            }
+        }
+        if (response.data.resultCode === 0) {
+            dispatch(getProfile(userId))
+        }  else {
+            dispatch(stopSubmit('editProfile', {_error: response.data.messages[0]}))
+            //dispatch(stopSubmit('editProfile', {"contacts": {"facebook": response.data.messages[0]}}))
+            return Promise.reject(response.data.messages[0])
+        }
+
     }
 }
 

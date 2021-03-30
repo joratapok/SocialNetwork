@@ -45,8 +45,8 @@ const Login = (props) => {
             <div className={classes.title}>Login Page</div>
             <div className={classes.test}>
                 <p>Test account </p>
-                <p>Email: free@samuraijs.com</p>
-                <p>Password: free</p>
+                <p>Email: paliev1@mail.ru</p>
+                <p>Password: testtest</p>
             </div>
 
             <LoginForm onSubmit={props.onSubmit} />

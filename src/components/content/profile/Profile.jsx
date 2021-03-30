@@ -9,7 +9,8 @@ const Profile = (props) => {
             <UserProfileInfo profileInfo={props.profileInfo}
                              isOwner={props.isOwner}
                              savePhoto={props.savePhoto}
-                             auth={props.auth} />
+                             auth={props.auth}
+                             saveProfile={props.saveProfile}/>
         </div>
     )
 }

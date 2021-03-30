@@ -18,7 +18,6 @@
     align-items: center;
     width: 75%;
     height: 50px;
-
 }
 
 .item {
@@ -27,14 +26,19 @@
     font-weight: 500;
     font-size: 18px;
     width: 100px;
+    padding: 8px;
+    border-radius: 20px;
+    transition: 2s;
 }
 
 .item a {
     color: black;
-    
     font-size: 18px;
     font-weight: 500
 }
+
 .item .active {
     color: gold;
 }
+
+

@@ -15,3 +15,8 @@ export const moreThan30 = (value) => {
   if (value.length > 30) return `max length 30 symbols`
   return undefined
 }
+
+export const moreThan200 = (value) => {
+    if (value.length > 200) return `max length 200 symbols`
+    return undefined
+}

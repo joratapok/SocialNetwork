@@ -1,0 +1,21 @@
+
+.contactHeader {
+    position: relative;
+    margin: -10px 0 0 0;
+    padding: 0 10px 0 15px;
+    background-color: white;
+    font-size: 18px;
+    align-self: flex-start;
+}
+
+.contacts {
+    display: flex;
+    padding: 5px 0 5px 35px;
+    margin: 5px 0;
+}
+.contact {
+    display: flex;
+    align-items: center;
+    width: 80px;
+    font-size: 15px;
+}

@@ -22,3 +22,25 @@ export const Input = (props) => {
         </div>
     )
 }
+
+export const Checkbox = (props) => {
+    const hasError = props.meta.touched && props.meta.error
+    return(
+        <div className={classes.textAreaWrap}>
+            <input className={classes.checkbox +' '+(hasError ? classes.error :'')} {...props}{...props.input} />
+
+            {hasError && <span className={classes.errorMessage}>{props.meta.error} </span>}
+
+        </div>
+    )
+}
+
+export const HiddenInput = (props) => {
+    const hasError = props.meta.touched && props.meta.error
+    return(
+        <>
+            <input hidden={true} {...props}{...props.input} />
+            {hasError && <span className={classes.errorMessage}>{props.meta.error} </span>}
+        </>
+    )
+}

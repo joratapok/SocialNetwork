@@ -9,7 +9,7 @@ import Users from "./Users";
 import Preloader from "../../preloader/Preloader";
 import {
     getCurrentPage,
-    getFetchingProcess, getInProgress,
+    getFetchingProcess, getInProgress, getisAuth,
     getPageSize,
     getTotalUsersCount,
     getUsers
@@ -37,6 +37,7 @@ class UsersAPIComponent extends React.Component {
                    unFollowThunk={this.props.unFollowThunk}
                    followThunk={this.props.followThunk}
                    setCurrentPage={this.props.setCurrentPage}
+                   isAuth={this.props.isAuth}
             />
         </>
     }
@@ -50,6 +51,7 @@ let mapStateToProps = (state) => {
         users: getUsers(state),
         fetchingProcess: getFetchingProcess(state),
         inProgress: getInProgress(state),
+        isAuth: getisAuth(state),
     }
 }
 

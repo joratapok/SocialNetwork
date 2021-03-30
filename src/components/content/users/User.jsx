@@ -4,9 +4,7 @@ import defaultUser from "../../../assets/images/defaultUser.png";
 import {NavLink} from "react-router-dom";
 
 
-
-
-const User = ({user, fetchingProcess,unFollowThunk, followThunk}) => {
+const User = ({user, fetchingProcess, unFollowThunk, followThunk, isAuth}) => {
 
     return (
         <div key={user.id} className={classes.wrapper}>
@@ -23,16 +21,19 @@ const User = ({user, fetchingProcess,unFollowThunk, followThunk}) => {
                 <div className={classes.userStatus}>
                     {user.status}
                 </div>
-                <div className={classes.followButtonWrap}>
-                    {user.followed
-                        ? <button disabled={fetchingProcess.some(id => id == user.id)}
-                                  className={[classes.button, classes.unfollow].join(' ')}
-                                  onClick={() => unFollowThunk(user.id)}>Unfollow</button>
-                        : <button disabled={fetchingProcess.some(id => id == user.id)}
-                                  className={[classes.button, classes.follow].join(' ')}
-                                  onClick={() => followThunk(user.id)}>Follow</button>
-                    }
-                </div>
+                {isAuth
+                    ? <div className={classes.followButtonWrap}>
+                        {user.followed
+                            ? <button disabled={fetchingProcess.some(id => id == user.id)}
+                                      className={[classes.button, classes.unfollow].join(' ')}
+                                      onClick={() => unFollowThunk(user.id)}>Unfollow</button>
+                            : <button disabled={fetchingProcess.some(id => id == user.id)}
+                                      className={[classes.button, classes.follow].join(' ')}
+                                      onClick={() => followThunk(user.id)}>Follow</button>
+                        }
+                    </div>
+                    : null
+                }
             </div>
         </div>
     )

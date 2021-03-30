@@ -1,0 +1,24 @@
+.buttonWrap {
+    transition: 0.6s;
+    display: flex;
+    width: 100px;
+    margin: 0px 40px 0 0;
+}
+
+.button {
+	color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 8px 35px;
+    display: inline-block;
+    border-radius: 50px;
+    background-color: #22b35c;
+    transition: 0.4s;
+}
+
+.button:hover {
+    background-color: #333333;
+	cursor: pointer;
+
+}

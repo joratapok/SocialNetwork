@@ -25,7 +25,7 @@ const ProfileStatusWithHooks = (props) => {
         <div className={classes.statusWrapper}>
             {!editMode &&
             <div className={classes.statusOnChangeDiv} onClick={activateEditMode}>
-                <span>{props.status}</span>
+                <div>{props.status}</div>
             </div>
             }
             {editMode &&

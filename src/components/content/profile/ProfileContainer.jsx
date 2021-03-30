@@ -1,7 +1,7 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getProfile, getStatus, savePhoto } from "../../../redux/postsPage-reducer";
+import {getProfile, getStatus, savePhoto, saveProfile} from "../../../redux/postsPage-reducer";
 import {authThunk } from "../../../redux/auth-reducer";
 import withRouter from "react-router-dom/es/withRouter";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
@@ -35,7 +35,8 @@ class ProfileAPIContainer extends React.Component {
                          profileInfo={this.props.user}
                          isOwner={!this.props.match.params.userId}
                          savePhoto={this.props.savePhoto}
-                         auth={this.props.authThunk}/>
+                         auth={this.props.authThunk}
+                         saveProfile={this.props.saveProfile}/>
 
 
                 { !this.props.match.params.userId && <MyPostsContainer/> }
@@ -51,7 +52,7 @@ let mapStateToProps = (state) => ({
 })
 
 let ProfileContainer = compose(
-    connect(mapStateToProps, {getProfile, getStatus, savePhoto, authThunk }),
+    connect(mapStateToProps, {getProfile, getStatus, savePhoto, authThunk, saveProfile }),
     withRouter,
     withAuthRedirect,
 )(ProfileAPIContainer)

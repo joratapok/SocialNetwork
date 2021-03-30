@@ -23,3 +23,7 @@ export const getUsers = createSelector(getUsersSelector, (users) => {
 export const getFetchingProcess = (state) => {
     return state.usersPage.fetchingProcess
 }
+
+export const getisAuth = (state) => {
+    return state.auth.isAuth
+}
