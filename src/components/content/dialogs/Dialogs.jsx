@@ -1,15 +1,21 @@
 import React from 'react';
-import {Field, reduxForm} from "redux-form";
+import {Field, reduxForm, SubmissionError} from "redux-form";
 import classes from './Dialogs.module.css'
 import People from "./people/People";
 import Dialog from "./dialog/Dialog";
-import {maxLengthCreator, } from "../../../utils/validators/validator";
+import {maxLengthCreator,} from "../../../utils/validators/validator";
 import {Textarea} from "../../common/formsControl/FormsControl";
 
 const Dialogs = (props) => {
 
     let onSubmit = (formData) => {
-        props.addNewMessage(formData)
+        if (formData.message) {
+            props.addNewMessage(formData)
+        } else {
+            throw new SubmissionError({
+                message: `whrite something  ༼ つ ◕_◕ ༽つ`
+            })
+        }
     }
 
     const maxLength500 = maxLengthCreator(500)

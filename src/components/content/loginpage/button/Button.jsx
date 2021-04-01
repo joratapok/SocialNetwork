@@ -4,7 +4,7 @@ import classes from "./Button.module.css"
 let Button = (props) => {
 
     return <div className={classes.buttonWrap}>
-        <button className={classes.button}>Login</button>
+        <button type={'submit'} className={classes.button}>Login</button>
     </div>
 }
 

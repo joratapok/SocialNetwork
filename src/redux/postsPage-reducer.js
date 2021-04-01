@@ -1,6 +1,7 @@
 import {profileApi} from "../api/api";
 import {showProgressBar} from "./usersPage-reducer";
 import {stopSubmit} from "redux-form";
+import {showErrorMessageThunk} from "./app-reducer";
 
 
 export const ADD_POST = 'ADD_POST'
@@ -93,26 +94,29 @@ export const getStatus = (userId) => {
 
 export const setProfileStatus = (text) => {
     return async (dispatch) => {
-        let response = await profileApi.putStatus(text)
-        if (response.data.resultCode == 0) {
-            dispatch(setStatus(text))
+        try {
+            let response = await profileApi.putStatus(text)
+            if (response.data.resultCode === 0) {
+                dispatch(setStatus(text))
+            }
+        } catch (e) {
+            dispatch(showErrorMessageThunk(e.message))
         }
     }
 }
 export const savePhoto = (file) => {
     return async (dispatch) => {
         showProgressBar(true)
-        let response
         try {
-            response = await profileApi.putPhoto(file)
+            const response = await profileApi.putPhoto(file)
+            if (response.data.resultCode == 0) {
+                dispatch(setPhoto(response.data.data.photos))
+            }
+            showProgressBar(false)
         } catch (e) {
-            console.log(e)
+            dispatch(showErrorMessageThunk(e.message))
             showProgressBar(false)
         }
-        if (response.data.resultCode == 0) {
-            dispatch(setPhoto(response.data.data.photos))
-        }
-        showProgressBar(false)
     }
 }
 
@@ -121,9 +125,9 @@ export const saveProfile = (profile) => {
         const userId = getState().auth.id
         let response
         try {
-             response = await profileApi.saveProfile(profile)
+            response = await profileApi.saveProfile(profile)
         } catch (e) {
-            console.log(e);
+            dispatch(showErrorMessageThunk(e.message))
             if (response.data.resultCode) {
                 response.data.resultCode = 1
                 response.data.messages = ['something goes wrong']
@@ -131,7 +135,7 @@ export const saveProfile = (profile) => {
         }
         if (response.data.resultCode === 0) {
             dispatch(getProfile(userId))
-        }  else {
+        } else {
             dispatch(stopSubmit('editProfile', {_error: response.data.messages[0]}))
             //dispatch(stopSubmit('editProfile', {"contacts": {"facebook": response.data.messages[0]}}))
             return Promise.reject(response.data.messages[0])

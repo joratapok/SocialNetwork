@@ -1,4 +1,5 @@
 import {usersApi} from "../api/api";
+import {showErrorMessageThunk} from "./app-reducer";
 
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
@@ -93,36 +94,46 @@ export const getUsersThunk = (currentPage, pageSize) => {
             dispatch(setTotalUsersCount(response.totalCount))
             dispatch(setCurrentPage(currentPage))
         } catch (e) {
-            console.log(e)
+            dispatch(showErrorMessageThunk(e.message))
             dispatch(showProgressBar(false))
         }
     }
 }
 
-const followUnfollowFlow = async (userId, dispatch, apiMethod, acMethod) => {
-    dispatch(changefetchingProcess(true, userId))
-    let data
-    try {
-        data = await apiMethod(userId)
-    } catch (e) {
-      console.log(e)
+const followUnfollowFlow = (userId, apiMethod, acMethod) => {
+    return async (dispatch) => {
+        dispatch(changefetchingProcess(true, userId))
+        try {
+            const data = await apiMethod(userId)
+            if (data.resultCode == 0) {
+                dispatch(acMethod(userId))
+            }
+
+        } catch (e) {
+            dispatch(showErrorMessageThunk(e.message))
+        }
+        dispatch(changefetchingProcess(false, userId))
     }
-    if (data.resultCode == 0) {
-        dispatch(acMethod(userId))
-    }
-    dispatch(changefetchingProcess(false, userId))
 }
 
 export const unFollowThunk = (userId) => {
     return async (dispatch) => {
-        followUnfollowFlow(userId, dispatch, usersApi.delFollow.bind(usersApi), unFollow)
+        try {
+            dispatch(followUnfollowFlow(userId, usersApi.delFollow, unFollow))
+        } catch (e) {
+            dispatch(showErrorMessageThunk(e.message))
+        }
+
     }
 }
 export const followThunk = (userId) => {
     return async (dispatch) => {
-        followUnfollowFlow(userId, dispatch, usersApi.postFollow.bind(usersApi), follow)
+        try {
+            dispatch(followUnfollowFlow(userId, usersApi.postFollow, follow))
+        } catch (e) {
+            dispatch(showErrorMessageThunk(e.message))
+        }
     }
 }
-
 
 export default usersPageReducer

@@ -3,9 +3,8 @@ import * as axios from "axios";
 const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
     withCredentials: true,
-    headers: {"API-KEY": "0198ea73-ecaa-43b0-9858-5124d6f0a451"}
-    })
-
+    headers: {"API-KEY": "476ac98e-c691-4d31-9d8e-45090502379f"}
+})
 
 
 export const usersApi = {
@@ -13,7 +12,7 @@ export const usersApi = {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data)
     },
 
-    postFollow(id)  {
+    postFollow(id) {
         return instance.post(`follow/${id}`).then(response => response.data)
     },
 
@@ -29,20 +28,20 @@ export const profileApi = {
     getProfile(userId) {
         return instance.get(`profile/${userId}`)
     },
-    getStatus(userId)  {
+    getStatus(userId) {
         return instance.get(`profile/status/${userId}`)
     },
-    putStatus(text)  {
-        return instance.put(`profile/status`, { status: text })
+    putStatus(text) {
+        return instance.put(`profile/status`, {status: text})
     },
-    putPhoto(photo)  {
+    putPhoto(photo) {
         const formData = new FormData
         formData.append('image', photo)
         return instance.put(`profile/photo`, formData, {
             headers: {
                 'Content-Type': 'multypart/form-data'
             }
-            })
+        })
     },
     saveProfile(profile) {
         return instance.put(`profile`, profile)
@@ -56,13 +55,20 @@ export const authApi = {
     },
     login(data) {
         return instance.post('auth/login', {
-          email: data.email,
-          password: data.password,
-          rememberMe: data.rememberMe
+            email: data.email,
+            password: data.password,
+            rememberMe: data.rememberMe,
+            captcha: data.captcha,
         })
     },
     logout() {
         return instance.delete(`auth/login`)
     },
 
+}
+
+export const securityApi = {
+    getCaptcha() {
+        return instance.get('/security/get-captcha-url')
+    },
 }

@@ -1,15 +1,22 @@
 import React from 'react';
-import {Field, reduxForm} from "redux-form";
+import {Field, reduxForm, SubmissionError} from "redux-form";
 import classes from './MyPosts.module.css'
 import Posts from "./posts/Posts";
 import Button from "./button/Button";
-import {maxLengthCreator, } from "../../../utils/validators/validator";
+import {maxLengthCreator, minLength, required,} from "../../../utils/validators/validator";
 import {Textarea} from "../../common/formsControl/FormsControl";
 
 const MyPosts = (props) => {
 
     let addNewPost = (formData) => {
-        props.addNewPost(formData.post)
+        if (formData.post) {
+            props.addNewPost(formData.post)
+        } else {
+            throw new SubmissionError({
+                post: `whrite something  ༼ つ ◕_◕ ༽つ`
+            })
+        }
+
     }
 
     const maxLength500 = maxLengthCreator(500)
@@ -19,10 +26,10 @@ const MyPosts = (props) => {
             <form onSubmit={props.handleSubmit}>
                 <div className={classes.textAreaWrap}>
                     <Field name={'post'} placeholder={'Post new post ;)'}
-                           validate={[maxLength500]}
+                           validate={[maxLength500,]}
                            component={Textarea}/>
                 </div>
-                <Button />
+                <Button/>
             </form>
         )
     }
