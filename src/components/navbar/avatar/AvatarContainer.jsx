@@ -1,5 +1,5 @@
 import React from 'react';
-import {savePhoto,} from "../../../redux/postsPage-reducer";
+import {savePhoto,} from "../../../redux/profile-reducer";
 import {connect} from "react-redux";
 import Avatar from "./Avatar";
 import withRouter from "react-router-dom/es/withRouter";

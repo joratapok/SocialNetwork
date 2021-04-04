@@ -1,9 +1,11 @@
-export const required = value => {
+export type FieldValidatorType = (value: string)  => string | undefined
+
+export const required: FieldValidatorType = (value) => {
     if (value) return undefined
     return `field is required`
 }
 
-export const maxLengthCreator = length => {
+export const maxLengthCreator = (length: number): FieldValidatorType => {
     return (value) => {
         if (value) {
           return (value.length > length) ? `max length ${length} symbols`: undefined
@@ -11,17 +13,12 @@ export const maxLengthCreator = length => {
     }
 }
 
-export const minLength = (value) => {
+export const minLength: FieldValidatorType = (value) => {
     if (value.length < 1) return `whrite something  ༼ つ ◕_◕ ༽つ`
     return undefined
 }
 
-export const moreThan30 = (value) => {
+export const moreThan30: FieldValidatorType = (value) => {
   if (value.length > 30) return `max length 30 symbols`
   return undefined
-}
-
-export const moreThan200 = (value) => {
-    if (value.length > 200) return `max length 200 symbols`
-    return undefined
 }

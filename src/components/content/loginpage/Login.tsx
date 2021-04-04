@@ -1,12 +1,19 @@
 import React from 'react'
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {required, moreThan30} from "../../../utils/validators/validator";
 import {HiddenInput, Input} from "../../common/formsControl/FormsControl";
 import classes from "./Login.module.css"
 import Button from "./button/Button";
 import reload from "../../../assets/images/reload.png"
+import {LoginFormDataType} from "../../../redux/auth-reducer";
 
-let LoginForm = ({handleSubmit, error, captcha, getCaptcha}) => {
+type LoginFormOwnProps = {
+    captcha: null | string
+    getCaptcha: () => void
+}
+
+const LoginForm: React.FC<InjectedFormProps<LoginFormDataType, LoginFormOwnProps> & LoginFormOwnProps> =
+    ({handleSubmit, error, captcha, getCaptcha}) => {
 
     return (
         <form onSubmit={handleSubmit}>
@@ -26,7 +33,7 @@ let LoginForm = ({handleSubmit, error, captcha, getCaptcha}) => {
 
             {
                 (captcha && <div className={classes.captchaWrapper}>
-                    <img className={classes.reload} onClick={getCaptcha} src={reload} alt="reload"/>
+                    <img className={classes.reload} onClick={() => getCaptcha()} src={reload} alt="reload"/>
 
                     <div className={classes.captcha}>
                         <img className={classes.captchaImage} src={captcha} alt="captcha"/>
@@ -52,12 +59,23 @@ let LoginForm = ({handleSubmit, error, captcha, getCaptcha}) => {
     )
 }
 
-LoginForm = reduxForm({form: 'login'})(LoginForm)
+const LoginReduxForm = reduxForm<LoginFormDataType, LoginFormOwnProps>({form: 'login'})(LoginForm)
 
+type PropsType = {
+    onSubmit: (data: LoginFormDataType) => void
+    captcha: null | string
+    getCaptcha: () => void
+}
 
-const Login = (props) => {
+const Login: React.FC<PropsType> =
+    ({onSubmit, captcha, getCaptcha}) => {
 
-    let initialValues = {email: 'free@samuraijs.com', password: 'free', rememberMe: true}
+    type InitialValiesType = {
+        email?: string
+        password?: string
+        rememberMe?: boolean
+    }
+    let initialValues:InitialValiesType = {email: 'free@samuraijs.com', password: 'free', rememberMe: true}
 
     return (
         <div className={classes.loginWrap}>
@@ -68,10 +86,10 @@ const Login = (props) => {
                 <p>Password: free</p>
             </div>
 
-            <LoginForm initialValues={initialValues}
-                       onSubmit={props.onSubmit}
-                       captcha={props.captcha}
-                       getCaptcha={props.getCaptcha}/>
+            <LoginReduxForm initialValues={initialValues}
+                       onSubmit={onSubmit}
+                       captcha={captcha}
+                       getCaptcha={getCaptcha}/>
         </div>
     )
 }

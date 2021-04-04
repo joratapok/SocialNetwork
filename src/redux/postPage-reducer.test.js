@@ -1,5 +1,5 @@
 import React from 'react'
-import postPageReducer, {addNewPost} from "./postsPage-reducer";
+import postPageReducer, {addNewPost} from "./profile-reducer";
 
 let state = {
     posts: [

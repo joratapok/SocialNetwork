@@ -1,4 +1,4 @@
-import postPageReducer, {add_post, rec_text_area} from "./postsPage-reducer";
+import postPageReducer, {add_post, rec_text_area} from "./profile-reducer";
 import messagesPageReducer, {add_message, rec_message_area} from "./messagesPage-reducer";
 import sideBarReducer from "./sideBar-reducer";
 

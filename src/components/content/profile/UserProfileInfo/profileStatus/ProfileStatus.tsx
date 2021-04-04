@@ -1,23 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import classes from "./ProfileStatus.module.css"
 
-const ProfileStatusWithHooks = (props) => {
+type PropsType = {
+    statusFromRedux: string
+    setStatus: (text: string) => void
+}
+
+const ProfileStatus: React.FC <PropsType> = ({setStatus, statusFromRedux}) => {
 
     let [editMode, setEditMode] = useState(false)
-    let [status, setLocalStatus] = useState(props.status)
+    let [status, setLocalStatus] = useState<string>(statusFromRedux)
 
     useEffect(() => {
-        setLocalStatus(props.status)
-    }, [props.status])
+        setLocalStatus(status)
+    }, [status])
 
     const activateEditMode = () => {
         setEditMode(true)
     }
+
     const deactivateEditMode = () => {
         setEditMode(false)
-        props.setStatus(status)
+        setStatus(status)
     }
-    const changeStatus = (event) => {
+    const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
         setLocalStatus(event.target.value)
     }
 
@@ -25,7 +31,7 @@ const ProfileStatusWithHooks = (props) => {
         <div className={classes.statusWrapper}>
             {!editMode &&
             <div className={classes.statusOnChangeDiv} onClick={activateEditMode}>
-                <div>{props.status}</div>
+                <div>{statusFromRedux}</div>
             </div>
             }
             {editMode &&
@@ -39,4 +45,4 @@ const ProfileStatusWithHooks = (props) => {
     )
 }
 
-export default ProfileStatusWithHooks
+export default ProfileStatus

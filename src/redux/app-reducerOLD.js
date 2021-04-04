@@ -9,7 +9,7 @@ let initial = {
     errorMessage: null,
 }
 
-const appReducer = (state = initial, action) => {
+const appReducerOLD = (state = initial, action) => {
 
     switch (action.type) {
         case (INIT_APP) :
@@ -56,4 +56,4 @@ export const showErrorMessageThunk = (message) => {
     }
 }
 
-export default appReducer
+export default appReducerOLD

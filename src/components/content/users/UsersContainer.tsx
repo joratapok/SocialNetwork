@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from "react-redux";
 import {
     changefetchingProcess,
-     followThunk, getUsersThunk,
+    followThunk, getUsersThunk,
     setCurrentPage, unFollowThunk
 } from "../../../redux/usersPage-reducer";
 import Users from "./Users";
@@ -14,14 +14,38 @@ import {
     getTotalUsersCount,
     getUsers
 } from "../../../redux/users-selectors";
+import {usersType} from "../../../types/types";
+import {AppStateType} from "../../../redux/redux-store";
 
-class UsersAPIComponent extends React.Component {
+type MapStatePropsType = {
+    currentPage: number
+    pageSize: number
+    inProgress: boolean
+    totalUsersCount: number
+    users: Array<usersType>
+    fetchingProcess: Array<number>
+    isAuth: boolean
+}
+
+type MapDispatchPropsType = {
+    unFollowThunk: (userId: number) => void
+    followThunk: (userId: number) => void
+    getUsersThunk: (currentPage: number, pageSize: number) => void
+}
+
+type OwnPropsType = {
+    pageTitle: string
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+
+class UsersAPIComponent extends React.Component<PropsType> {
 
     componentDidMount() {
         this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
     }
 
-    onPageChanged = (numPage) => {
+    onPageChanged = (numPage: number) => {
         this.props.getUsersThunk(numPage, this.props.pageSize)
     }
 
@@ -36,14 +60,13 @@ class UsersAPIComponent extends React.Component {
                    fetchingProcess={this.props.fetchingProcess}
                    unFollowThunk={this.props.unFollowThunk}
                    followThunk={this.props.followThunk}
-                   setCurrentPage={this.props.setCurrentPage}
                    isAuth={this.props.isAuth}
             />
         </>
     }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         totalUsersCount: getTotalUsersCount(state),
         pageSize: getPageSize(state),
@@ -55,8 +78,11 @@ let mapStateToProps = (state) => {
     }
 }
 
-let dispatch = {setCurrentPage, changefetchingProcess, getUsersThunk, unFollowThunk, followThunk}
+let dispatch = { getUsersThunk, unFollowThunk, followThunk}
 
-const UsersContainer = connect(mapStateToProps, dispatch)(UsersAPIComponent)
+//TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState>
+
+const UsersContainer = connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
+(mapStateToProps, dispatch)(UsersAPIComponent)
 
 export default UsersContainer

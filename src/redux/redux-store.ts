@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, createStore, compose} from "redux";
-import postPageReducer from "./postsPage-reducer";
+import profileReducer from "./profile-reducer";
 import messagesPageReducer from "./messagesPage-reducer";
 import sideBarReducer from "./sideBar-reducer";
 import usersPageReducer from "./usersPage-reducer";
@@ -8,8 +8,8 @@ import appReducer from "./app-reducer";
 import thunkMiddleware from "redux-thunk"
 import { reducer as formReducer } from 'redux-form'
 
-let reducers = combineReducers({
-    postsPage: postPageReducer,
+let rootReducer = combineReducers({
+    postsPage: profileReducer,
     messagesPage: messagesPageReducer,
     sideBar: sideBarReducer,
     usersPage: usersPageReducer,
@@ -18,9 +18,14 @@ let reducers = combineReducers({
     init: appReducer,
 })
 
+type RootReducerType = typeof rootReducer
+export type AppStateType = ReturnType<RootReducerType>
+
+// @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)))
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)))
 //let store = createStore(reducers, applyMiddleware(thunkMiddleware))
-window.store = store
+// @ts-ignore
+window.__store__ = store
 
 export default store
