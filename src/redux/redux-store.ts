@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, createStore, compose} from "redux";
 import profileReducer from "./profile-reducer";
-import messagesPageReducer from "./messagesPage-reducer";
+import dialogsReducer from "./dialogs-reducer";
 import sideBarReducer from "./sideBar-reducer";
 import usersPageReducer from "./usersPage-reducer";
 import authReducer from "./auth-reducer";
@@ -10,7 +10,7 @@ import { reducer as formReducer } from 'redux-form'
 
 let rootReducer = combineReducers({
     postsPage: profileReducer,
-    messagesPage: messagesPageReducer,
+    messagesPage: dialogsReducer,
     sideBar: sideBarReducer,
     usersPage: usersPageReducer,
     auth: authReducer,
@@ -20,6 +20,9 @@ let rootReducer = combineReducers({
 
 type RootReducerType = typeof rootReducer
 export type AppStateType = ReturnType<RootReducerType>
+
+type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
+export type InferActionsTypes<T extends {[key: string]: (...args: any[])=> any}> = ReturnType<PropertiesTypes<T>>
 
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

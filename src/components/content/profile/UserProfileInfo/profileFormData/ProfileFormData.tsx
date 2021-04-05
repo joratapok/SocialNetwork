@@ -2,10 +2,18 @@ import React from 'react'
 import classes from "./ProfileFormData.module.css"
 import Button from "./button/Button";
 import {Checkbox, HiddenInput, Input, Textarea} from "../../../../common/formsControl/FormsControl";
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import CancelButton from "./cancelButton/CancelButton";
+import {userType} from "../../../../../types/types";
 
-let ProfileFormData = ({initialValues, handleSubmit, error, setEditModeOff}) => {
+type ProfileFormDataType = {
+    initialValues: userType
+    setEditModeOff: () => void
+    onSubmit: (formData: userType) => void
+}
+
+let ProfileFormData: React.FC<InjectedFormProps<userType, ProfileFormDataType> & ProfileFormDataType> =
+    ({initialValues, handleSubmit, error, setEditModeOff}) => {
     return (
         <form className={classes.form} onSubmit={ handleSubmit }>
 
@@ -38,8 +46,8 @@ let ProfileFormData = ({initialValues, handleSubmit, error, setEditModeOff}) => 
                     <div className={classes.contacts} key={key} >
                         <div className={classes.contact}>{key + ":"}</div>
                         <Field placeholder={key} name={'contacts.' + key} component={Input}/>
-                    </div>  
-                ) 
+                    </div>
+                )
             })}
             </div>
 
@@ -58,6 +66,6 @@ let ProfileFormData = ({initialValues, handleSubmit, error, setEditModeOff}) => 
     )
 }
 
-ProfileFormData = reduxForm({form: 'editProfile'})(ProfileFormData)
+export const ProfileReduxForm = reduxForm<userType, ProfileFormDataType>({form: 'editProfile'})(ProfileFormData)
 
 export default ProfileFormData

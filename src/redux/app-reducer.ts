@@ -1,23 +1,23 @@
 import {authThunk} from "./auth-reducer"
 import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./redux-store";
+import {AppStateType, InferActionsTypes} from "./redux-store";
 import {Dispatch} from "redux";
 
-const INIT_APP = 'INIT_APP'
-const SHOW_ERROR_MESSAGE = 'SHOW_ERROR_MESSAGE'
-const HIDE_ERROR_MESSAGE = 'HIDE_ERROR_MESSAGE'
+const INIT_APP = 'SN/APP/INIT_APP'
+const SHOW_ERROR_MESSAGE = 'SN/APP/SHOW_ERROR_MESSAGE'
+const HIDE_ERROR_MESSAGE = 'SN/APP/HIDE_ERROR_MESSAGE'
 
-export type initialStateType = {
-    initApp: boolean
-    errorMessage: null | string
-}
-
-let initial: initialStateType = {
+let initialState = {
     initApp: false,
-    errorMessage: null,
+    errorMessage: null as null | string,
 }
 
-const appReducer = (state: initialStateType = initial, action: ActionsTypes): initialStateType => {
+type initialStateType = typeof initialState
+type ActionsTypes = InferActionsTypes<typeof actions>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsTypes>
+
+const appReducer = (state= initialState,
+                    action: ActionsTypes): initialStateType => {
 
     switch (action.type) {
         case INIT_APP:
@@ -40,17 +40,11 @@ const appReducer = (state: initialStateType = initial, action: ActionsTypes): in
     }
 }
 
-type initAppType = {type: typeof INIT_APP}
-export type showErrorMessageType = {type: typeof SHOW_ERROR_MESSAGE, message: string}
-type hideErrorMessage = {type: typeof HIDE_ERROR_MESSAGE}
-
-type ActionsTypes = initAppType | showErrorMessageType | hideErrorMessage
-
-export const initApp = (): initAppType => ({type: INIT_APP})
-export const showErrorMessage = (message: string): showErrorMessageType => ({type: SHOW_ERROR_MESSAGE, message})
-export const hideErrorMessage = (): hideErrorMessage => ({type: HIDE_ERROR_MESSAGE})
-
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsTypes>
+export const actions = {
+    initApp: () => ({type: INIT_APP} as const),
+    showErrorMessage: (message: string) => ({type: SHOW_ERROR_MESSAGE, message} as const),
+    hideErrorMessage: () => ({type: HIDE_ERROR_MESSAGE} as const),
+}
 
 export const initAppThunk = (): ThunkType => {
     return async (dispatch) => {
@@ -59,15 +53,15 @@ export const initAppThunk = (): ThunkType => {
         } catch (e) {
             console.log(e)
         }
-        dispatch(initApp())
+        dispatch(actions.initApp())
     }
 }
 
 export const showErrorMessageThunk = (message: string) => {
     return (dispatch: Dispatch<ActionsTypes>) => {
-        dispatch(showErrorMessage(message))
+        dispatch(actions.showErrorMessage(message))
         setTimeout(() => {
-            dispatch(hideErrorMessage())
+            dispatch(actions.hideErrorMessage())
         }, 6000)
     }
 }

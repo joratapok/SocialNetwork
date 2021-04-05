@@ -1,10 +1,9 @@
-import {usersApi} from "../api/api";
 import {showErrorMessageThunk} from "./app-reducer";
-import {photosType, usersType} from "../types/types";
-import {AppStateType} from "./redux-store";
+import {usersType} from "../types/types";
+import {AppStateType, InferActionsTypes} from "./redux-store";
 import {Dispatch} from "redux";
 import {ThunkAction} from "redux-thunk";
-import {showErrorMessageType} from "./app-reducer"
+import {usersApi} from "../api/usersApi";
 
 
 const FOLLOW = 'FOLLOW'
@@ -26,8 +25,10 @@ let initial = {
 }
 
 type initialType = typeof initial
+type ActionsTypes = InferActionsTypes<typeof actions>
 
-const usersPageReducer = (state = initial, action: ActionsTypes): initialType => {
+const usersPageReducer = (state = initial,
+                          action: ActionsTypes): initialType => {
     switch (action.type) {
         case FOLLOW :
             return {
@@ -39,7 +40,6 @@ const usersPageReducer = (state = initial, action: ActionsTypes): initialType =>
                     return u
                 })
             }
-
         case UNFOLLOW :
             return {
                 ...state,
@@ -50,22 +50,18 @@ const usersPageReducer = (state = initial, action: ActionsTypes): initialType =>
                     return u
                 })
             }
-
         case SET_USERS :
             return {
                 ...state, users: action.users
             }
-
         case SET_CURRENT_PAGE :
             return {
                 ...state, currentPage: action.page
             }
-
         case SET_TOTAL_USER_COUNT :
             return {
                 ...state, totalUsersCount: action.totalUserCount
             }
-
         case SHOW_PROGRESS_BAR :
             return {
                 ...state, inProgress: action.show
@@ -74,74 +70,47 @@ const usersPageReducer = (state = initial, action: ActionsTypes): initialType =>
             return {
                 ...state, fetchingProcess: action.fetchingProcess
                     ? [...state.fetchingProcess, action.userId]
-                    : state.fetchingProcess.filter(id => id != action.userId)
+                    : state.fetchingProcess.filter(id => id !== action.userId)
             }
         default :
             return state
     }
 }
 
-type ActionsTypes = FollowType | UnfollowType | SetUserType | SetCurrentPage |
-    SetTotalUsersCountType | ShowProgressBarType | ChangefetchingProcessType | showErrorMessageType
+export const actions = {
+    follow: (userId: number) => ({type: FOLLOW, userId} as const),
+    unFollow: (userId: number) => ({type: UNFOLLOW, userId} as const),
+    setUser: (users: Array<usersType>) => ({type: SET_USERS, users} as const),
+    setCurrentPage: (numPage: number) => ({type: SET_CURRENT_PAGE, page: numPage} as const),
+    setTotalUsersCount: (totalUserCount: number) => ({
+        type: SET_TOTAL_USER_COUNT,
+        totalUserCount
+    } as const),
+    showProgressBar: (show: boolean) => ({type: SHOW_PROGRESS_BAR, show: show} as const),
+    changefetchingProcess: (toggle: boolean, userId: number) => ({
+        type: TOGGLE_FETCHING_PROCESS,
+        fetchingProcess: toggle,
+        userId
+    } as const),
+}
 
-type FollowType = {
-    type: typeof FOLLOW
-    userId: number
-}
-export const follow = (userId: number): FollowType => ({type: FOLLOW, userId})
-type UnfollowType = {
-    type: typeof UNFOLLOW
-    userId: number
-}
-export const unFollow = (userId: number): UnfollowType => ({type: UNFOLLOW, userId})
-type SetUserType = {
-    type: typeof SET_USERS
-    users: Array<usersType>
-}
-export const setUser = (users: Array<usersType>): SetUserType => ({type: SET_USERS, users})
-type SetCurrentPage = {
-    type: typeof SET_CURRENT_PAGE
-    page: number
-}
-export const setCurrentPage = (numPage: number): SetCurrentPage => ({type: SET_CURRENT_PAGE, page: numPage})
-type SetTotalUsersCountType = {
-    type: typeof SET_TOTAL_USER_COUNT
-    totalUserCount: number
-}
-export const setTotalUsersCount = (totalUserCount: number): SetTotalUsersCountType => ({
-    type: SET_TOTAL_USER_COUNT,
-    totalUserCount
-})
-type ShowProgressBarType = {
-    type: typeof SHOW_PROGRESS_BAR
-    show: boolean
-}
-export const showProgressBar = (show: boolean): ShowProgressBarType => ({type: SHOW_PROGRESS_BAR, show: show})
-type ChangefetchingProcessType = {
-    type: typeof TOGGLE_FETCHING_PROCESS
-    fetchingProcess: boolean
-    userId: number
-}
-export const changefetchingProcess = (toggle: boolean, userId: number): ChangefetchingProcessType => ({
-    type: TOGGLE_FETCHING_PROCESS,
-    fetchingProcess: toggle,
-    userId
-})
+
+
 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsTypes>
 
 export const getUsersThunk = (currentPage: number, pageSize: number): ThunkType => {
     return async (dispatch) => {
-        dispatch(showProgressBar(true))
+        dispatch(actions.showProgressBar(true))
         try {
             let response = await usersApi.getUsers(currentPage, pageSize)
-            dispatch(showProgressBar(false))
-            dispatch(setUser(response.items))
-            dispatch(setTotalUsersCount(response.totalCount))
-            dispatch(setCurrentPage(currentPage))
+            dispatch(actions.showProgressBar(false))
+            dispatch(actions.setUser(response.data.items))
+            dispatch(actions.setTotalUsersCount(response.data.totalCount))
+            dispatch(actions.setCurrentPage(currentPage))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
-            dispatch(showProgressBar(false))
+            dispatch(actions.showProgressBar(false))
         }
     }
 }
@@ -149,23 +118,23 @@ export const getUsersThunk = (currentPage: number, pageSize: number): ThunkType 
 const _followUnfollowFlow = async (dispatch: Dispatch<ActionsTypes>,
                                    userId: number,
                                    apiMethod: any,
-                                   acMethod: (userId: number) => FollowType | UnfollowType) => {
-    dispatch(changefetchingProcess(true, userId))
+                                   acMethod: (userId: number) => ActionsTypes) => {
+    dispatch(actions.changefetchingProcess(true, userId))
     try {
         const data = await apiMethod(userId)
-        if (data.resultCode == 0) {
+        if (data.resultCode === 0) {
             dispatch(acMethod(userId))
         }
     } catch (e) {
         //dispatch(showErrorMessageThunk(e.message))
     }
-    dispatch(changefetchingProcess(false, userId))
+    dispatch(actions.changefetchingProcess(false, userId))
 }
 
 export const unFollowThunk = (userId: number): ThunkType => {
     return async (dispatch) => {
         try {
-            await _followUnfollowFlow(dispatch, userId, usersApi.delFollow, unFollow)
+            await _followUnfollowFlow(dispatch, userId, usersApi.delFollow, actions.unFollow)
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }
@@ -175,7 +144,7 @@ export const unFollowThunk = (userId: number): ThunkType => {
 export const followThunk = (userId: number): ThunkType => {
     return async (dispatch) => {
         try {
-            await _followUnfollowFlow(dispatch, userId, usersApi.postFollow, follow)
+            await _followUnfollowFlow(dispatch, userId, usersApi.postFollow, actions.follow)
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }

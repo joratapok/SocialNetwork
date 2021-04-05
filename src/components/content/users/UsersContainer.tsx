@@ -1,9 +1,8 @@
 import React from 'react'
 import {connect} from "react-redux";
 import {
-    changefetchingProcess,
-    followThunk, getUsersThunk,
-    setCurrentPage, unFollowThunk
+     followThunk, getUsersThunk,
+     unFollowThunk
 } from "../../../redux/usersPage-reducer";
 import Users from "./Users";
 import Preloader from "../../preloader/Preloader";

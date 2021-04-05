@@ -2,9 +2,17 @@ import React from 'react'
 import classes from "./Users.module.css";
 import defaultUser from "../../../assets/images/defaultUser.png";
 import {NavLink} from "react-router-dom";
+import {usersType} from "../../../types/types";
 
+type PropsType = {
+    user: usersType
+    unFollowThunk: (userId: number) => void
+    followThunk: (userId: number) => void
+    fetchingProcess: Array<number>
+    isAuth: boolean
+}
 
-const User = ({user, fetchingProcess, unFollowThunk, followThunk, isAuth}) => {
+const User: React.FC<PropsType> = ({user, fetchingProcess, unFollowThunk, followThunk, isAuth}) => {
 
     return (
         <div key={user.id} className={classes.wrapper}>

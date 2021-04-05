@@ -1,11 +1,15 @@
-import {authApi, ResultCodeForCaptcha, ResultCodesEnum, securityApi} from "../api/api";
+import {ResultCodeForCaptcha, ResultCodesEnum} from "../api/api";
 import {stopSubmit} from 'redux-form'
 import {clearUserInfo, getProfile} from "./profile-reducer";
 import {showErrorMessageThunk} from "./app-reducer";
+import {securityApi} from "../api/securityApi";
+import {authApi} from "../api/authApi";
+import {AppStateType, InferActionsTypes} from "./redux-store";
+import {ThunkAction} from "redux-thunk";
 
-const SET_USER = 'SET_USER'
-const LOG_OUT_USER = 'LOG_OUT_USER'
-const SET_CAPTCHA_URL = 'SET_CAPTCHA_URL'
+const SET_USER = 'SN/AUTH/SET_USER'
+const LOG_OUT_USER = 'SN/AUTH/LOG_OUT_USER'
+const SET_CAPTCHA_URL = 'SN/AUTH/SET_CAPTCHA_URL'
 
 const initial = {
     id: null as null | number,
@@ -17,8 +21,10 @@ const initial = {
 }
 
 export type authReducerType = typeof initial
+type ActionsTypes = InferActionsTypes<typeof actions>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsTypes>
 
-const authReducer = (state: authReducerType = initial, action: any): authReducerType => {
+const authReducer = (state: authReducerType = initial, action: ActionsTypes): authReducerType => {
     switch (action.type) {
         case SET_USER:
             return {
@@ -26,18 +32,15 @@ const authReducer = (state: authReducerType = initial, action: any): authReducer
                 ...action.userData,
                 isAuth: true,
             }
-
         case LOG_OUT_USER:
             return {
                 ...initial,
             }
-
         case SET_CAPTCHA_URL:
             return {
                 ...state,
                 captcha: action.URL,
             }
-
         default:
             return state
     }
@@ -49,34 +52,23 @@ type userData = {
     login: string
 }
 
-type setAuthUserType = {
-    type: typeof SET_USER
-    userData: userData
+export const actions = {
+    setAuthUser: (userData: userData) => ({type: SET_USER, userData} as const),
+    logout: () => ({type: LOG_OUT_USER} as const),
+    setCaptchaURL: (URL: string) => ({type: SET_CAPTCHA_URL, URL} as const),
 }
 
-type logoutType = {type: typeof LOG_OUT_USER}
-type setCaptchaURLType = {
-    type: typeof SET_CAPTCHA_URL
-    URL: string
-}
-
-export const setAuthUser = (userData: userData): setAuthUserType => ({type: SET_USER, userData})
-export const logout = (): logoutType => ({type: LOG_OUT_USER})
-export const setCaptchaURL = (URL: string): setCaptchaURLType => ({type: SET_CAPTCHA_URL, URL})
-
-
-export const authThunk = () => {
+export const authThunk = (): ThunkType => {
     return async (dispatch: any) => {
         try {
             let response = await authApi.authMe()
             if (response.resultCode === ResultCodesEnum.Success) {
-                dispatch(setAuthUser(response.data))
+                dispatch(actions.setAuthUser(response.data))
                 dispatch(getProfile(response.data.id))
             }
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }
-
     }
 }
 
@@ -87,9 +79,7 @@ export type LoginFormDataType = {
     captcha?: string | null
 }
 
-export type loginFormKeys = keyof LoginFormDataType
-
-export const loginThunk = (data: LoginFormDataType) => {
+export const loginThunk = (data: LoginFormDataType): ThunkType => {
     return async (dispatch: any) => {
         try {
             let response = await authApi.login(data)
@@ -110,12 +100,12 @@ export const loginThunk = (data: LoginFormDataType) => {
     }
 }
 
-export const logoutThunk = () => {
+export const logoutThunk = (): ThunkType => {
     return async (dispatch: any) => {
         try {
             let response = await authApi.logout()
             if (response.resultCode === ResultCodesEnum.Success) {
-                dispatch(logout())
+                dispatch(actions.logout())
                 dispatch(clearUserInfo())
             }
         } catch (e) {
@@ -124,11 +114,11 @@ export const logoutThunk = () => {
     }
 }
 
-export const getCaptchaThunk = () => {
+export const getCaptchaThunk = (): ThunkType => {
     return async (dispatch: any) => {
         try {
             const response = await securityApi.getCaptcha()
-            dispatch(setCaptchaURL(response.data.url))
+            dispatch(actions.setCaptchaURL(response.data.url))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }

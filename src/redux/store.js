@@ -1,5 +1,5 @@
 import postPageReducer, {add_post, rec_text_area} from "./profile-reducer";
-import messagesPageReducer, {add_message, rec_message_area} from "./messagesPage-reducer";
+import dialogsReducer, {add_message, rec_message_area} from "./dialogs-reducer";
 import sideBarReducer from "./sideBar-reducer";
 
 let store = {
@@ -41,7 +41,7 @@ let store = {
 
     dispatch(action) {
         this._state.postsPage = postPageReducer(this._state.postsPage, action)
-        this._state.messagesPage = messagesPageReducer(this._state.messagesPage, action)
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action)
         this._state.sideBar = sideBarReducer(this._state.sideBar, action)
         this._callSubscriber(this)
     }

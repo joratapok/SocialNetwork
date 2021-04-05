@@ -2,7 +2,6 @@ import React from 'react'
 import Paginator from "./paginator/Paginator"
 import User from "./User"
 import {usersType, } from "../../../types/types";
-import {changefetchingProcessType} from "../../../redux/usersPage-reducer";
 
 type PropsType = {
     totalUsersCount: number
@@ -27,7 +26,6 @@ const Users: React.FC<PropsType> = ({
                                         fetchingProcess,
                                         isAuth,
                                     }) => {
-
     return (
         <div>
             <Paginator totalItems={totalUsersCount}

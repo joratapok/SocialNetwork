@@ -1,8 +1,9 @@
-import {profileApi, ResultCodesEnum} from "../api/api";
-import {showProgressBar} from "./usersPage-reducer";
+import {ResultCodesEnum} from "../api/api";
 import {stopSubmit} from "redux-form";
 import {showErrorMessageThunk} from "./app-reducer";
 import {photosType, postsType, userType} from "../types/types";
+import {actions} from "./usersPage-reducer";
+import {profileApi} from "../api/profileApi";
 
 
 export const ADD_POST = 'ADD_POST'
@@ -130,16 +131,16 @@ export const setProfileStatus = (text: string) => {
 }
 export const savePhoto = (file: any) => {
     return async (dispatch: any) => {
-        showProgressBar(true)
+        actions.showProgressBar(true)
         try {
             const response = await profileApi.putPhoto(file)
             if (response.resultCode == ResultCodesEnum.Success) {
-                dispatch(setPhoto(response.data))
+                dispatch(setPhoto(response.data.photos))
             }
-            showProgressBar(false)
+            actions.showProgressBar(false)
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
-            showProgressBar(false)
+            actions.showProgressBar(false)
         }
     }
 }

@@ -10,7 +10,7 @@ const Dialogs = (props) => {
 
     let onSubmit = (formData) => {
         if (formData.message) {
-            props.addNewMessage(formData.message)
+            props.actions.addNewMessage(formData.message)
         } else {
             throw new SubmissionError({
                 message: `whrite something  ༼ つ ◕_◕ ༽つ`
