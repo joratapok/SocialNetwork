@@ -1,10 +1,14 @@
 import React from 'react';
 import classes from './Post.module.css'
 
-const Post = (props) => {
+type PropsType = {
+    message: string
+}
+
+const Post: React.FC<PropsType> = ({message}) => {
     return(
         <div className={classes.postBody}>
-            { props.message }
+            { message }
         </div>
     )
 }

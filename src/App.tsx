@@ -9,11 +9,20 @@ import {connect} from "react-redux";
 import {initAppThunk, showErrorMessageThunk} from "./redux/app-reducer";
 import Preloader from "./components/preloader/Preloader";
 import ErrorMessage from "./components/errorMessage/ErrorMessage";
+import {AppStateType} from "./redux/redux-store";
+import {DialogsActionsTypes} from "./redux/dialogs-reducer";
+import {usersType} from "./types/types";
 
+type MapDispatchPropsType = {
+    initAppThunk: () => void
+    showErrorMessageThunk: (message: string) => void
+}
+type MapStatePropsType = ReturnType<typeof mapStateToProps>
+type PropsType = MapStatePropsType & MapDispatchPropsType
 
-class App extends React.Component {
+class App extends React.Component<PropsType> {
 
-    catchUnhandledErrors = (event) => {
+    catchUnhandledErrors = (event: PromiseRejectionEvent) => {
         this.props.showErrorMessageThunk(event.reason.message)
     }
 
@@ -33,6 +42,7 @@ class App extends React.Component {
 
         return (
             <div className='app-wrapper'>
+                {this.props.inProgress ? <Preloader/> : null}
                 <Header/>
                 <CentralMenu/>
                 <div className='middle-wrapper'>
@@ -48,9 +58,11 @@ class App extends React.Component {
     }
 }
 
-let mapStateToProps = (state) => ({
+let mapStateToProps = (state: AppStateType) => ({
     initApp: state.init.initApp,
     errorMessage: state.init.errorMessage,
+    inProgress: state.usersPage.inProgress
 })
 
-export default connect(mapStateToProps, {initAppThunk, showErrorMessageThunk})(App);
+export default connect<MapStatePropsType, MapDispatchPropsType, null, AppStateType>
+(mapStateToProps, {initAppThunk, showErrorMessageThunk})(App);

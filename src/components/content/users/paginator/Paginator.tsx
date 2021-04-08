@@ -38,7 +38,7 @@ const Paginator: React.FC<PropsType> = ({
             {pages
                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map((p) => {
-                    return <div key={p} onClick={(e) => onPageChanged(p)}
+                    return <div key={p} onClick={() => onPageChanged(p)}
                          className={currentPage === p
                              ? [classes.pagination, classes.paginationActive].join(' ')
                              : classes.pagination}>

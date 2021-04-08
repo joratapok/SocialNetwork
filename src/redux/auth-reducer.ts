@@ -1,6 +1,6 @@
 import {ResultCodeForCaptcha, ResultCodesEnum} from "../api/api";
 import {stopSubmit} from 'redux-form'
-import {clearUserInfo, getProfile} from "./profile-reducer";
+import {actionsProfileReducer, getProfile, ProfileReducerActionsTypes} from "./profile-reducer";
 import {showErrorMessageThunk} from "./app-reducer";
 import {securityApi} from "../api/securityApi";
 import {authApi} from "../api/authApi";
@@ -21,10 +21,10 @@ const initial = {
 }
 
 export type authReducerType = typeof initial
-type ActionsTypes = InferActionsTypes<typeof actions>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsTypes>
+type AuthReducerActionsTypes = InferActionsTypes<typeof actionsAuthReducer>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, AuthReducerActionsTypes | ProfileReducerActionsTypes>
 
-const authReducer = (state: authReducerType = initial, action: ActionsTypes): authReducerType => {
+const authReducer = (state: authReducerType = initial, action: AuthReducerActionsTypes): authReducerType => {
     switch (action.type) {
         case SET_USER:
             return {
@@ -52,18 +52,18 @@ type userData = {
     login: string
 }
 
-export const actions = {
+export const actionsAuthReducer = {
     setAuthUser: (userData: userData) => ({type: SET_USER, userData} as const),
     logout: () => ({type: LOG_OUT_USER} as const),
     setCaptchaURL: (URL: string) => ({type: SET_CAPTCHA_URL, URL} as const),
 }
 
 export const authThunk = (): ThunkType => {
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         try {
             let response = await authApi.authMe()
             if (response.resultCode === ResultCodesEnum.Success) {
-                dispatch(actions.setAuthUser(response.data))
+                dispatch(actionsAuthReducer.setAuthUser(response.data))
                 dispatch(getProfile(response.data.id))
             }
         } catch (e) {
@@ -80,7 +80,7 @@ export type LoginFormDataType = {
 }
 
 export const loginThunk = (data: LoginFormDataType): ThunkType => {
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         try {
             let response = await authApi.login(data)
             if (response.resultCode === ResultCodesEnum.Success) {
@@ -101,12 +101,12 @@ export const loginThunk = (data: LoginFormDataType): ThunkType => {
 }
 
 export const logoutThunk = (): ThunkType => {
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         try {
             let response = await authApi.logout()
             if (response.resultCode === ResultCodesEnum.Success) {
-                dispatch(actions.logout())
-                dispatch(clearUserInfo())
+                dispatch(actionsAuthReducer.logout())
+                dispatch(actionsProfileReducer.clearUserInfo())
             }
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
@@ -115,10 +115,10 @@ export const logoutThunk = (): ThunkType => {
 }
 
 export const getCaptchaThunk = (): ThunkType => {
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         try {
             const response = await securityApi.getCaptcha()
-            dispatch(actions.setCaptchaURL(response.data.url))
+            dispatch(actionsAuthReducer.setCaptchaURL(response.data.url))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }

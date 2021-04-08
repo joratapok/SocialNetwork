@@ -4,13 +4,14 @@ import {showErrorMessageThunk} from "./app-reducer";
 import {photosType, postsType, userType} from "../types/types";
 import {actions} from "./usersPage-reducer";
 import {profileApi} from "../api/profileApi";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType, InferActionsTypes} from "./redux-store";
 
-
-export const ADD_POST = 'ADD_POST'
-export const SET_USER_PROFILE = 'SET_USER_PROFILE'
-export const SET_STATUS = 'SET_STATUS'
-export const SET_PHOTO = 'SET_PHOTO'
-export const CLEAR_USER_INFO = 'CLEAR_USER_INFO'
+export const ADD_POST = 'SN/PROFILE/ADD_POST'
+export const SET_USER_PROFILE = 'SN/PROFILE/SET_USER_PROFILE'
+export const SET_STATUS = 'SN/PROFILE/SET_STATUS'
+export const SET_PHOTO = 'SN/PROFILE/SET_PHOTO'
+export const CLEAR_USER_INFO = 'SN/PROFILE/CLEAR_USER_INFO'
 
 let initial = {
     posts: [
@@ -39,8 +40,10 @@ let initial = {
 }
 
 export type initialType = typeof initial
+export type ProfileReducerActionsTypes = InferActionsTypes<typeof actionsProfileReducer>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ProfileReducerActionsTypes>
 
-const postPageReducer = (state = initial, action: any): initialType => {
+const postPageReducer = (state = initial, action: ProfileReducerActionsTypes): initialType => {
     switch (action.type) {
         case ADD_POST :
             let newPost = {
@@ -52,12 +55,10 @@ const postPageReducer = (state = initial, action: any): initialType => {
                 ...state,
                 posts: [...state.posts, newPost],
             }
-
         case SET_USER_PROFILE :
             return {
                 ...state, user: action.user
             }
-
         case SET_STATUS :
             return {
                 ...state, status: action.text
@@ -75,41 +76,34 @@ const postPageReducer = (state = initial, action: any): initialType => {
     }
 }
 
-type addNewPostType = {
-    type: typeof ADD_POST
-    post: string
+export const actionsProfileReducer = {
+    addNewPost: (post: string) => ({type: ADD_POST, post} as const),
+    setUserProfile: (user: userType) => ({type: SET_USER_PROFILE, user} as const),
+    setStatus: (text: string) => ({type: SET_STATUS, text} as const),
+    setPhoto: (photo: photosType) => ({type: SET_PHOTO, photo} as const),
+    clearUserInfo: () => ({type: CLEAR_USER_INFO,} as const),
 }
-export const addNewPost = (post: string): addNewPostType => ({type: ADD_POST, post})
-type setUserProfileType = {
-    type: typeof SET_USER_PROFILE
-    user: userType
-}
-export const setUserProfile = (user: userType): setUserProfileType => ({type: SET_USER_PROFILE, user})
-type setStatus = {
-    type: typeof SET_STATUS
-    text: string
-}
-export const setStatus = (text: string): setStatus => ({type: SET_STATUS, text})
-type setPhotoType = {
-    type: typeof SET_PHOTO
-    photo: photosType
-}
-export const setPhoto = (photo: photosType): setPhotoType => ({type: SET_PHOTO, photo})
-type clearUserInfoType = { type: typeof CLEAR_USER_INFO }
-export const clearUserInfo = (): clearUserInfoType => ({type: CLEAR_USER_INFO,})
 
-export const getProfile = (userId: number) => {
-    return async (dispatch: any) => {
-        let response = await profileApi.getProfile(userId)
-        dispatch(setUserProfile(response.data))
+export const getProfile = (userId: number | null): ThunkType => {
+    return async (dispatch) => {
+        try {
+            actions.showProgressBar(true)
+            let response = await profileApi.getProfile(userId)
+            dispatch(actionsProfileReducer.setUserProfile(response.data))
+            actions.showProgressBar(false)
+        } catch (e) {
+            dispatch(showErrorMessageThunk(e.message))
+            actions.showProgressBar(false)
+        }
+
     }
 }
 
-export const getStatus = (userId: number) => {
-    return async (dispatch: any) => {
+export const getStatus = (userId: number): ThunkType => {
+    return async (dispatch) => {
         try {
             let response = await profileApi.getStatus(userId)
-            dispatch(setStatus(response))
+            dispatch(actionsProfileReducer.setStatus(response))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }
@@ -117,25 +111,25 @@ export const getStatus = (userId: number) => {
     }
 }
 
-export const setProfileStatus = (text: string) => {
-    return async (dispatch: any) => {
+export const setProfileStatus = (text: string): ThunkType => {
+    return async (dispatch) => {
         try {
             let response = await profileApi.putStatus(text)
             if (response.resultCode === ResultCodesEnum.Success) {
-                dispatch(setStatus(text))
+                dispatch(actionsProfileReducer.setStatus(text))
             }
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }
     }
 }
-export const savePhoto = (file: any) => {
-    return async (dispatch: any) => {
+export const savePhoto = (file: any): ThunkType => {
+    return async (dispatch) => {
         actions.showProgressBar(true)
         try {
             const response = await profileApi.putPhoto(file)
             if (response.resultCode == ResultCodesEnum.Success) {
-                dispatch(setPhoto(response.data.photos))
+                dispatch(actionsProfileReducer.setPhoto(response.data.photos))
             }
             actions.showProgressBar(false)
         } catch (e) {
@@ -145,8 +139,8 @@ export const savePhoto = (file: any) => {
     }
 }
 
-export const saveProfile = (user: userType) => {
-    return async (dispatch: any, getState: any) => {
+export const saveProfile = (user: userType): ThunkType => {
+    return async (dispatch, getState) => {
         const userId = getState().auth.id
         try {
             let response = await profileApi.saveProfile(user)

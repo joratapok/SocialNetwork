@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import Preloader from "../../../preloader/Preloader";
-import ProfileStatusContainer from "./profileStatus/ProfileStatusContainer";
 import classes from './UserProfileInfo.module.css'
 import Contacts from "./contacts/Contacts";
-import ProfileFormData, {ProfileReduxForm} from "./profileFormData/ProfileFormData";
-import CancelButton from "./profileFormData/cancelButton/CancelButton";
+import {ProfileReduxForm} from "./profileFormData/ProfileFormData";
 import Button from "./button/Button";
-import {userType} from "../../../../types/types";
-import {authReducerType} from "../../../../redux/auth-reducer";
+import {contactsType, userType} from "../../../../types/types";
+import ProfileStatusAPIContainer from "./profileStatus/ProfileStatusContainer";
 
 type UserProfileInfoType = {
     profileInfo: userType
     isOwner: boolean
     auth: () => void
     status: string
-    savePhoto: (file: any) => void
+    savePhoto: (file: File) => void
     saveProfile: (user: userType) => Promise<void>
 }
 
@@ -47,7 +45,7 @@ const UserProfileInfo: React.FC<UserProfileInfoType> = ({
     }
 
     const PhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files.length === 1) {
+        if (e.target.files) {
             savePhoto(e.target.files[0])
         }
     }
@@ -57,7 +55,7 @@ const UserProfileInfo: React.FC<UserProfileInfoType> = ({
             <div className={classes.items}>
                 <div className={classes.fullNameWrapper}>
                     <div className={classes.fullName}>{profileInfo.fullName}</div>
-                    {isOwner && <ProfileStatusContainer/>}
+                    {isOwner && <ProfileStatusAPIContainer/>}
                     {!isOwner && <div className={classes.alienStatus}>
                         Status: {status}</div>}
                 </div>
@@ -79,7 +77,7 @@ const UserProfileInfo: React.FC<UserProfileInfoType> = ({
 
             {isOwner && <div>
                 <input className={classes.input} id={"inputAvatar"} type={'file'} onChange={PhotoSelected}/>
-                <label for="inputAvatar">
+                <label htmlFor={"inputAvatar"}>
                     <span className={classes.changeAvatar}>Change Avatar</span>
                 </label>
             </div>}
@@ -114,9 +112,10 @@ const ProfileData: React.FC<ProfileDataType> = ({
         <div className={classes.contactsWrapper}>
             <span className={classes.label}>Contacts: </span>
             {Object.keys(profileInfo.contacts)
-                .filter((key) => profileInfo.contacts[key])
+                .filter((key) => profileInfo.contacts[key as keyof contactsType])
                 .map((key) => {
-                    return <Contacts key={key} contactTitle={key} contactValue={profileInfo.contacts[key]}/>
+                    return <Contacts key={key} contactTitle={key}
+                                     contactValue={profileInfo.contacts[key as keyof contactsType]}/>
                 })}
         </div>
         <div className={classes.buttonWrapper}>

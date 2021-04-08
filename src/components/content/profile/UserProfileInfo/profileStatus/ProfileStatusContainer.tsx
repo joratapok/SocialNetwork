@@ -35,7 +35,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
 })
 
 
-connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
-(mapStateToProps, {setProfileStatus, })(ProfileStatusAPIContainer)
 
-export default ProfileStatusAPIContainer
+
+export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
+(mapStateToProps, {setProfileStatus, })(ProfileStatusAPIContainer)

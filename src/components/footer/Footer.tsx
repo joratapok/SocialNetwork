@@ -1,7 +1,11 @@
 import React from 'react';
 import classes from './Footer.module.css'
 
-const Footer = ({showError}) => {
+type PropsType = {
+    showError: (message: string) => void
+}
+
+const Footer: React.FC<PropsType> = ({showError}) => {
 
     const throwError = () => {
         showError('Some strange error has occured')

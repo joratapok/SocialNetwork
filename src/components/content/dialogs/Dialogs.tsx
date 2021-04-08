@@ -1,16 +1,28 @@
 import React from 'react';
-import {Field, reduxForm, SubmissionError} from "redux-form";
+import {Field, InjectedFormProps, reduxForm, SubmissionError} from "redux-form";
 import classes from './Dialogs.module.css'
 import People from "./people/People";
 import Dialog from "./dialog/Dialog";
 import {maxLengthCreator,} from "../../../utils/validators/validator";
 import {Textarea} from "../../common/formsControl/FormsControl";
+import {DialogsActionsTypes, DialogsInitialType} from "../../../redux/dialogs-reducer";
 
-const Dialogs = (props) => {
+type PropsType = {
+    messagesPage: DialogsInitialType
+    sendMessage: (message: string) => void
+}
+type FormDataType = {
+    message: string
+}
+type MessageAreaOwnProps = {
+    onSubmit:  (formData: FormDataType) => void
+}
 
-    let onSubmit = (formData) => {
+const Dialogs: React.FC<PropsType> = ({messagesPage, sendMessage}) => {
+
+    let onSubmit = (formData: FormDataType) => {
         if (formData.message) {
-            props.actions.addNewMessage(formData.message)
+            sendMessage(formData.message)
         } else {
             throw new SubmissionError({
                 message: `whrite something  ༼ つ ◕_◕ ༽つ`
@@ -21,9 +33,10 @@ const Dialogs = (props) => {
     const maxLength500 = maxLengthCreator(500)
 
 
-    let MessageAreaForm = (props) => {
+    const MessageAreaForm: React.FC<InjectedFormProps<FormDataType, MessageAreaOwnProps> & MessageAreaOwnProps> =
+        ({handleSubmit,error}) => {
         return (
-            <form onSubmit={props.handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div className={classes.textAreaWrap}>
                     <Field name='message' placeholder='write new message'
                            validate={[maxLength500]}
@@ -36,16 +49,18 @@ const Dialogs = (props) => {
         )
     }
 
-    MessageAreaForm = reduxForm({form: 'newMessage'})(MessageAreaForm)
+
+
+    const MessageAreaReduxForm = reduxForm<FormDataType, MessageAreaOwnProps>({form: 'newMessage'})(MessageAreaForm)
 
     return (
         <div>
             <div className={classes.wrapper}>
-                <People people={props.messagesPage.people}/>
-                <Dialog dialogs={props.messagesPage.dialogs}/>
+                <People people={messagesPage.people}/>
+                <Dialog dialogs={messagesPage.dialogs}/>
             </div>
             <div className={classes.newPostWrap}>
-                <MessageAreaForm onSubmit={onSubmit}/>
+                <MessageAreaReduxForm onSubmit={onSubmit}/>
             </div>
         </div>
     )

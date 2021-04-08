@@ -18,12 +18,16 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
     getProfile: (userId: number) => void
     getStatus: (userId: number) => void
-    savePhoto: (file: any) => void
+    savePhoto: (file: File) => void
     authThunk: () => void
     saveProfile: (user: userType) => Promise<void>
 }
+type PathParamsType = {
+    userId: string
+}
+
 type OwnPropsType = {}
-type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType & RouteComponentProps<any>
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType & RouteComponentProps<PathParamsType>
 
 class ProfileContainer extends React.Component<PropsType> {
 
@@ -39,7 +43,7 @@ class ProfileContainer extends React.Component<PropsType> {
         this.refreshProfile()
     }
 
-    componentDidUpdate(prevProps: PropsType, prevState: AppStateType, snapshot: any) {
+    componentDidUpdate(prevProps: PropsType, prevState: AppStateType) {
         if (this.props.match.params.userId !== prevProps.match.params.userId) {
             this.refreshProfile()
         }
@@ -54,7 +58,7 @@ class ProfileContainer extends React.Component<PropsType> {
                          savePhoto={this.props.savePhoto}
                          auth={this.props.authThunk}
                          saveProfile={this.props.saveProfile}
-                         status:{this.props.status}
+                         status={this.props.status}
                 />
 
                 {!this.props.match.params.userId && <MyPostsContainer/>}
@@ -69,8 +73,8 @@ let mapStateToProps = (state: AppStateType) => ({
     auth: state.auth,
 })
 
-export default compose(
-    connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
+export default compose<React.ComponentType>(
+    connect
     (mapStateToProps, {getProfile, getStatus, savePhoto, authThunk, saveProfile}),
     withRouter,
     withAuthRedirect,

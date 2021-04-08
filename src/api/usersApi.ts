@@ -1,4 +1,4 @@
-import {instance, APIResponseType, StandartAPIResponseType} from "./api";
+import {instance, APIResponseType, StandartAPIResponseType, ResultCodesEnum} from "./api";
 import {usersType} from "../types/types";
 
 type getUsersResponseType = {
@@ -9,7 +9,7 @@ type getUsersResponseType = {
 
 export const usersApi = {
     getUsers(currentPage: number, pageSize: number) {
-        return instance.get<APIResponseType <getUsersResponseType>>
+        return instance.get <getUsersResponseType>
         (`users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data)
     },

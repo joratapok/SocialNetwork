@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './CentralMenu.module.css'
 import {NavLink} from "react-router-dom";
 
-const CentralMenu = () => {
+const CentralMenu: React.FC = () => {
     return(
         <div className={classes.wrapper}>
             <div className={classes.wrapperCentral}>

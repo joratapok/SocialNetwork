@@ -1,8 +1,7 @@
 import React from 'react'
-import preloader from "../../assets/images/preloader.svg";
 import classes from "./Preloader.module.css";
 
-let Preloader = () => {
+let Preloader: React.FC = () => {
     return(
         <div className={classes.wrapper} >
             <div className={classes.preloader}>

@@ -3,7 +3,11 @@ import classes from "./ErrorMessage.module.css";
 import cn from "classnames"
 import xIcon from "../../assets/images/xicon.png"
 
-let ErrorMessage = ({message}) => {
+type PropsType = {
+    message: string | null
+}
+
+let ErrorMessage: React.FC<PropsType> = ({message}) => {
 
     let [toggle, setToggle] = useState(false)
 

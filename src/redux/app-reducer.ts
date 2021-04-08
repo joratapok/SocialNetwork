@@ -13,11 +13,11 @@ let initialState = {
 }
 
 type initialStateType = typeof initialState
-type ActionsTypes = InferActionsTypes<typeof actions>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsTypes>
+export type AppReducerActionsTypes = InferActionsTypes<typeof actions>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, AppReducerActionsTypes>
 
 const appReducer = (state= initialState,
-                    action: ActionsTypes): initialStateType => {
+                    action: AppReducerActionsTypes): initialStateType => {
 
     switch (action.type) {
         case INIT_APP:
@@ -58,7 +58,7 @@ export const initAppThunk = (): ThunkType => {
 }
 
 export const showErrorMessageThunk = (message: string) => {
-    return (dispatch: Dispatch<ActionsTypes>) => {
+    return (dispatch: Dispatch<AppReducerActionsTypes>) => {
         dispatch(actions.showErrorMessage(message))
         setTimeout(() => {
             dispatch(actions.hideErrorMessage())

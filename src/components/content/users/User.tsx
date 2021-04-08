@@ -29,6 +29,7 @@ const User: React.FC<PropsType> = ({user, fetchingProcess, unFollowThunk, follow
                 <div className={classes.userStatus}>
                     {user.status}
                 </div>
+            </div>
                 {isAuth
                     ? <div className={classes.followButtonWrap}>
                         {user.followed
@@ -42,7 +43,7 @@ const User: React.FC<PropsType> = ({user, fetchingProcess, unFollowThunk, follow
                     </div>
                     : null
                 }
-            </div>
+
         </div>
     )
 }

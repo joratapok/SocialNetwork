@@ -12,8 +12,8 @@ const ProfileStatus: React.FC <PropsType> = ({setStatus, statusFromRedux}) => {
     let [status, setLocalStatus] = useState<string>(statusFromRedux)
 
     useEffect(() => {
-        setLocalStatus(status)
-    }, [status])
+        setLocalStatus(statusFromRedux)
+    }, [statusFromRedux])
 
     const activateEditMode = () => {
         setEditMode(true)

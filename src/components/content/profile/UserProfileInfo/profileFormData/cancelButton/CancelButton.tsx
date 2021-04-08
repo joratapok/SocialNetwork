@@ -1,7 +1,11 @@
 import React from 'react'
 import classes from "./CancelButton.module.css"
 
-let CancelButton = ({setEditModeOff}) => {
+type PropsType = {
+    setEditModeOff: () => void
+}
+
+let CancelButton: React.FC<PropsType> = ({setEditModeOff}) => {
 
     return <div className={classes.buttonWrap}>
         <button onClick={setEditModeOff} className={classes.button}>cancel</button>

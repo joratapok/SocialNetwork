@@ -50,7 +50,7 @@ class UsersAPIComponent extends React.Component<PropsType> {
 
     render = () => {
         return <>
-            {this.props.inProgress ? <Preloader/> : null}
+
             <Users totalUsersCount={this.props.totalUsersCount}
                    pageSize={this.props.pageSize}
                    onPageChanged={this.onPageChanged}

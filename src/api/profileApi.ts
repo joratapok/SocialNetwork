@@ -14,7 +14,7 @@ type PutPhotoResponseType = {
 }
 
 export const profileApi = {
-    getProfile(userId: number) {
+    getProfile(userId: number | null) {
         return instance.get<userType>(`profile/${userId}`)
     },
     getStatus(userId: number) {

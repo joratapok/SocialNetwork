@@ -1,7 +1,12 @@
 import React from 'react';
 import classes from './Dialog.module.css'
+import {dialogType} from "../../../../redux/dialogs-reducer";
 
-const Message = (props) => {
+type MessagePropsType = {
+    message: string
+}
+
+const Message: React.FC<MessagePropsType> = (props) => {
     return (
         <div className={classes.message}>
             {props.message}
@@ -9,7 +14,11 @@ const Message = (props) => {
     )
 }
 
-const Dialog = (props) => {
+type DialogPropsType = {
+    dialogs: Array<dialogType>
+}
+
+const Dialog: React.FC<DialogPropsType> = (props) => {
     return (
         <div className={classes.wrapper}>
             {props.dialogs.map(d => <Message message={d.message}/>)}

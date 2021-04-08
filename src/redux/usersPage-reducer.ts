@@ -6,13 +6,13 @@ import {ThunkAction} from "redux-thunk";
 import {usersApi} from "../api/usersApi";
 
 
-const FOLLOW = 'FOLLOW'
-const UNFOLLOW = 'UNFOLLOW'
-const SET_USERS = 'SET_USERS'
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
-const SET_TOTAL_USER_COUNT = 'SET_TOTAL_USER_COUNT'
-const SHOW_PROGRESS_BAR = 'SHOW_PROGRESS_BAR'
-const TOGGLE_FETCHING_PROCESS = 'TOGGLE_FETCHING_PROCESS'
+const FOLLOW = 'SN/USERS/FOLLOW'
+const UNFOLLOW = 'SN/USERS/UNFOLLOW'
+const SET_USERS = 'SN/USERS/SET_USERS'
+const SET_CURRENT_PAGE = 'SN/USERS/SET_CURRENT_PAGE'
+const SET_TOTAL_USER_COUNT = 'SN/USERS/SET_TOTAL_USER_COUNT'
+const SHOW_PROGRESS_BAR = 'SN/USERS/SHOW_PROGRESS_BAR'
+const TOGGLE_FETCHING_PROCESS = 'SN/USERS/TOGGLE_FETCHING_PROCESS'
 
 
 let initial = {
@@ -105,8 +105,8 @@ export const getUsersThunk = (currentPage: number, pageSize: number): ThunkType 
         try {
             let response = await usersApi.getUsers(currentPage, pageSize)
             dispatch(actions.showProgressBar(false))
-            dispatch(actions.setUser(response.data.items))
-            dispatch(actions.setTotalUsersCount(response.data.totalCount))
+            dispatch(actions.setUser(response.items))
+            dispatch(actions.setTotalUsersCount(response.totalCount))
             dispatch(actions.setCurrentPage(currentPage))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))

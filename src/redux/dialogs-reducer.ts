@@ -2,12 +2,12 @@ import {InferActionsTypes} from "./redux-store";
 
 export const ADD_MESSAGE = 'SN/DIALOGS/ADD-MESSAGE'
 
-type dialogType = {
+export type dialogType = {
     id: number
     message: string
 }
 
-type peopleType = {
+export type peopleType = {
     id: number
     name: string
 }
@@ -26,11 +26,11 @@ let initial = {
     ] as Array<peopleType>,
 }
 
-export type initialType = typeof initial
-type ActionsTypes = InferActionsTypes<typeof actions>
+export type DialogsInitialType = typeof initial
+export type DialogsActionsTypes = InferActionsTypes<typeof DialogsActions>
 
 
-const dialogsReducer = (state = initial, action: ActionsTypes): initialType => {
+const dialogsReducer = (state = initial, action: DialogsActionsTypes): DialogsInitialType => {
     switch (action.type) {
         case (ADD_MESSAGE) :
             let newMessageObj = {id: 3, message: action.message}
@@ -43,7 +43,7 @@ const dialogsReducer = (state = initial, action: ActionsTypes): initialType => {
     }
 }
 
-export const actions = {
+export const DialogsActions = {
     addNewMessage: (message: string) =>
         ({type: ADD_MESSAGE, message } as const)
 }

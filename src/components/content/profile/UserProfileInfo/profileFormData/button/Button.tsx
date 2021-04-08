@@ -1,10 +1,10 @@
 import React from 'react'
 import classes from "./Button.module.css"
 
-let Button = ({setEditMode}) => {
+let Button = () => {
 
     return <div className={classes.buttonWrap}>
-        <button onClick={setEditMode} className={classes.button}>Edit</button>
+        <button className={classes.button}>save</button>
     </div>
 }
 
