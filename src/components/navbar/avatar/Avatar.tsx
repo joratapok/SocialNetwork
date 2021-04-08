@@ -32,7 +32,7 @@ const Avatar: React.FC<AvatarPropsType> = (props) => {
         <div className={classes.divAvatar}>
             {(props.inProgress) ? <Preloader/> : null}
             <div className={classes.backAvatar}>
-                {props.location.pathname == '/profile'
+                {props.location.pathname === '/profile'
                     ? <img className={classes.avatar} alt="avatar"
                            src={props.photo ? props.photo : defaultUser}/>
                     : drawAvatar()

@@ -2,10 +2,11 @@ import {ResultCodesEnum} from "../api/api";
 import {stopSubmit} from "redux-form";
 import {showErrorMessageThunk} from "./app-reducer";
 import {photosType, postsType, userType} from "../types/types";
-import {actions} from "./usersPage-reducer";
+import {actions, toggleInProgressThunk} from "./usersPage-reducer";
 import {profileApi} from "../api/profileApi";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType, InferActionsTypes} from "./redux-store";
+import {UsersActionsTypes} from "./usersPage-reducer"
 
 export const ADD_POST = 'SN/PROFILE/ADD_POST'
 export const SET_USER_PROFILE = 'SN/PROFILE/SET_USER_PROFILE'
@@ -87,25 +88,27 @@ export const actionsProfileReducer = {
 export const getProfile = (userId: number | null): ThunkType => {
     return async (dispatch) => {
         try {
-            actions.showProgressBar(true)
+            dispatch(toggleInProgressThunk(true))
             let response = await profileApi.getProfile(userId)
             dispatch(actionsProfileReducer.setUserProfile(response.data))
-            actions.showProgressBar(false)
+            dispatch(toggleInProgressThunk(false))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
-            actions.showProgressBar(false)
+            dispatch(toggleInProgressThunk(false))
         }
-
     }
 }
 
 export const getStatus = (userId: number): ThunkType => {
     return async (dispatch) => {
         try {
+            dispatch(toggleInProgressThunk(true))
             let response = await profileApi.getStatus(userId)
             dispatch(actionsProfileReducer.setStatus(response))
+            dispatch(toggleInProgressThunk(false))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
+            dispatch(toggleInProgressThunk(false))
         }
 
     }
@@ -128,7 +131,7 @@ export const savePhoto = (file: any): ThunkType => {
         actions.showProgressBar(true)
         try {
             const response = await profileApi.putPhoto(file)
-            if (response.resultCode == ResultCodesEnum.Success) {
+            if (response.resultCode === ResultCodesEnum.Success) {
                 dispatch(actionsProfileReducer.setPhoto(response.data.photos))
             }
             actions.showProgressBar(false)

@@ -25,10 +25,10 @@ let initial = {
 }
 
 type initialType = typeof initial
-type ActionsTypes = InferActionsTypes<typeof actions>
+export type UsersActionsTypes = InferActionsTypes<typeof actions>
 
 const usersPageReducer = (state = initial,
-                          action: ActionsTypes): initialType => {
+                          action: UsersActionsTypes): initialType => {
     switch (action.type) {
         case FOLLOW :
             return {
@@ -97,7 +97,7 @@ export const actions = {
 
 
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, any, ActionsTypes>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, any, UsersActionsTypes>
 
 export const getUsersThunk = (currentPage: number, pageSize: number): ThunkType => {
     return async (dispatch) => {
@@ -115,10 +115,10 @@ export const getUsersThunk = (currentPage: number, pageSize: number): ThunkType 
     }
 }
 
-const _followUnfollowFlow = async (dispatch: Dispatch<ActionsTypes>,
+const _followUnfollowFlow = async (dispatch: Dispatch<UsersActionsTypes>,
                                    userId: number,
                                    apiMethod: any,
-                                   acMethod: (userId: number) => ActionsTypes) => {
+                                   acMethod: (userId: number) => UsersActionsTypes) => {
     dispatch(actions.changefetchingProcess(true, userId))
     try {
         const data = await apiMethod(userId)
@@ -148,6 +148,12 @@ export const followThunk = (userId: number): ThunkType => {
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }
+    }
+}
+
+export const toggleInProgressThunk = (toggle: boolean) => {
+    return  (dispatch: Dispatch<UsersActionsTypes>) => {
+        dispatch(actions.showProgressBar(toggle))
     }
 }
 

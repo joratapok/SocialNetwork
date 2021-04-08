@@ -10,8 +10,6 @@ import {initAppThunk, showErrorMessageThunk} from "./redux/app-reducer";
 import Preloader from "./components/preloader/Preloader";
 import ErrorMessage from "./components/errorMessage/ErrorMessage";
 import {AppStateType} from "./redux/redux-store";
-import {DialogsActionsTypes} from "./redux/dialogs-reducer";
-import {usersType} from "./types/types";
 
 type MapDispatchPropsType = {
     initAppThunk: () => void
