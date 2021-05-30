@@ -1,14 +1,14 @@
 import React from 'react'
 import {connect} from "react-redux";
 import {
-     followThunk, getUsersThunk,
-     unFollowThunk
+    FilterType,
+    followThunk, getUsersThunk,
+    unFollowThunk
 } from "../../../redux/usersPage-reducer";
 import Users from "./Users";
-import Preloader from "../../preloader/Preloader";
 import {
     getCurrentPage,
-    getFetchingProcess, getInProgress, getisAuth,
+    getFetchingProcess, getFilter, getInProgress, getisAuth,
     getPageSize,
     getTotalUsersCount,
     getUsers
@@ -24,12 +24,13 @@ type MapStatePropsType = {
     users: Array<usersType>
     fetchingProcess: Array<number>
     isAuth: boolean
+    filter: FilterType
 }
 
 type MapDispatchPropsType = {
     unFollowThunk: (userId: number) => void
     followThunk: (userId: number) => void
-    getUsersThunk: (currentPage: number, pageSize: number) => void
+    getUsersThunk: (currentPage: number, pageSize: number, filter: FilterType) => void
 }
 
 type OwnPropsType = {
@@ -41,11 +42,15 @@ type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 class UsersAPIComponent extends React.Component<PropsType> {
 
     componentDidMount() {
-        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize)
+        this.props.getUsersThunk(this.props.currentPage, this.props.pageSize, this.props.filter)
     }
 
     onPageChanged = (numPage: number) => {
-        this.props.getUsersThunk(numPage, this.props.pageSize)
+        this.props.getUsersThunk(numPage, this.props.pageSize, this.props.filter)
+    }
+
+    onFilterChanged = (filter: FilterType) => {
+        this.props.getUsersThunk(1, this.props.pageSize, filter)
     }
 
     render = () => {
@@ -55,11 +60,13 @@ class UsersAPIComponent extends React.Component<PropsType> {
                    pageSize={this.props.pageSize}
                    onPageChanged={this.onPageChanged}
                    currentPage={this.props.currentPage}
+                   onFilterChanged={this.onFilterChanged}
                    users={this.props.users}
                    fetchingProcess={this.props.fetchingProcess}
                    unFollowThunk={this.props.unFollowThunk}
                    followThunk={this.props.followThunk}
                    isAuth={this.props.isAuth}
+
             />
         </>
     }
@@ -74,6 +81,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
         fetchingProcess: getFetchingProcess(state),
         inProgress: getInProgress(state),
         isAuth: getisAuth(state),
+        filter: getFilter(state),
     }
 }
 

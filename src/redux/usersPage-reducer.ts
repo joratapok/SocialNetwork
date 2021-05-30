@@ -13,6 +13,7 @@ const SET_CURRENT_PAGE = 'SN/USERS/SET_CURRENT_PAGE'
 const SET_TOTAL_USER_COUNT = 'SN/USERS/SET_TOTAL_USER_COUNT'
 const SHOW_PROGRESS_BAR = 'SN/USERS/SHOW_PROGRESS_BAR'
 const TOGGLE_FETCHING_PROCESS = 'SN/USERS/TOGGLE_FETCHING_PROCESS'
+const SET_FILTER = 'SN/USERS/SET_FILTER'
 
 
 let initial = {
@@ -22,9 +23,14 @@ let initial = {
     currentPage: 1 as number,
     inProgress: false,
     fetchingProcess: [] as Array<number>, //arrqy of users ids
+    filter: {
+        term: '',
+        friend: null as null | boolean
+    }
 }
 
 type initialType = typeof initial
+export type FilterType = typeof initial.filter
 export type UsersActionsTypes = InferActionsTypes<typeof actions>
 
 const usersPageReducer = (state = initial,
@@ -62,6 +68,10 @@ const usersPageReducer = (state = initial,
             return {
                 ...state, totalUsersCount: action.totalUserCount
             }
+        case SET_FILTER :
+            return {
+                ...state, filter: action.payload
+            }
         case SHOW_PROGRESS_BAR :
             return {
                 ...state, inProgress: action.show
@@ -81,6 +91,7 @@ export const actions = {
     follow: (userId: number) => ({type: FOLLOW, userId} as const),
     unFollow: (userId: number) => ({type: UNFOLLOW, userId} as const),
     setUser: (users: Array<usersType>) => ({type: SET_USERS, users} as const),
+    setFilter: (filter: FilterType) => ({type: SET_FILTER, payload:filter } as const),
     setCurrentPage: (numPage: number) => ({type: SET_CURRENT_PAGE, page: numPage} as const),
     setTotalUsersCount: (totalUserCount: number) => ({
         type: SET_TOTAL_USER_COUNT,
@@ -99,11 +110,12 @@ export const actions = {
 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, any, UsersActionsTypes>
 
-export const getUsersThunk = (currentPage: number, pageSize: number): ThunkType => {
+export const getUsersThunk = (currentPage: number, pageSize: number, filter: FilterType): ThunkType => {
     return async (dispatch) => {
         dispatch(actions.showProgressBar(true))
+        dispatch(actions.setFilter(filter))
         try {
-            let response = await usersApi.getUsers(currentPage, pageSize)
+            let response = await usersApi.getUsers(currentPage, pageSize, filter.term, filter.friend)
             dispatch(actions.showProgressBar(false))
             dispatch(actions.setUser(response.items))
             dispatch(actions.setTotalUsersCount(response.totalCount))
@@ -114,6 +126,7 @@ export const getUsersThunk = (currentPage: number, pageSize: number): ThunkType 
         }
     }
 }
+
 
 const _followUnfollowFlow = async (dispatch: Dispatch<UsersActionsTypes>,
                                    userId: number,

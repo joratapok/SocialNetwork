@@ -28,3 +28,7 @@ export const getFetchingProcess = (state: AppStateType) => {
 export const getisAuth = (state: AppStateType) => {
     return state.auth.isAuth
 }
+export const getFilter = (state: AppStateType) => {
+    return state.usersPage.filter
+}
+
