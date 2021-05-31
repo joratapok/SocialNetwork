@@ -1,7 +1,7 @@
 import {instance, ResultCodesEnum} from "./api";
 
 type getCatpchaResponseType = {
-    data: { url: string }
+    url: string
     resultCode: ResultCodesEnum
     messages: Array<string>
 }

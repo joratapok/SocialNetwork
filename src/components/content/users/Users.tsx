@@ -1,36 +1,56 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { useSelector, useDispatch } from "react-redux";
 import Paginator from "./paginator/Paginator"
 import User from "./User"
 import {usersType,} from "../../../types/types";
 import UserSearchForm from "./UsersForm";
-import {FilterType} from "../../../redux/usersPage-reducer";
+import {
+    getCurrentPage,
+    getFetchingProcess, getFilter, getInProgress, getisAuth,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../../redux/users-selectors";
+import {
+    FilterType,
+    followThunk, getUsersThunk,
+    unFollowThunk
+} from "../../../redux/usersPage-reducer";
 
 type PropsType = {
-    totalUsersCount: number
-    pageSize: number
-    currentPage: number
-    onFilterChanged: (FilterType: FilterType) => void
-    onPageChanged: (numPage: number) => void
-    users: Array<usersType>
-    unFollowThunk: (userId: number) => void
-    followThunk: (userId: number) => void
-    fetchingProcess: Array<number>
-    isAuth: boolean
-
 }
 
-const Users: React.FC<PropsType> = ({
-                                        totalUsersCount,
-                                        pageSize,
-                                        currentPage,
-                                        onPageChanged,
-                                        onFilterChanged,
-                                        users,
-                                        unFollowThunk,
-                                        followThunk,
-                                        fetchingProcess,
-                                        isAuth,
-                                    }) => {
+export const Users: React.FC<PropsType> = () => {
+
+    const users = useSelector(getUsers)
+    const totalUsersCount = useSelector(getTotalUsersCount)
+    const currentPage = useSelector(getCurrentPage)
+    const pageSize = useSelector(getPageSize)
+    const filter = useSelector(getFilter)
+    const fetchingProcess = useSelector(getFetchingProcess)
+    const isAuth = useSelector(getisAuth)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getUsersThunk(currentPage, pageSize, filter))
+    }, [])
+
+    const onPageChanged = (numPage: number) => {
+        dispatch(getUsersThunk(numPage, pageSize, filter))
+    }
+    const onFilterChanged = (filter: FilterType) => {
+        dispatch(getUsersThunk(1, pageSize, filter))
+    }
+    const follow = (userId: number) => {
+        dispatch(followThunk(userId))
+    }
+    const unFollow = (userId: number) => {
+        dispatch(unFollowThunk(userId))
+    }
+
+
+
     return (
         <div>
 
@@ -41,13 +61,11 @@ const Users: React.FC<PropsType> = ({
                        onPageChanged={onPageChanged}/>
             {users.map((u) => {
                 return <User user={u} key={u.id}
-                             unFollowThunk={unFollowThunk}
-                             followThunk={followThunk}
+                             unFollowThunk={unFollow}
+                             followThunk={follow}
                              fetchingProcess={fetchingProcess}
                              isAuth={isAuth}/>
             })}
         </div>
     )
 }
-
-export default Users

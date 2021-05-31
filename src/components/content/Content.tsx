@@ -4,12 +4,12 @@ import News from "./news/News";
 import Music from "./music/Music";
 import Settings from "./settings/Settings";
 import {Redirect, Route, Switch} from "react-router-dom";
-import LoginContainer from "./loginpage/LoginContainer";
+import Login from "./loginpage/Login";
 import Preloader from "../preloader/Preloader";
 
 const DialogsContainer = React.lazy(() => import("./dialogs/DialogsContainer"));
 const ProfileContainer = React.lazy(() => import("./profile/ProfileContainer"));
-const UsersContainer = React.lazy(() => import("./users/UsersContainer"));
+const UsersPage = React.lazy(() => import("./users/UsersPage"));
 
 const Content: React.FC = () => {
     return (
@@ -18,11 +18,11 @@ const Content: React.FC = () => {
                 <Switch>
                     <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
                     <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                    <Route path='/users' render={() => <UsersContainer pageTitle={"Samuray"}/>}/>
+                    <Route path='/users' render={() => <UsersPage/>}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
                     <Route path='/settings' component={Settings}/>
-                    <Route path='/login' render={() => <LoginContainer/>}/>
+                    <Route path='/login' render={() => <Login/>}/>
                     <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
                     <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
                 </Switch>

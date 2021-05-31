@@ -1,11 +1,14 @@
 import React from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import {AppStateType} from "../../../redux/redux-store";
+import {Redirect} from "react-router-dom/";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {required, moreThan30} from "../../../utils/validators/validator";
 import {HiddenInput, Input} from "../../common/formsControl/FormsControl";
 import classes from "./Login.module.css"
 import Button from "./button/Button";
 import reload from "../../../assets/images/reload.png"
-import {LoginFormDataType} from "../../../redux/auth-reducer";
+import {loginThunk, getCaptchaThunk, LoginFormDataType} from "../../../redux/auth-reducer";
 
 type LoginFormOwnProps = {
     captcha: null | string
@@ -62,13 +65,22 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormDataType, LoginFormOwnProps
 const LoginReduxForm = reduxForm<LoginFormDataType, LoginFormOwnProps>({form: 'login'})(LoginForm)
 
 type PropsType = {
-    onSubmit: (data: LoginFormDataType) => void
-    captcha: null | string
-    getCaptcha: () => void
 }
 
-const Login: React.FC<PropsType> =
-    ({onSubmit, captcha, getCaptcha}) => {
+const Login: React.FC<PropsType> = () => {
+
+    const captcha = useSelector((state: AppStateType) => state.auth.captcha)
+    const auth = useSelector((state: AppStateType) => state.auth.isAuth)
+
+    const dispatch = useDispatch()
+
+    const onSubmit = (data: LoginFormDataType) => {
+        dispatch(loginThunk(data))
+    }
+
+    const getCaptcha = () => {
+        dispatch(getCaptchaThunk())
+    }
 
     type InitialValiesType = {
         email?: string
@@ -76,6 +88,11 @@ const Login: React.FC<PropsType> =
         rememberMe?: boolean
     }
     let initialValues:InitialValiesType = {email: 'free@samuraijs.com', password: 'free', rememberMe: true}
+
+
+    if (auth) {
+        return <Redirect to={'/profile'}/>
+    }
 
     return (
         <div className={classes.loginWrap}>

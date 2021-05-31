@@ -118,7 +118,7 @@ export const getCaptchaThunk = (): ThunkType => {
     return async (dispatch) => {
         try {
             const response = await securityApi.getCaptcha()
-            dispatch(actionsAuthReducer.setCaptchaURL(response.data.url))
+            dispatch(actionsAuthReducer.setCaptchaURL(response.url))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }
