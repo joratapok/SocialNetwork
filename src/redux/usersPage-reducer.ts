@@ -1,10 +1,9 @@
-import {showErrorMessageThunk} from "./app-reducer";
-import {usersType} from "../types/types";
-import {AppStateType, InferActionsTypes} from "./redux-store";
-import {Dispatch} from "redux";
-import {ThunkAction} from "redux-thunk";
-import {usersApi} from "../api/usersApi";
-
+import { showErrorMessageThunk } from './app-reducer'
+import { usersType } from '../types/types'
+import { AppStateType, InferActionsTypes } from './redux-store'
+import { Dispatch } from 'redux'
+import { ThunkAction } from 'redux-thunk'
+import { usersApi } from '../api/usersApi'
 
 const FOLLOW = 'SN/USERS/FOLLOW'
 const UNFOLLOW = 'SN/USERS/UNFOLLOW'
@@ -15,14 +14,13 @@ const SHOW_PROGRESS_BAR = 'SN/USERS/SHOW_PROGRESS_BAR'
 const TOGGLE_FETCHING_PROCESS = 'SN/USERS/TOGGLE_FETCHING_PROCESS'
 const SET_FILTER = 'SN/USERS/SET_FILTER'
 
-
-let initial = {
+const initial = {
     users: [] as Array<usersType>,
     pageSize: 10 as number,
     totalUsersCount: 0 as number,
     currentPage: 1 as number,
     inProgress: false,
-    fetchingProcess: [] as Array<number>, //arrqy of users ids
+    fetchingProcess: [] as Array<number>, // arrqy of users ids
     filter: {
         term: '',
         friend: null as null | boolean
@@ -34,79 +32,77 @@ export type FilterType = typeof initial.filter
 export type UsersActionsTypes = InferActionsTypes<typeof actions>
 
 const usersPageReducer = (state = initial,
-                          action: UsersActionsTypes): initialType => {
+    action: UsersActionsTypes): initialType => {
     switch (action.type) {
-        case FOLLOW :
-            return {
-                ...state,
-                users: state.users.map((u) => {
-                    if (u.id === action.userId) {
-                        return {...u, followed: true}
-                    }
-                    return u
-                })
-            }
-        case UNFOLLOW :
-            return {
-                ...state,
-                users: state.users.map((u) => {
-                    if (u.id === action.userId) {
-                        return {...u, followed: false}
-                    }
-                    return u
-                })
-            }
-        case SET_USERS :
-            return {
-                ...state, users: action.users
-            }
-        case SET_CURRENT_PAGE :
-            return {
-                ...state, currentPage: action.page
-            }
-        case SET_TOTAL_USER_COUNT :
-            return {
-                ...state, totalUsersCount: action.totalUserCount
-            }
-        case SET_FILTER :
-            return {
-                ...state, filter: action.payload
-            }
-        case SHOW_PROGRESS_BAR :
-            return {
-                ...state, inProgress: action.show
-            }
-        case TOGGLE_FETCHING_PROCESS :
-            return {
-                ...state, fetchingProcess: action.fetchingProcess
-                    ? [...state.fetchingProcess, action.userId]
-                    : state.fetchingProcess.filter(id => id !== action.userId)
-            }
-        default :
-            return state
+    case FOLLOW :
+        return {
+            ...state,
+            users: state.users.map((u) => {
+                if (u.id === action.userId) {
+                    return { ...u, followed: true }
+                }
+                return u
+            })
+        }
+    case UNFOLLOW :
+        return {
+            ...state,
+            users: state.users.map((u) => {
+                if (u.id === action.userId) {
+                    return { ...u, followed: false }
+                }
+                return u
+            })
+        }
+    case SET_USERS :
+        return {
+            ...state, users: action.users
+        }
+    case SET_CURRENT_PAGE :
+        return {
+            ...state, currentPage: action.page
+        }
+    case SET_TOTAL_USER_COUNT :
+        return {
+            ...state, totalUsersCount: action.totalUserCount
+        }
+    case SET_FILTER :
+        return {
+            ...state, filter: action.payload
+        }
+    case SHOW_PROGRESS_BAR :
+        return {
+            ...state, inProgress: action.show
+        }
+    case TOGGLE_FETCHING_PROCESS :
+        return {
+            ...state,
+            fetchingProcess: action.fetchingProcess
+                ? [...state.fetchingProcess, action.userId]
+                : state.fetchingProcess.filter(id => id !== action.userId)
+        }
+    default :
+        return state
     }
 }
 
 export const actions = {
-    follow: (userId: number) => ({type: FOLLOW, userId} as const),
-    unFollow: (userId: number) => ({type: UNFOLLOW, userId} as const),
-    setUser: (users: Array<usersType>) => ({type: SET_USERS, users} as const),
-    setFilter: (filter: FilterType) => ({type: SET_FILTER, payload:filter } as const),
-    setCurrentPage: (numPage: number) => ({type: SET_CURRENT_PAGE, page: numPage} as const),
+    follow: (userId: number) => ({ type: FOLLOW, userId } as const),
+    unFollow: (userId: number) => ({ type: UNFOLLOW, userId } as const),
+    setUser: (users: Array<usersType>) => ({ type: SET_USERS, users } as const),
+    setFilter: (filter: FilterType) => ({ type: SET_FILTER, payload: filter } as const),
+    setCurrentPage: (numPage: number) => ({ type: SET_CURRENT_PAGE, page: numPage } as const),
     setTotalUsersCount: (totalUserCount: number) => ({
         type: SET_TOTAL_USER_COUNT,
         totalUserCount
     } as const),
-    showProgressBar: (show: boolean) => ({type: SHOW_PROGRESS_BAR, show: show} as const),
+    showProgressBar: (show: boolean) => ({ type: SHOW_PROGRESS_BAR, show: show } as const),
     changefetchingProcess: (toggle: boolean, userId: number) => ({
         type: TOGGLE_FETCHING_PROCESS,
         fetchingProcess: toggle,
         userId
-    } as const),
+    } as const)
 }
-
-
-
 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, any, UsersActionsTypes>
 
@@ -115,7 +111,7 @@ export const getUsersThunk = (currentPage: number, pageSize: number, filter: Fil
         dispatch(actions.showProgressBar(true))
         dispatch(actions.setFilter(filter))
         try {
-            let response = await usersApi.getUsers(currentPage, pageSize, filter.term, filter.friend)
+            const response = await usersApi.getUsers(currentPage, pageSize, filter.term, filter.friend)
             dispatch(actions.showProgressBar(false))
             dispatch(actions.setUser(response.items))
             dispatch(actions.setTotalUsersCount(response.totalCount))
@@ -127,11 +123,10 @@ export const getUsersThunk = (currentPage: number, pageSize: number, filter: Fil
     }
 }
 
-
 const _followUnfollowFlow = async (dispatch: Dispatch<UsersActionsTypes>,
-                                   userId: number,
-                                   apiMethod: any,
-                                   acMethod: (userId: number) => UsersActionsTypes) => {
+    userId: number,
+    apiMethod: any,
+    acMethod: (userId: number) => UsersActionsTypes) => {
     dispatch(actions.changefetchingProcess(true, userId))
     try {
         const data = await apiMethod(userId)
@@ -139,7 +134,7 @@ const _followUnfollowFlow = async (dispatch: Dispatch<UsersActionsTypes>,
             dispatch(acMethod(userId))
         }
     } catch (e) {
-        //dispatch(showErrorMessageThunk(e.message))
+        // dispatch(showErrorMessageThunk(e.message))
     }
     dispatch(actions.changefetchingProcess(false, userId))
 }
@@ -151,7 +146,6 @@ export const unFollowThunk = (userId: number): ThunkType => {
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }
-
     }
 }
 export const followThunk = (userId: number): ThunkType => {
@@ -165,7 +159,7 @@ export const followThunk = (userId: number): ThunkType => {
 }
 
 export const toggleInProgressThunk = (toggle: boolean) => {
-    return  (dispatch: Dispatch<UsersActionsTypes>) => {
+    return (dispatch: Dispatch<UsersActionsTypes>) => {
         dispatch(actions.showProgressBar(toggle))
     }
 }

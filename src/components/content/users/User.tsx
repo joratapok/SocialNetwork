@@ -1,8 +1,8 @@
 import React from 'react'
-import classes from "./Users.module.css";
-import defaultUser from "../../../assets/images/defaultUser.png";
-import {NavLink} from "react-router-dom";
-import {usersType} from "../../../types/types";
+import classes from './Users.module.css'
+import defaultUser from '../../../assets/images/defaultUser.png'
+import { NavLink } from 'react-router-dom'
+import { usersType } from '../../../types/types'
 
 type PropsType = {
     user: usersType
@@ -12,8 +12,7 @@ type PropsType = {
     isAuth: boolean
 }
 
-const User: React.FC<PropsType> = ({user, fetchingProcess, unFollowThunk, followThunk, isAuth}) => {
-
+const User: React.FC<PropsType> = ({ user, fetchingProcess, unFollowThunk, followThunk, isAuth }) => {
     return (
         <div key={user.id} className={classes.wrapper}>
             <NavLink to={'/profile/' + user.id}>
@@ -30,19 +29,19 @@ const User: React.FC<PropsType> = ({user, fetchingProcess, unFollowThunk, follow
                     {user.status}
                 </div>
             </div>
-                {isAuth
-                    ? <div className={classes.followButtonWrap}>
-                        {user.followed
-                            ? <button disabled={fetchingProcess.some(id => id === user.id)}
-                                      className={[classes.button, classes.unfollow].join(' ')}
-                                      onClick={() => unFollowThunk(user.id)}>Unfollow</button>
-                            : <button disabled={fetchingProcess.some(id => id === user.id)}
-                                      className={[classes.button, classes.follow].join(' ')}
-                                      onClick={() => followThunk(user.id)}>Follow</button>
-                        }
-                    </div>
-                    : null
-                }
+            {isAuth
+                ? <div className={classes.followButtonWrap}>
+                    {user.followed
+                        ? <button disabled={fetchingProcess.some(id => id === user.id)}
+                            className={[classes.button, classes.unfollow].join(' ')}
+                            onClick={() => unFollowThunk(user.id)}>Unfollow</button>
+                        : <button disabled={fetchingProcess.some(id => id === user.id)}
+                            className={[classes.button, classes.follow].join(' ')}
+                            onClick={() => followThunk(user.id)}>Follow</button>
+                    }
+                </div>
+                : null
+            }
 
         </div>
     )

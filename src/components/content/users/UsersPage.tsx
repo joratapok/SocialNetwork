@@ -1,11 +1,10 @@
 import React from 'react'
-import {Users} from "./Users";
-
+import { Users } from './Users'
 
 type UsersPagePropsType = {
 }
 
-const UsersPage: React.ComponentType<any> = () => {
+const UsersPage: React.ComponentType<UsersPagePropsType> = () => {
     return <Users/>
 }
 

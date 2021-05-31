@@ -1,15 +1,15 @@
-import React from 'react';
+import React from 'react'
 import classes from './Content.module.css'
-import News from "./news/News";
-import Music from "./music/Music";
-import Settings from "./settings/Settings";
-import {Redirect, Route, Switch} from "react-router-dom";
-import Login from "./loginpage/Login";
-import Preloader from "../preloader/Preloader";
+import News from './news/News'
+import Music from './music/Music'
+import Settings from './settings/Settings'
+import { Redirect, Route, Switch } from 'react-router-dom'
+import Login from './loginpage/Login'
+import Preloader from '../preloader/Preloader'
 
-const DialogsContainer = React.lazy(() => import("./dialogs/DialogsContainer"));
-const ProfileContainer = React.lazy(() => import("./profile/ProfileContainer"));
-const UsersPage = React.lazy(() => import("./users/UsersPage"));
+const DialogsContainer = React.lazy(() => import('./dialogs/DialogsContainer'))
+const ProfileContainer = React.lazy(() => import('./profile/ProfileContainer'))
+const UsersPage = React.lazy(() => import('./users/UsersPage'))
 
 const Content: React.FC = () => {
     return (
@@ -31,4 +31,4 @@ const Content: React.FC = () => {
     )
 }
 
-export default Content;
+export default Content
