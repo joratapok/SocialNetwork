@@ -22,7 +22,7 @@ const initial = {
     inProgress: false,
     fetchingProcess: [] as Array<number>, // arrqy of users ids
     filter: {
-        term: '',
+        term: '' as string,
         friend: null as null | boolean
     }
 }

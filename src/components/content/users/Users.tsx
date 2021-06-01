@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import Paginator from './paginator/Paginator'
 import User from './User'
 import UserSearchForm from './UsersForm'
@@ -13,8 +14,14 @@ import {
     getUsers
 } from '../../../redux/users-selectors'
 import { FilterType, followThunk, getUsersThunk, unFollowThunk } from '../../../redux/usersPage-reducer'
+import * as queryString from 'querystring'
 
 type PropsType = {}
+type QueryParamsType = {
+  term? : string
+  page? : string
+  friend? : string
+}
 
 export const Users: React.FC<PropsType> = () => {
     const users = useSelector(getUsers)
@@ -25,11 +32,38 @@ export const Users: React.FC<PropsType> = () => {
     const fetchingProcess = useSelector(getFetchingProcess)
     const isAuth = useSelector(getisAuth)
 
+    const history = useHistory()
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getUsersThunk(currentPage, pageSize, filter))
+        const parsed = queryString.parse((history.location.search).slice(1));
+        let actualPage = currentPage
+        const actualFilter = filter
+        if (parsed.page) actualPage = Number(parsed.page)
+        if (parsed.term) actualFilter.term = parsed.term as string
+        if (parsed.friend) {
+          actualFilter.friend = (parsed.friend === 'null') ? null :
+          (parsed.friend === 'true') ? true : false
+        }
+
+        dispatch(getUsersThunk(actualPage, pageSize, actualFilter))
     }, [])
+
+    useEffect(() => {
+      const query: QueryParamsType = {}
+      if (filter.term) query.term = filter.term
+      if (filter.friend !== null) query.friend = String(filter.friend)
+      if (currentPage !== 1) query.page = String(currentPage)
+
+
+
+      history.push({
+        pathname: '/users',
+        search: queryString.stringify(query)
+      })
+    }, [filter, currentPage])
+
+
 
     const onPageChanged = (numPage: number) => {
         dispatch(getUsersThunk(numPage, pageSize, filter))

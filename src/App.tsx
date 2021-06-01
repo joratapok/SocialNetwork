@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react'
+import 'antd/dist/antd.css';
 import Header from "./components/header/Header";
 import LeftColumn from "./components/navbar/LeftColumn";
 import CentralMenu from "./components/centralMenu/CentralMenu";
