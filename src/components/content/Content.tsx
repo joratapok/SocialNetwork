@@ -6,6 +6,7 @@ import Settings from './settings/Settings'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import Login from './loginpage/Login'
 import Preloader from '../preloader/Preloader'
+import { ChatPage } from '../../pages/ChatPage/ChatPage'
 
 const DialogsContainer = React.lazy(() => import('./dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('./profile/ProfileContainer'))
@@ -21,6 +22,7 @@ const Content: React.FC = () => {
                     <Route path='/users' render={() => <UsersPage/>}/>
                     <Route path='/news' component={News}/>
                     <Route path='/music' component={Music}/>
+                    <Route path='/chat' component={ChatPage}/>
                     <Route path='/settings' component={Settings}/>
                     <Route path='/login' render={() => <Login/>}/>
                     <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>

@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './CentralMenu.module.css'
-import {NavLink} from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { Button } from 'antd';
 
 const CentralMenu: React.FC = () => {
@@ -27,7 +27,10 @@ const CentralMenu: React.FC = () => {
                     <div className={classes.item}>
                         <NavLink activeClassName={classes.active} to='/settings'>Settings</NavLink>
                     </div>
-                    <Button type="primary">Primary Button</Button>
+
+                        <Button type="primary"><Link to='/Chat'>Chat</Link></Button>
+                    
+
                 </div>
             </div>
         </div>
