@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import classes from './Header.module.css'
 
 const Header: React.FC = () => {
-    return(
+    return (
         <div className={classes.header}>
             <div className={classes.divHeadImg}>
                 <img className={classes.headImg} src="https://i.pinimg.com/originals/c4/9a/fc/c49afc3e6634c8e2d8161618b57aa122.jpg" alt=""/>
@@ -11,4 +11,4 @@ const Header: React.FC = () => {
     )
 }
 
-export default Header;
+export default Header

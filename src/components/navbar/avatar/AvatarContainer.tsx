@@ -1,23 +1,21 @@
-import React from 'react';
-import {savePhoto,} from "../../../redux/profile-reducer";
-import {connect} from "react-redux";
-import Avatar from "./Avatar";
-import {withRouter} from "react-router-dom";
-import {compose} from "redux";
-import {AppStateType} from "../../../redux/redux-store";
+import React from 'react'
+import { savePhoto } from '../../../redux/profile-reducer'
+import { connect } from 'react-redux'
+import Avatar from './Avatar'
+import { withRouter } from 'react-router-dom'
+import { compose } from 'redux'
+import { AppStateType } from '../../../redux/redux-store'
 
-
-
-let mapSateToProps = (state: AppStateType) => {
+const mapSateToProps = (state: AppStateType) => {
     return {
         photo: state.postsPage.user.photos.large,
-        inProgress: state.usersPage.inProgress,
+        inProgress: state.usersPage.inProgress
     }
 }
 
-let ProfileContainer = compose<React.ComponentType>(
+const ProfileContainer = compose<React.ComponentType>(
     connect(mapSateToProps, { savePhoto }),
-    withRouter,
+    withRouter
 )(Avatar)
 
 export default ProfileContainer

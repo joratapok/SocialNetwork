@@ -1,12 +1,11 @@
 import React from 'react'
-import classes from "./Button.module.css"
+import classes from './Button.module.css'
 
 type PropsType = {
     setEditMode: () => void
 }
 
-let Button: React.FC<PropsType> = ({setEditMode}) => {
-
+const Button: React.FC<PropsType> = ({ setEditMode }) => {
     return <div className={classes.buttonWrap}>
         <button onClick={setEditMode} className={classes.button}>Edit</button>
     </div>

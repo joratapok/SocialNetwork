@@ -1,8 +1,7 @@
 import React from 'react'
-import classes from "./Button.module.css"
+import classes from './Button.module.css'
 
-let Button = () => {
-
+const Button = () => {
     return <div className={classes.buttonWrap}>
         <button type={'submit'} className={classes.button}>Login</button>
     </div>

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 import classes from './Avatar.module.css'
 import defaultUser from '../../../assets/images/defaultUser.png'
 import banner from '../../../assets/images/banner-small.jpg'
-import Preloader from "../../preloader/Preloader";
-import {RouteComponentProps} from "react-router-dom";
+import Preloader from '../../preloader/Preloader'
+import { RouteComponentProps } from 'react-router-dom'
 
 type mapSateToPropsType = {
     photo: string | null
@@ -18,7 +18,6 @@ type PathParamsType = {
 type AvatarPropsType = mapSateToPropsType & MapDispatchToPropsType & RouteComponentProps<PathParamsType>
 
 const Avatar: React.FC<AvatarPropsType> = (props) => {
-
     const drawAvatar = () => {
         return props.photo
             ? <img src={props.photo} alt="avatar"/>
@@ -34,7 +33,7 @@ const Avatar: React.FC<AvatarPropsType> = (props) => {
             <div className={classes.backAvatar}>
                 {props.location.pathname === '/profile'
                     ? <img className={classes.avatar} alt="avatar"
-                           src={props.photo ? props.photo : defaultUser}/>
+                        src={props.photo ? props.photo : defaultUser}/>
                     : drawAvatar()
                 }
             </div>

@@ -1,4 +1,4 @@
-let initial = {}
+const initial = {}
 
 type initialType = typeof initial
 

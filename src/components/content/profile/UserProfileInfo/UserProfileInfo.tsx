@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import Preloader from "../../../preloader/Preloader";
+import React, { useEffect, useState } from 'react'
+import Preloader from '../../../preloader/Preloader'
 import classes from './UserProfileInfo.module.css'
-import Contacts from "./contacts/Contacts";
-import {ProfileReduxForm} from "./profileFormData/ProfileFormData";
-import Button from "./button/Button";
-import {contactsType, userType} from "../../../../types/types";
-import ProfileStatusAPIContainer from "./profileStatus/ProfileStatusContainer";
+import Contacts from './contacts/Contacts'
+import { ProfileReduxForm } from './profileFormData/ProfileFormData'
+import Button from './button/Button'
+import { contactsType, userType } from '../../../../types/types'
+import ProfileStatusAPIContainer from './profileStatus/ProfileStatusContainer'
 
 type UserProfileInfoType = {
     profileInfo: userType
@@ -17,13 +17,12 @@ type UserProfileInfoType = {
 }
 
 const UserProfileInfo: React.FC<UserProfileInfoType> = ({
-                                                            profileInfo,
-                                                            isOwner,
-                                                            savePhoto, auth,
-                                                            saveProfile,
-                                                            status
-                                                        }) => {
-
+    profileInfo,
+    isOwner,
+    savePhoto, auth,
+    saveProfile,
+    status
+}) => {
     const [editMode, setEditMode] = useState(false)
 
     useEffect(() => {
@@ -64,20 +63,20 @@ const UserProfileInfo: React.FC<UserProfileInfoType> = ({
 
             {editMode
                 ? <ProfileReduxForm initialValues={profileInfo}
-                                   onSubmit={onSubmit}
-                                   setEditModeOff={() => {
-                                       setEditMode(false)
-                                   }}/>
+                    onSubmit={onSubmit}
+                    setEditModeOff={() => {
+                        setEditMode(false)
+                    }}/>
                 : <ProfileData profileInfo={profileInfo}
-                               isOwner={isOwner}
-                               setEditModeOn={() => {
-                                   setEditMode(true)
-                               }}/>
+                    isOwner={isOwner}
+                    setEditModeOn={() => {
+                        setEditMode(true)
+                    }}/>
             }
 
             {isOwner && <div>
-                <input className={classes.input} id={"inputAvatar"} type={'file'} onChange={PhotoSelected}/>
-                <label htmlFor={"inputAvatar"}>
+                <input className={classes.input} id={'inputAvatar'} type={'file'} onChange={PhotoSelected}/>
+                <label htmlFor={'inputAvatar'}>
                     <span className={classes.changeAvatar}>Change Avatar</span>
                 </label>
             </div>}
@@ -92,10 +91,10 @@ type ProfileDataType = {
 }
 
 const ProfileData: React.FC<ProfileDataType> = ({
-                                                    profileInfo,
-                                                    isOwner,
-                                                    setEditModeOn
-                                                }) => {
+    profileInfo,
+    isOwner,
+    setEditModeOn
+}) => {
     return <div>
         <div className={classes.items}>
             <span className={classes.label}>About me:</span>
@@ -103,7 +102,7 @@ const ProfileData: React.FC<ProfileDataType> = ({
         </div>
         <div className={classes.items}>
             <span className={classes.label}>Looking Job:</span>
-            <div className={classes.labelItem}>{profileInfo.lookingForAJob ? "Yes" : "No"}</div>
+            <div className={classes.labelItem}>{profileInfo.lookingForAJob ? 'Yes' : 'No'}</div>
         </div>
         <div className={classes.items}>
             <span className={classes.label}>Professional skills:</span>
@@ -115,7 +114,7 @@ const ProfileData: React.FC<ProfileDataType> = ({
                 .filter((key) => profileInfo.contacts[key as keyof contactsType])
                 .map((key) => {
                     return <Contacts key={key} contactTitle={key}
-                                     contactValue={profileInfo.contacts[key as keyof contactsType]}/>
+                        contactValue={profileInfo.contacts[key as keyof contactsType]}/>
                 })}
         </div>
         <div className={classes.buttonWrapper}>
@@ -124,5 +123,4 @@ const ProfileData: React.FC<ProfileDataType> = ({
     </div>
 }
 
-
-export default UserProfileInfo;
+export default UserProfileInfo

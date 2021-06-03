@@ -1,4 +1,4 @@
-import {InferActionsTypes} from "./redux-store";
+import { InferActionsTypes } from './redux-store'
 
 export const ADD_MESSAGE = 'SN/DIALOGS/ADD-MESSAGE'
 
@@ -12,43 +12,40 @@ export type peopleType = {
     name: string
 }
 
-let initial = {
+const initial = {
     dialogs: [
-        {id: 1, message: 'First message'},
-        {id: 2, message: 'Second message v rot kompot ne pishi mne bolshe'},
-        {id: 3, message: 'Third message'},
+        { id: 1, message: 'First message' },
+        { id: 2, message: 'Second message v rot kompot ne pishi mne bolshe' },
+        { id: 3, message: 'Third message' }
     ] as Array<dialogType>,
     people: [
-        {id: 1, name: 'Marina'},
-        {id: 2, name: 'Maksim'},
-        {id: 3, name: 'Dmitry'},
-        {id: 4, name: 'Pes'},
-    ] as Array<peopleType>,
+        { id: 1, name: 'Marina' },
+        { id: 2, name: 'Maksim' },
+        { id: 3, name: 'Dmitry' },
+        { id: 4, name: 'Pes' }
+    ] as Array<peopleType>
 }
 
 export type DialogsInitialType = typeof initial
 export type DialogsActionsTypes = InferActionsTypes<typeof DialogsActions>
 
-
 const dialogsReducer = (state = initial, action: DialogsActionsTypes): DialogsInitialType => {
     switch (action.type) {
-        case (ADD_MESSAGE) :
-            let newMessageObj = {id: 3, message: action.message}
-            return {
-                ...state,
-                dialogs: [...state.dialogs, newMessageObj],
-            }
-        default :
-            return state
+    case (ADD_MESSAGE) :
+        // eslint-disable-next-line no-case-declarations
+        const newMessageObj = { id: 3, message: action.message }
+        return {
+            ...state,
+            dialogs: [...state.dialogs, newMessageObj]
+        }
+    default :
+        return state
     }
 }
 
 export const DialogsActions = {
     addNewMessage: (message: string) =>
-        ({type: ADD_MESSAGE, message } as const)
+        ({ type: ADD_MESSAGE, message } as const)
 }
-
-
-
 
 export default dialogsReducer

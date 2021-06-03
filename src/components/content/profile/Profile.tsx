@@ -1,8 +1,7 @@
-import React from 'react';
+import React from 'react'
 import classes from './Profile.module.css'
-import UserProfileInfo from "./UserProfileInfo/UserProfileInfo";
-import {userType} from "../../../types/types";
-import {authReducerType} from "../../../redux/auth-reducer";
+import UserProfileInfo from './UserProfileInfo/UserProfileInfo'
+import { userType } from '../../../types/types'
 
 type PropsType = {
     profileInfo: userType
@@ -14,21 +13,21 @@ type PropsType = {
 }
 
 const Profile: React.FC<PropsType> = ({
-                                          profileInfo,
-                                          isOwner,
-                                          savePhoto,
-                                          auth,
-                                          saveProfile,
-                                          status
-                                      }) => {
+    profileInfo,
+    isOwner,
+    savePhoto,
+    auth,
+    saveProfile,
+    status
+}) => {
     return (
         <div className={classes.wrapper}>
             <UserProfileInfo profileInfo={profileInfo}
-                             isOwner={isOwner}
-                             savePhoto={savePhoto}
-                             auth={auth}
-                             saveProfile={saveProfile}
-                             status={status}/>
+                isOwner={isOwner}
+                savePhoto={savePhoto}
+                auth={auth}
+                saveProfile={saveProfile}
+                status={status}/>
         </div>
     )
 }

@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 import classes from './Dialog.module.css'
-import {dialogType} from "../../../../redux/dialogs-reducer";
+import { dialogType } from '../../../../redux/dialogs-reducer'
 
 type MessagePropsType = {
     message: string
@@ -26,4 +26,4 @@ const Dialog: React.FC<DialogPropsType> = (props) => {
     )
 }
 
-export default Dialog;
+export default Dialog

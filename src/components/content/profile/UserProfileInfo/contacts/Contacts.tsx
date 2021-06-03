@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import classes from './Contacts.module.css'
 
 type PropsType = {
@@ -6,13 +6,13 @@ type PropsType = {
     contactValue: string | null
 }
 
-const Contacts: React.FC<PropsType> = ({contactTitle, contactValue}) => {
+const Contacts: React.FC<PropsType> = ({ contactTitle, contactValue }) => {
     return (
-            <div className={classes.contacts}>
-                <div className={classes.contact}>{contactTitle}:</div>
-                <div>{contactValue}</div>
-            </div>
+        <div className={classes.contacts}>
+            <div className={classes.contact}>{contactTitle}:</div>
+            <div>{contactValue}</div>
+        </div>
     )
 }
 
-export default Contacts;
+export default Contacts

@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import classes from './LeftColumn.module.css'
-import NavMenuContainer from "./navMenu/NavMenuContainer";
-import AvatarContainer from "./avatar/AvatarContainer";
+import NavMenuContainer from './navMenu/NavMenuContainer'
+import AvatarContainer from './avatar/AvatarContainer'
 
 const LeftColumn: React.FC = () => {
     return (
@@ -12,5 +12,4 @@ const LeftColumn: React.FC = () => {
     )
 }
 
-export default LeftColumn;
-
+export default LeftColumn

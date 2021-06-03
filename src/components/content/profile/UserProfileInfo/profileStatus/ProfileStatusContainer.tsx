@@ -1,8 +1,8 @@
-import React from 'react';
-import {connect} from "react-redux";
-import {setProfileStatus, } from "../../../../../redux/profile-reducer";
-import ProfileStatus from "./ProfileStatus";
-import {AppStateType} from "../../../../../redux/redux-store";
+import React from 'react'
+import { connect } from 'react-redux'
+import { setProfileStatus } from '../../../../../redux/profile-reducer'
+import ProfileStatus from './ProfileStatus'
+import { AppStateType } from '../../../../../redux/redux-store'
 
 type MapStatePropsType = {
     status: string
@@ -17,25 +17,20 @@ type OwnPropsType = {}
 type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 class ProfileStatusAPIContainer extends React.Component<PropsType> {
-
-
     setStatus = (text: string) => {
-      this.props.setProfileStatus(text)
+        this.props.setProfileStatus(text)
     }
 
-    render() {
+    render () {
         return (
             <ProfileStatus setStatus={this.setStatus} statusFromRedux={this.props.status}/>
         )
     }
 }
 
-let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
-    status: state.postsPage.status,
+const mapStateToProps = (state: AppStateType): MapStatePropsType => ({
+    status: state.postsPage.status
 })
 
-
-
-
-export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>
-(mapStateToProps, {setProfileStatus, })(ProfileStatusAPIContainer)
+export default connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps,
+    { setProfileStatus })(ProfileStatusAPIContainer)
