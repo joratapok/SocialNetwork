@@ -9,6 +9,7 @@ type PropsType = {
     photo: string | null
 }
 
+// eslint-disable-next-line react/display-name
 const Posts: React.FC<PropsType> = React.memo(props => {
     return (
         <div className={classes.wrapAll}>

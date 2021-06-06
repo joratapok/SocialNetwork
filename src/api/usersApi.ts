@@ -1,5 +1,5 @@
-import {instance, APIResponseType, StandartAPIResponseType, ResultCodesEnum} from "./api";
-import {usersType} from "../types/types";
+import { instance, StandartAPIResponseType } from './api'
+import { usersType } from '../types/types'
 
 type getUsersResponseType = {
     items: Array<usersType>
@@ -8,23 +8,23 @@ type getUsersResponseType = {
 }
 
 export const usersApi = {
-    getUsers(currentPage: number = 1, pageSize: number = 10, term: string = '', friend: null | boolean = null) {
-        return instance.get<getUsersResponseType>
-        (`users?page=${currentPage}&count=${pageSize}&term=${term}` + (friend === null ? '' : `&friend=${friend}`))
+    getUsers (currentPage: number = 1, pageSize: number = 10, term: string = '', friend: null | boolean = null) {
+        return instance.get<getUsersResponseType>(`users?page=${currentPage}&count=${pageSize}&term=${term}` +
+            (friend === null ? '' : `&friend=${friend}`))
             .then(response => response.data)
     },
 
-    postFollow(id: number) {
+    postFollow (id: number) {
         return instance.post<StandartAPIResponseType>(`follow/${id}`)
             .then(response => response.data)
     },
 
-    delFollow(id: number) {
+    delFollow (id: number) {
         return instance.delete<StandartAPIResponseType>(`follow/${id}`)
             .then(response => response.data)
     },
-    termUser(currentPage: number, pageSize: number, termUser: string) {
+    termUser (currentPage: number, pageSize: number, termUser: string) {
         return instance.get<getUsersResponseType>(`users?page=${currentPage}&count=${pageSize}&term=${termUser}`)
             .then(response => response.data)
-    },
+    }
 }

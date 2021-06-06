@@ -1,5 +1,4 @@
 import React from 'react'
-import classes from './Settings.module.css'
 import Preloader from '../../preloader/Preloader'
 
 const Settings = () => {

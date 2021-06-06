@@ -36,34 +36,31 @@ export const Users: React.FC<PropsType> = () => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const parsed = queryString.parse((history.location.search).slice(1));
+        const parsed = queryString.parse((history.location.search).slice(1))
         let actualPage = currentPage
         const actualFilter = filter
         if (parsed.page) actualPage = Number(parsed.page)
         if (parsed.term) actualFilter.term = parsed.term as string
         if (parsed.friend) {
-          actualFilter.friend = (parsed.friend === 'null') ? null :
-          (parsed.friend === 'true') ? true : false
+            actualFilter.friend = (parsed.friend === 'null')
+                ? null
+                : (parsed.friend === 'true')
         }
 
         dispatch(getUsersThunk(actualPage, pageSize, actualFilter))
     }, [])
 
     useEffect(() => {
-      const query: QueryParamsType = {}
-      if (filter.term) query.term = filter.term
-      if (filter.friend !== null) query.friend = String(filter.friend)
-      if (currentPage !== 1) query.page = String(currentPage)
+        const query: QueryParamsType = {}
+        if (filter.term) query.term = filter.term
+        if (filter.friend !== null) query.friend = String(filter.friend)
+        if (currentPage !== 1) query.page = String(currentPage)
 
-
-
-      history.push({
-        pathname: '/users',
-        search: queryString.stringify(query)
-      })
+        history.push({
+            pathname: '/users',
+            search: queryString.stringify(query)
+        })
     }, [filter, currentPage])
-
-
 
     const onPageChanged = (numPage: number) => {
         dispatch(getUsersThunk(numPage, pageSize, filter))

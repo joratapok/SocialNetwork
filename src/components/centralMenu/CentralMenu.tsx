@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 import classes from './CentralMenu.module.css'
-import { NavLink, Link } from "react-router-dom";
-import { Button } from 'antd';
+import { NavLink, Link } from 'react-router-dom'
+import { Button } from 'antd'
 
 const CentralMenu: React.FC = () => {
-    return(
+    return (
         <div className={classes.wrapper}>
             <div className={classes.wrapperCentral}>
                 <div className={classes.leftCentralMenu}></div>
@@ -28,8 +28,7 @@ const CentralMenu: React.FC = () => {
                         <NavLink activeClassName={classes.active} to='/settings'>Settings</NavLink>
                     </div>
 
-                        <Button type="primary"><Link to='/Chat'>Chat</Link></Button>
-                    
+                    <Button type="primary"><Link to='/Chat'>Chat</Link></Button>
 
                 </div>
             </div>
@@ -37,4 +36,4 @@ const CentralMenu: React.FC = () => {
     )
 }
 
-export default CentralMenu;
+export default CentralMenu

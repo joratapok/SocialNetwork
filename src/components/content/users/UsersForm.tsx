@@ -2,12 +2,13 @@ import React from 'react'
 import { Field, Form, Formik } from 'formik'
 import { FilterType } from '../../../redux/usersPage-reducer'
 import { getFilter } from '../../../redux/users-selectors'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 type PropsType = {
     onFilterChanged: (FilterType: FilterType) => void
 }
 
+// eslint-disable-next-line react/display-name
 const UserSearchForm: React.FC<PropsType> = React.memo(({ onFilterChanged }) => {
     const userSearchFormValidate = (values: any) => {
         const errors = {}
@@ -29,7 +30,7 @@ const UserSearchForm: React.FC<PropsType> = React.memo(({ onFilterChanged }) => 
         <div>
             <Formik
                 enableReinitialize
-                initialValues={{term: filter.term, friend: String(filter.friend) as any}}
+                initialValues={{ term: filter.term, friend: String(filter.friend) as any }}
                 validate={userSearchFormValidate}
                 onSubmit={submit}
             >

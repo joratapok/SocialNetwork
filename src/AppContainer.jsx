@@ -1,8 +1,8 @@
 import React from 'react'
-import {Provider} from "react-redux";
-import {BrowserRouter, HashRouter} from "react-router-dom";
-import store from "./redux/redux-store";
-import App from './App';
+import { Provider } from 'react-redux'
+import { HashRouter } from 'react-router-dom'
+import store from './redux/redux-store'
+import App from './App'
 
 const AppContainer = () => {
     return (
@@ -14,4 +14,4 @@ const AppContainer = () => {
     )
 }
 
-export default AppContainer;
+export default AppContainer

@@ -7,11 +7,14 @@ export const instance = axios.create({
 })
 
 export enum ResultCodesEnum {
+    // eslint-disable-next-line no-unused-vars
     Success = 0,
+    // eslint-disable-next-line no-unused-vars
     Error = 1,
 }
 
 export enum ResultCodeForCaptcha {
+    // eslint-disable-next-line no-unused-vars
     CaptchaIsRequired = 10,
 }
 

@@ -1,9 +1,26 @@
-import React, { useEffect } from 'react'
-import { Button } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Button, Avatar } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { sendMessageThunk, startMessagesListeningThunk, stopMessagesListeningThunk } from '../../../../redux/chat-reducer'
+import { AppStateType } from '../../../../redux/redux-store'
 
-const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
+type ChatMessageType = {
+    message: string
+    photo: string
+    userId: number
+    userName: string
+}
 
 export const ChatPage: React.FC = () => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(startMessagesListeningThunk())
+        return () => {
+            dispatch(stopMessagesListeningThunk())
+        }
+    }, [])
+
     return <div style={{ height: '400px', overflowY: 'auto' }}>
     CHAT
         <Messages />
@@ -12,22 +29,16 @@ export const ChatPage: React.FC = () => {
 }
 
 export const Messages: React.FC = () => {
-    const messages = [1, 2, 3, 4, 5, 6, 7, 8]
+    const messages = useSelector((state: AppStateType) => state.chat.messages)
     return <div >
-        {messages.map((el: any) => <Message key={el}/>)}
-        <Message/>
+        {messages.map((m: ChatMessageType, index) => <Message message={m} key={index}/>)}
     </div>
 }
 
-export const Message: React.FC = () => {
-    const message = {
-        avatar: 'https://i.pravatar.cc/30',
-        name: 'Andrey',
-        message: 'hello pios'
-    }
+export const Message: React.FC<{message: ChatMessageType}> = ({ message }) => {
     return <div style={{ borderBottom: '2px solid gray', marginTop: '5px' }}>
-        <img src={message.avatar} />
-        <span><b>{message.name}</b></span>
+        <Avatar size="large" icon={<img src={message.photo} />} />
+        <span><b>{message.userName}</b></span>
         <br/>
         <div>{message.message}</div>
         <hr/>
@@ -36,13 +47,23 @@ export const Message: React.FC = () => {
 }
 
 export const AddFormMessages: React.FC = () => {
+    const [message, setMessage] = useState('')
+    const dispatch = useDispatch()
+    const wsStatus = useSelector((state: AppStateType) => state.chat.status)
+    const sendMessage = () => {
+        if (!message) {
+            return
+        }
+        dispatch(sendMessageThunk(message))
+        setMessage('')
+    }
     return <div>
         <div>
-            <textarea>
+            <textarea onChange={(e) => setMessage(e.currentTarget.value)} value={message}>
             </textarea>
         </div>
         <div>
-            <Button type="primary">Send</Button>
+            <Button disabled={wsStatus !== 'ready'} type="primary" onClick={sendMessage}>Send</Button>
         </div>
     </div>
 }

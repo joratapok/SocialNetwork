@@ -21,7 +21,7 @@ type DialogPropsType = {
 const Dialog: React.FC<DialogPropsType> = (props) => {
     return (
         <div className={classes.wrapper}>
-            {props.dialogs.map(d => <Message message={d.message}/>)}
+            {props.dialogs.map(d => <Message key={d.id} message={d.message}/>)}
         </div>
     )
 }

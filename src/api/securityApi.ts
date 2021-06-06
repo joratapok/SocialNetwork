@@ -1,4 +1,4 @@
-import {instance, ResultCodesEnum} from "./api";
+import { instance, ResultCodesEnum } from './api'
 
 type getCatpchaResponseType = {
     url: string
@@ -7,8 +7,8 @@ type getCatpchaResponseType = {
 }
 
 export const securityApi = {
-    getCaptcha() {
+    getCaptcha () {
         return instance.get<getCatpchaResponseType>('/security/get-captcha-url')
             .then(res => res.data)
-    },
+    }
 }
