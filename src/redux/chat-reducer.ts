@@ -1,13 +1,13 @@
 import { showErrorMessageThunk } from './app-reducer'
 import { AppStateType, InferActionsTypes } from './redux-store'
 import { ThunkAction } from 'redux-thunk'
-import { chatApi, ChatMessageType } from '../api/chatApi'
+import { chatApi, ChatMessageAPIType, ChatMessageType, StatusType } from '../api/chatApi'
 import { Dispatch } from 'redux'
+import { v1 } from 'uuid'
 
 const SET_MESSAGES = 'SN/CHAT/SET_MESSAGES'
 const SET_STATUS = 'SN/CHAT/SET_STATUS'
 
-type StatusType = 'pending' | 'ready';
 const initial = {
     messages: [] as Array<ChatMessageType>,
     status: 'pending' as StatusType
@@ -22,7 +22,8 @@ const chatReducer = (state: authReducerType = initial, action: ChatReducerAction
     case SET_MESSAGES:
         return {
             ...state,
-            messages: [...state.messages, ...action.payload.messages]
+            messages: [...state.messages, ...action.payload.messages.map(m => ({ ...m, id: v1() }))]
+                .filter((m, index, arr) => index >= arr.length - 100)
         }
     case SET_STATUS:
         return {
@@ -36,25 +37,35 @@ const chatReducer = (state: authReducerType = initial, action: ChatReducerAction
 }
 
 export const actionsChatReducer = {
-    messagesReceived: (messages: Array<ChatMessageType>) => ({ type: SET_MESSAGES, payload: { messages } } as const),
+    messagesReceived: (messages: Array<ChatMessageAPIType>) => ({ type: SET_MESSAGES, payload: { messages } } as const),
     statusChange: (status: StatusType) => ({ type: SET_STATUS, payload: { status } } as const)
 }
 
-let _newMessageHandler: ((messages: Array<ChatMessageType>) => void) | null = null
+let _newMessageHandler: ((messages: Array<ChatMessageAPIType>) => void) | null = null
 const newMessageHandlerCreator = (dispatch: Dispatch) => {
     if (_newMessageHandler === null) {
-        _newMessageHandler = (messages: Array<ChatMessageType>) => {
+        _newMessageHandler = (messages: Array<ChatMessageAPIType>) => {
             dispatch(actionsChatReducer.messagesReceived(messages))
         }
     }
     return _newMessageHandler
+}
+let _statusChangedHandler: ((status: StatusType) => void) | null = null
+const statusChangedHandler = (dispatch: Dispatch) => {
+    if (_statusChangedHandler === null) {
+        _statusChangedHandler = (status: StatusType) => {
+            dispatch(actionsChatReducer.statusChange(status))
+        }
+    }
+    return _statusChangedHandler
 }
 
 export const startMessagesListeningThunk = (): ThunkType => {
     return async (dispatch) => {
         try {
             chatApi.start()
-            chatApi.subscribe(newMessageHandlerCreator(dispatch))
+            chatApi.subscribe('messages-received', newMessageHandlerCreator(dispatch))
+            chatApi.subscribe('status-changed', statusChangedHandler(dispatch))
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
         }
@@ -64,7 +75,8 @@ export const startMessagesListeningThunk = (): ThunkType => {
 export const stopMessagesListeningThunk = (): ThunkType => {
     return async (dispatch) => {
         try {
-            chatApi.unsubscribe(newMessageHandlerCreator(dispatch))
+            chatApi.unsubscribe('messages-received', newMessageHandlerCreator(dispatch))
+            chatApi.unsubscribe('status-changed', statusChangedHandler(dispatch))
             chatApi.stop()
         } catch (e) {
             dispatch(showErrorMessageThunk(e.message))
